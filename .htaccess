@@ -13,6 +13,24 @@ AddType application/javascript .js
 AddType image/svg+xml .svg
 AddDefaultCharset UTF-8
 
+# --- 2.1) Compresión de texto para mejorar transferencia y PageSpeed -------
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/css application/javascript application/json image/svg+xml
+</IfModule>
+<IfModule mod_brotli.c>
+  AddOutputFilterByType BROTLI_COMPRESS text/html text/plain text/css application/javascript application/json image/svg+xml
+</IfModule>
+
+# --- 2.2) Caché: HTML revalida; recursos versionados se guardan ------------
+<IfModule mod_headers.c>
+  <FilesMatch "\.(?:html|php)$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+  <FilesMatch "\.(?:css|js|svg|xlsx|xls|csv|ods|docx|pdf)$">
+    Header set Cache-Control "public, max-age=604800, stale-while-revalidate=86400"
+  </FilesMatch>
+</IfModule>
+
 # --- 3) No mostrar el listado de archivos de las carpetas -------------------
 Options -Indexes
 
