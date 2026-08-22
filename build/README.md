@@ -11,8 +11,10 @@ en `.htaccess`; el HTML continúa revalidándose en cada visita.
 
 Entradas:
 
-- `home-core.entry.js`: datos y utilidades compartidas del resumen.
 - `home-css.entry.css`: estilos generales y skeletons.
+- Los archivos de `data/` y las utilidades de `js/` se minifican por separado
+  para que el navegador reparta su ejecución en tareas pequeñas y no bloquee
+  la interacción inicial.
 - `js/dashboard.js`, `js/arranque.js` y `js/enlaces.js`: se minifican como
   archivos independientes porque el dashboard se carga después de sincronizar
   las correcciones guardadas por PHP.
