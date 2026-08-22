@@ -54,7 +54,7 @@
   document.getElementById('frase-global').innerHTML =
     cuando + ' granja recibió <strong>' + G.cop(tot.ingresos) + '</strong>, gastó <strong>' +
     G.cop(tot.egresos) + '</strong> y le quedaron <strong>' + G.cop(tot.balance) + '</strong>. ' +
-    (tot.balance >= 0 ? 'Es decir: la granja está produciendo más de lo que gasta.' : 'Es decir: en este periodo, la granja gastó más de lo que recibió, pero unos proyectos están subsidiando las pérdidas de otros.');
+    'Es decir: en este periodo, la granja gastó más de lo que recibió, pero unos proyectos están subsidiando las pérdidas de otros.';
 
   /* ---------- tarjetas KPI ---------- */
   function kpi(o) {

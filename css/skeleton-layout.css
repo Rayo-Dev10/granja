@@ -1,6 +1,7 @@
 /* Adaptación local para Skeleton Elements 4.0.1.
    Reserva el espacio aproximado del contenido final para reducir CLS. */
 .skeleton-shell { width: 100%; pointer-events: none; user-select: none; }
+#franja-periodo { min-height: 43px; background-color: #eff6ff; }
 .skeleton-shell .skeleton-block { display: block; background-color: #e5e7eb; border-radius: .65rem; }
 .skeleton-heading { width: min(34rem, 86%); height: 2.5rem; margin-bottom: 1rem; }
 .skeleton-line { width: 100%; height: .85rem; margin-top: .55rem; }
@@ -21,7 +22,7 @@
 
 /* Reservas calibradas con el contenido real a 1280 px. Evitan que el pie y
    las secciones posteriores cambien de posición cuando termina la API. */
-#frase-global:has(.skeleton-shell) { min-height: 3.5rem; }
+#frase-global:has(.skeleton-shell) { min-height: 5.25rem; }
 #seccion-kpis:has(.skeleton-shell) { min-height: 18.85rem; }
 #seccion-kpis .skeleton-grid { margin-top: 0; }
 #seccion-kpis .skeleton-kpi:last-child { height: 8.425rem; }
@@ -47,11 +48,12 @@
   .skeleton-card { height: 18rem; }
 }
 @media (max-width: 479px) {
+  #franja-periodo { min-height: 151px; }
   .skeleton-grid { grid-template-columns: 1fr; }
   .skeleton-kpi { height: 8rem; }
-  #frase-global:has(.skeleton-shell) { min-height: 7rem; }
+  #frase-global:has(.skeleton-shell) { min-height: 10.5rem; }
   #seccion-kpis:has(.skeleton-shell) { min-height: 47.125rem; }
-  #seccion-charts:has(.skeleton-shell) { min-height: 173.1rem; }
+  #seccion-charts:has(.skeleton-shell) { min-height: 174.275rem; }
   #seccion-paneles:has(.skeleton-shell),
   #seccion-cobertura:has(.skeleton-shell) { min-height: 60rem; }
 }
