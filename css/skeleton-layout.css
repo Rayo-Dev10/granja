@@ -22,7 +22,7 @@
 
 /* Reservas calibradas con el contenido real a 1280 px. Evitan que el pie y
    las secciones posteriores cambien de posición cuando termina la API. */
-#frase-global:has(.skeleton-shell) { min-height: 5.25rem; }
+#frase-global:has(.skeleton-shell) { min-height: 8.75rem; }
 #seccion-kpis:has(.skeleton-shell) { min-height: 18.85rem; }
 #seccion-kpis .skeleton-grid { margin-top: 0; }
 #seccion-kpis .skeleton-kpi:last-child { height: 8.425rem; }
@@ -51,7 +51,7 @@
   #franja-periodo { min-height: 151px; }
   .skeleton-grid { grid-template-columns: 1fr; }
   .skeleton-kpi { height: 8rem; }
-  #frase-global:has(.skeleton-shell) { min-height: 10.5rem; }
+  #frase-global:has(.skeleton-shell) { min-height: 17.5rem; }
   #seccion-kpis:has(.skeleton-shell) { min-height: 47.125rem; }
   #seccion-charts:has(.skeleton-shell) { min-height: 174.275rem; }
   #seccion-paneles:has(.skeleton-shell),
