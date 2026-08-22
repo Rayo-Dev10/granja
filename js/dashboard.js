@@ -54,7 +54,7 @@
   document.getElementById('frase-global').innerHTML =
     cuando + ' granja recibió <strong>' + G.cop(tot.ingresos) + '</strong>, gastó <strong>' +
     G.cop(tot.egresos) + '</strong> y le quedaron <strong>' + G.cop(tot.balance) + '</strong>. ' +
-    'Es decir: en este periodo, la granja gastó más de lo que recibió, pero unos proyectos están subsidiando las pérdidas de otros.';
+    'En este periodo, la granja registró ingresos superiores a sus egresos de caja. Sin embargo, los excedentes de algunos proyectos compensan los déficits de otros. Al incorporar el costo de la mano de obra, el resultado económico evidencia que el modelo actual no alcanza la sostenibilidad.';
 
   /* ---------- tarjetas KPI ---------- */
   function kpi(o) {
