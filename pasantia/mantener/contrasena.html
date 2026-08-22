@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cambiar la contraseña · Manuales de la pasantía — Granja San José</title>
+<meta name="description" content="Cómo cambiar la contraseña de edición del sitio de la Granja San José (bcrypt) y ajustar el límite de intentos.">
+<link rel="icon" href="../favicon.svg">
+<link rel="stylesheet" href="../css/granja.css">
+</head>
+<body>
+<header class="bg-primary-900 text-white print:hidden">
+  <div class="max-w-6xl mx-auto px-4 py-4 flex flex-wrap items-end justify-between gap-3">
+    <div>
+      <p class="text-2xl font-bold leading-tight"><a class="text-white no-underline" href="../">🌱 Granja San José · Manuales de la pasantía</a></p>
+      <p class="text-primary-200 text-sm">Institución Universitaria Oriente de Caldas · Ciclo propedéutico · Técnico Profesional en Procesos Contables · Corte de datos: <strong>31 de julio de 2026</strong></p>
+    </div>
+    <p class="text-xs text-primary-200 max-w-[26rem]">Documentación del sitio <a class="text-white underline" href="https://granja.rayogestion.com/">granja.rayogestion.com</a>.</p>
+  </div>
+  <nav aria-label="Secciones de los manuales" class="bg-primary-800">
+    <ul class="max-w-6xl mx-auto px-4 flex flex-wrap gap-1 text-sm font-medium">
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="../">🏠 Inicio</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="../usar/">👀 Usar</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="../registrar/">✍️ Registrar</a></li>
+      <li><a aria-current="page" class="block px-3 py-2 text-white no-underline bg-primary-700 rounded-t" href="../mantener/">🛠️ Mantener</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="../pasantia/">🎓 Pasantía</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main class="max-w-4xl mx-auto px-4 py-8">
+
+  <h1>🔑 Cambiar la contraseña de edición</h1>
+  <p class="text-neutral-600 mt-2">Consultar el sitio es <strong>libre y sin contraseña</strong>. Solo se pide clave al <em>guardar</em> algo en el servidor: una corrección del diario, una revelación, una plantilla nueva o los valores de mano de obra. Esa clave se cambia así.</p>
+
+  <div class="alerta-azul mt-6"><p class="text-sm">La contraseña <strong>no está escrita en ningún archivo</strong>. En <code>api/config.php</code> solo vive su <strong>huella criptográfica (bcrypt)</strong>, de la que no se puede reconstruir la clave.</p></div>
+
+  <h2 class="mt-8">Paso a paso</h2>
+  <ol class="mt-3 space-y-3 list-decimal pl-5">
+    <li>En su computador (no en el servidor), ejecute:
+      <pre class="text-xs overflow-x-auto bg-neutral-50 border border-neutral-200 rounded p-3 mt-1">php tools/generar-clave.php "la-nueva-contraseña"</pre>
+    </li>
+    <li>El comando imprime una línea como
+      <pre class="text-xs overflow-x-auto bg-neutral-50 border border-neutral-200 rounded p-3 mt-1">'claveHash' => '$2y$12$....................',</pre>
+    </li>
+    <li>Abra <code>api/config.php</code> y <strong>reemplace la línea <code>'claveHash' =&gt; ...</code></strong> por la que imprimió el comando.</li>
+    <li>Suba <strong>solo</strong> <code>api/config.php</code> al servidor. Listo: la clave nueva rige de inmediato.</li>
+  </ol>
+
+  <div class="alerta-roja mt-6"><p class="text-sm">🚫 <code>generar-clave.php</code> <strong>se ejecuta en su computador, no se sube al servidor.</strong> Y nunca escriba la contraseña en claro dentro de <code>config.php</code>: solo va la huella.</p></div>
+
+  <h2 class="mt-8">Otros ajustes de <code>api/config.php</code></h2>
+  <div class="cuadro-cuerpo mt-2">
+    <table class="w-full text-sm border-collapse">
+      <thead><tr class="text-left border-b border-neutral-300"><th class="py-1 pr-3">Ajuste</th><th class="py-1 pr-3">Valor hoy</th><th class="py-1">Qué hace</th></tr></thead>
+      <tbody class="align-top">
+        <tr class="border-b border-neutral-100"><td class="py-1 pr-3"><code>exigirClave</code></td><td class="py-1 pr-3"><code>true</code></td><td class="py-1">Si se pone <code>false</code>, la edición queda abierta a cualquiera (no recomendado).</td></tr>
+        <tr class="border-b border-neutral-100"><td class="py-1 pr-3"><code>intentosMaximos</code></td><td class="py-1 pr-3"><code>10</code></td><td class="py-1">Contraseñas fallidas permitidas desde una misma conexión antes de bloquear.</td></tr>
+        <tr><td class="py-1 pr-3"><code>intentosPeriodoMinutos</code></td><td class="py-1 pr-3"><code>15</code></td><td class="py-1">Minutos de espera obligatoria tras agotar los intentos.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="alerta-amarilla mt-6">
+    <p class="font-medium">⚠️ Protección contra intentos a ciegas</p>
+    <p class="text-sm mt-1">Tras <strong>10 contraseñas fallidas</strong> desde la misma conexión, el servidor obliga a esperar <strong>15 minutos</strong>. En equipos compartidos, la clave se conserva solo mientras la pestaña esté abierta, salvo que se marque «Recordar la contraseña en este computador».</p>
+  </div>
+
+  <div class="alerta-verde mt-6"><p class="text-sm">✅ Al re-subir el sitio, <strong>nunca pise el <code>api/config.php</code> de producción</strong> con uno viejo: volvería a la clave anterior. Si duda, cámbiela de nuevo con el paso a paso de arriba.</p></div>
+
+</main>
+
+<footer class="mt-12 border-t border-neutral-200 bg-white print:hidden">
+  <div class="max-w-6xl mx-auto px-4 py-6 text-xs text-neutral-500 space-y-1">
+    <p><strong>Granja San José — Institución Universitaria Oriente de Caldas.</strong> Manuales de la pasantía · Técnico Profesional en Procesos Contables.</p>
+    <p>Documenta el sitio <a href="https://granja.rayogestion.com/" class="underline">granja.rayogestion.com</a> (corte de datos: 31 de julio de 2026). Micrositio de solo lectura.</p>
+  </div>
+</footer>
+</body>
+</html>

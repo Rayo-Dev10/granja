@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Arquitectura en una página · Manuales de la pasantía — Granja San José</title>
+<meta name="description" content="La arquitectura del sitio de la Granja San José explicada en una sola página: sitio estático, datos en data/*.js y despliegue.">
+<link rel="icon" href="../favicon.svg">
+<link rel="stylesheet" href="../css/granja.css">
+</head>
+<body>
+<header class="bg-primary-900 text-white print:hidden">
+  <div class="max-w-6xl mx-auto px-4 py-4 flex flex-wrap items-end justify-between gap-3">
+    <div>
+      <p class="text-2xl font-bold leading-tight"><a class="text-white no-underline" href="../">🌱 Granja San José · Manuales de la pasantía</a></p>
+      <p class="text-primary-200 text-sm">Institución Universitaria Oriente de Caldas · Ciclo propedéutico · Técnico Profesional en Procesos Contables · Corte de datos: <strong>31 de julio de 2026</strong></p>
+    </div>
+    <p class="text-xs text-primary-200 max-w-[26rem]">Documentación del sitio <a class="text-white underline" href="https://granja.rayogestion.com/">granja.rayogestion.com</a>.</p>
+  </div>
+  <nav aria-label="Secciones de los manuales" class="bg-primary-800">
+    <ul class="max-w-6xl mx-auto px-4 flex flex-wrap gap-1 text-sm font-medium">
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="../">🏠 Inicio</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="../usar/">👀 Usar</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="../registrar/">✍️ Registrar</a></li>
+      <li><a aria-current="page" class="block px-3 py-2 text-white no-underline bg-primary-700 rounded-t" href="../mantener/">🛠️ Mantener</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="../pasantia/">🎓 Pasantía</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main class="max-w-4xl mx-auto px-4 py-8">
+
+  <h1>🛠️ Arquitectura en una página</h1>
+  <p class="text-neutral-600 mt-2">Esta sección es para <strong>quien herede el sitio</strong>. El objetivo es que pueda mantenerlo, actualizarlo y repararlo <strong>sin el autor</strong>. Empiece por aquí; las páginas siguientes son el detalle operativo.</p>
+
+  <div class="cuadro-control mt-6"><h3>Qué es el sitio, en una frase</h3></div>
+  <div class="cuadro-cuerpo">
+    <p>Un sitio <strong>estático</strong>: HTML semántico + Tailwind CSS compilado + JavaScript vanilla. <strong>Sin frameworks, sin base de datos, sin login, sin backend obligatorio.</strong> Se sube por FTP a una carpeta y funciona. Los pequeños trozos de PHP (guardado de correcciones, plantillas, mano de obra) son opcionales: si el hosting no tiene PHP, el sitio sigue mostrándose, solo que sin guardado compartido.</p>
+  </div>
+
+  <div class="cuadro-control mt-6"><h3>De dónde salen los datos</h3></div>
+  <div class="cuadro-cuerpo">
+    <p>El sitio <strong>no lee el Excel en vivo</strong>. Un script de Python (<code>tools/exportar_datos.py</code>) lee el libro con <code>openpyxl</code>, lo normaliza y escribe seis archivos <code>data/*.js</code>, cada uno con una sola asignación global (<code>window.DATA_XXX = {...}</code>). Las páginas cargan esos <code>.js</code> con etiquetas <code>&lt;script&gt;</code> y, a partir de ahí, <strong>todo se calcula en el navegador</strong>: KPIs, gráficos SVG dibujados a mano y los 36 controles de coherencia.</p>
+    <p class="mt-2 font-medium">El único punto de contacto entre el Excel y el sitio son esos seis <code>data/*.js</code>. Actualizar el sitio = regenerarlos y volver a subirlos. Nada más cambia.</p>
+  </div>
+
+  <div class="cuadro-control mt-6"><h3>El mapa de carpetas</h3></div>
+  <div class="cuadro-cuerpo">
+    <pre class="text-xs overflow-x-auto bg-neutral-50 border border-neutral-200 rounded p-3">granja/
+├── index.html proyectos.html proyecto.html diario.html
+├── controles.html mano-obra.html plantillas.html hojas-vida.html
+├── ayuda.html 404.html favicon.svg
+├── index.php  .htaccess  diagnostico.php   (opcionales / servidor)
+├── css/   granja.css  print.css  input.css
+├── js/    util.js charts.js coherencia.js dashboard.js … enlaces.js
+├── data/  catalogo.js movimientos.js produccion.js
+│          inventarios.js sanitario.js alimento.js   ← LO ÚNICO QUE SE REGENERA
+├── api/   config.php  correcciones.php  plantillas.php  manoobra.php …
+├── datos-servidor/   (carpeta con permiso de ESCRITURA: guarda las correcciones)
+└── tools/ exportar_datos.py  generar-clave.php  importar_*.py</pre>
+  </div>
+
+  <div class="alerta-amarilla mt-6">
+    <p class="font-medium">⚠️ El orden de carga de los &lt;script&gt; es obligatorio</p>
+    <p class="text-sm mt-1">En cada HTML: primero los <code>data/*.js</code>, luego <code>js/util.js</code>, luego el resto de <code>js/</code>, y de último el módulo de la página. Poner <code>js/</code> antes que <code>data/</code> deja la página en blanco.</p>
+  </div>
+
+  <h2 class="mt-8">A dónde ir según lo que necesite</h2>
+  <div class="grid gap-4 sm:grid-cols-2 mt-3">
+    <a href="nuevo-corte.html" class="kpi no-underline hover:border-primary-600"><span class="titulo">📥 Llega un corte nuevo</span><span class="lectura mt-1">Paso a paso para regenerar los datos desde un Excel nuevo sin romper nada.</span></a>
+    <a href="desplegar.html" class="kpi no-underline hover:border-primary-600"><span class="titulo">🚀 Desplegar</span><span class="lectura mt-1">Subir por SSH o FTP, permisos y el verificador diagnostico.php.</span></a>
+    <a href="contrasena.html" class="kpi no-underline hover:border-primary-600"><span class="titulo">🔑 Cambiar la contraseña</span><span class="lectura mt-1">La clave de edición (bcrypt) y el límite de intentos.</span></a>
+    <a href="problemas.html" class="kpi no-underline hover:border-primary-600"><span class="titulo">🩺 Problemas</span><span class="lectura mt-1">Síntoma → causa → solución, en una tabla.</span></a>
+  </div>
+
+  <div class="alerta-azul mt-6"><p class="text-sm">📗 El documento de referencia definitivo para actualizar datos es <code>GUIA-NUEVA-VERSION-DEL-LIBRO.md</code>, que viaja con el proyecto. La página <a class="underline" href="nuevo-corte.html">«corte nuevo»</a> es su resumen operativo.</p></div>
+
+</main>
+
+<footer class="mt-12 border-t border-neutral-200 bg-white print:hidden">
+  <div class="max-w-6xl mx-auto px-4 py-6 text-xs text-neutral-500 space-y-1">
+    <p><strong>Granja San José — Institución Universitaria Oriente de Caldas.</strong> Manuales de la pasantía · Técnico Profesional en Procesos Contables.</p>
+    <p>Documenta el sitio <a href="https://granja.rayogestion.com/" class="underline">granja.rayogestion.com</a> (corte de datos: 31 de julio de 2026). Micrositio de solo lectura.</p>
+  </div>
+</footer>
+</body>
+</html>

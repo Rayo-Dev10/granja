@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Exportar cualquier tabla a Excel · Manuales de la pasantía — Granja San José</title>
+<meta name="description" content="Cómo descargar a Excel las tablas del sitio de la Granja San José: libro diario, matriz de cobertura y lista de controles.">
+<link rel="icon" href="../favicon.svg">
+<link rel="stylesheet" href="../css/granja.css">
+</head>
+<body>
+<header class="bg-primary-900 text-white print:hidden">
+  <div class="max-w-6xl mx-auto px-4 py-4 flex flex-wrap items-end justify-between gap-3">
+    <div>
+      <p class="text-2xl font-bold leading-tight"><a class="text-white no-underline" href="../">🌱 Granja San José · Manuales de la pasantía</a></p>
+      <p class="text-primary-200 text-sm">Institución Universitaria Oriente de Caldas · Ciclo propedéutico · Técnico Profesional en Procesos Contables · Corte de datos: <strong>31 de julio de 2026</strong></p>
+    </div>
+    <p class="text-xs text-primary-200 max-w-[26rem]">Documentación del sitio <a class="text-white underline" href="https://granja.rayogestion.com/">granja.rayogestion.com</a>.</p>
+  </div>
+  <nav aria-label="Secciones de los manuales" class="bg-primary-800">
+    <ul class="max-w-6xl mx-auto px-4 flex flex-wrap gap-1 text-sm font-medium">
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="../">🏠 Inicio</a></li>
+      <li><a aria-current="page" class="block px-3 py-2 text-white no-underline bg-primary-700 rounded-t" href="../usar/">👀 Usar</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="../registrar/">✍️ Registrar</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="../mantener/">🛠️ Mantener</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="../pasantia/">🎓 Pasantía</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main class="max-w-4xl mx-auto px-4 py-8">
+
+  <h1>⬇️ Bajar cualquier tabla a Excel</h1>
+  <p class="text-neutral-600 mt-2">Varias tablas del sitio se descargan como un archivo <strong>.xlsx real</strong> (no un CSV): se abre directamente en Excel o en LibreOffice y los montos llegan como <strong>números sumables</strong>, no como texto.</p>
+
+  <div class="cuadro-control mt-6"><h3>Qué se puede exportar hoy</h3></div>
+  <div class="cuadro-cuerpo">
+    <ul class="list-disc pl-5 space-y-1">
+      <li><strong>El Libro diario</strong> completo (con los filtros que tenga puestos).</li>
+      <li><strong>La matriz de cobertura</strong>, desde el resumen de Inicio.</li>
+      <li><strong>La lista de controles</strong>, desde la pantalla de Controles.</li>
+    </ul>
+  </div>
+
+  <h2 class="mt-8">Paso a paso</h2>
+  <ol class="mt-3 space-y-2 list-decimal pl-5">
+    <li>Abra la pantalla que tiene la tabla (por ejemplo, <strong>Libro diario</strong>).</li>
+    <li>Si quiere exportar solo una parte, <strong>ponga primero el filtro</strong> (periodo, proyecto, tipo): se exporta lo que está a la vista.</li>
+    <li>Busque el botón <strong>⬇️ Exportar a Excel</strong> encima o al lado de la tabla y púlselo.</li>
+    <li>El navegador descarga un archivo <code>.xlsx</code>. Ábralo con Excel o LibreOffice.</li>
+  </ol>
+
+  <div class="alerta-azul mt-8">
+    <p class="font-medium">ℹ️ Por qué funciona incluso sin internet</p>
+    <p class="text-sm mt-1">El generador de Excel es propio del sitio (<code>js/exporta.js</code>), sin librerías externas. Por eso la exportación funciona aunque abra el sitio desde una memoria USB, sin conexión.</p>
+  </div>
+
+  <div class="alerta-verde mt-6">
+    <p class="text-sm">💡 Los montos con formato ($ 5.346.000) se exportan como el número <code>5346000</code>: puede sumarlos, ordenarlos y hacer tablas dinámicas sin limpiar nada.</p>
+  </div>
+
+  <p class="mt-8"><a class="btn-sec" href="index.html">← Volver al recorrido</a></p>
+
+</main>
+
+<footer class="mt-12 border-t border-neutral-200 bg-white print:hidden">
+  <div class="max-w-6xl mx-auto px-4 py-6 text-xs text-neutral-500 space-y-1">
+    <p><strong>Granja San José — Institución Universitaria Oriente de Caldas.</strong> Manuales de la pasantía · Técnico Profesional en Procesos Contables.</p>
+    <p>Documenta el sitio <a href="https://granja.rayogestion.com/" class="underline">granja.rayogestion.com</a> (corte de datos: 31 de julio de 2026). Micrositio de solo lectura.</p>
+  </div>
+</footer>
+</body>
+</html>

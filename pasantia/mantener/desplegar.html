@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Desplegar: SSH, FTP y permisos · Manuales de la pasantía — Granja San José</title>
+<meta name="description" content="Cómo desplegar el sitio de la Granja San José por SSH o FTP, ajustar permisos y usar diagnostico.php.">
+<link rel="icon" href="../favicon.svg">
+<link rel="stylesheet" href="../css/granja.css">
+<link rel="stylesheet" href="../css/print.css" media="print">
+</head>
+<body>
+<header class="bg-primary-900 text-white print:hidden">
+  <div class="max-w-6xl mx-auto px-4 py-4 flex flex-wrap items-end justify-between gap-3">
+    <div>
+      <p class="text-2xl font-bold leading-tight"><a class="text-white no-underline" href="../">🌱 Granja San José · Manuales de la pasantía</a></p>
+      <p class="text-primary-200 text-sm">Institución Universitaria Oriente de Caldas · Ciclo propedéutico · Técnico Profesional en Procesos Contables · Corte de datos: <strong>31 de julio de 2026</strong></p>
+    </div>
+    <p class="text-xs text-primary-200 max-w-[26rem]">Documentación del sitio <a class="text-white underline" href="https://granja.rayogestion.com/">granja.rayogestion.com</a>.</p>
+  </div>
+  <nav aria-label="Secciones de los manuales" class="bg-primary-800">
+    <ul class="max-w-6xl mx-auto px-4 flex flex-wrap gap-1 text-sm font-medium">
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="../">🏠 Inicio</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="../usar/">👀 Usar</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="../registrar/">✍️ Registrar</a></li>
+      <li><a aria-current="page" class="block px-3 py-2 text-white no-underline bg-primary-700 rounded-t" href="../mantener/">🛠️ Mantener</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="../pasantia/">🎓 Pasantía</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main class="max-w-4xl mx-auto px-4 py-8">
+
+  <h1>🚀 Desplegar: SSH, FTP, permisos y diagnóstico</h1>
+  <p class="text-neutral-600 mt-2">El sitio se publica en <code>public_html/granja/</code> (la raíz del subdominio <strong>granja.rayogestion.com</strong>) en el hosting serverbyt.net. Hay dos caminos: SSH (recomendado) y FTP.</p>
+
+  <div class="cuadro-control mt-6"><h3>Opción A · Por SSH (recomendado)</h3><p class="descripcion">Conexión cifrada, sin contraseñas guardadas, y ajusta los permisos solo.</p></div>
+  <div class="cuadro-cuerpo">
+    <p>En Windows 10/11 (traen <code>ssh</code> y <code>scp</code> de fábrica), doble clic a <code>subir-por-ssh.bat</code>. Entra con la llave <code>%USERPROFILE%\.ssh\id_ed25519</code> y sube todo a <code>public_html/granja</code>.</p>
+    <p class="mt-2">Qué hace por su cuenta:</p>
+    <ul class="text-sm list-disc pl-5 space-y-1 mt-1">
+      <li>Sube los archivos y crea las carpetas que falten.</li>
+      <li>Deja <code>datos-servidor/</code> con permiso de <strong>escritura</strong> (<code>chmod 755</code>), que es lo que permite guardar correcciones.</li>
+      <li>Al final comprueba lo publicado.</li>
+      <li><strong>Nunca</strong> sube <code>datos-servidor/correcciones.json</code> ni <code>historial.jsonl</code>: las correcciones guardadas no se pierden al re-subir.</li>
+    </ul>
+  </div>
+
+  <div class="cuadro-control mt-6"><h3>Opción B · Por FTP</h3><p class="descripcion">Úsela si el SSH no está disponible.</p></div>
+  <div class="cuadro-cuerpo">
+    <p>Doble clic a <code>subir-todo-al-hosting.bat</code>. Lee las credenciales de <code>_ftp-credenciales.txt</code> (en la misma carpeta). Hace lo mismo que el de SSH, pero los <strong>permisos de <code>datos-servidor</code> hay que ponerlos a mano</strong> (755, o 775 si 755 no basta) desde el administrador de archivos del hosting.</p>
+    <p class="mt-2">Para actualizar solo un corte de datos, <code>subir-solo-datos.bat</code> sube únicamente <code>data/</code>.</p>
+    <div class="alerta-roja mt-3"><p class="text-sm">⚠️ <code>_ftp-credenciales.txt</code> contiene la contraseña del FTP: <strong>nunca lo suba al servidor ni lo comparta</strong>. Los scripts no lo suben.</p></div>
+  </div>
+
+  <div class="cuadro-control mt-6"><h3>Qué archivos van al servidor</h3></div>
+  <div class="cuadro-cuerpo">
+    <ul class="text-sm list-disc pl-5 space-y-1">
+      <li>Todos los <code>.html</code> + <code>favicon.svg</code>.</li>
+      <li><code>index.php</code> (para hostings cuyo archivo por defecto es index.php) y <code>.htaccess</code> (archivo <strong>oculto</strong>: active «ver archivos ocultos» en el FTP; da las URL limpias sin <code>.html</code>).</li>
+      <li><code>css/</code>, <code>js/</code>, <code>data/</code>, <code>api/</code> completos.</li>
+      <li><code>datos-servidor/</code> con permiso de escritura.</li>
+      <li><code>diagnostico.php</code> (verificador; se puede borrar cuando el sitio ya funcione).</li>
+    </ul>
+  </div>
+
+  <div class="cuadro-control mt-6"><h3>Verificar con diagnostico.php</h3></div>
+  <div class="cuadro-cuerpo">
+    <p>Abra <code>https://granja.rayogestion.com/diagnostico.php</code>. Dice, con precisión, qué archivos llegaron y cuáles faltan, cuál es la carpeta raíz real y si <code>datos-servidor</code> tiene permiso de escritura.</p>
+    <ul class="text-sm list-disc pl-5 space-y-1 mt-2">
+      <li>Si <code>index.html</code> se ve <strong>sin colores</strong>: falta <code>css/granja.css</code>.</li>
+      <li>Si se ve con colores pero <strong>sin datos ni gráficos</strong>: faltan archivos de <code>data/</code> o <code>js/</code>.</li>
+      <li>Si la «carpeta real» no es la que esperaba (p. ej. <code>/public_html</code> en vez de <code>/public_html/granja</code>): los archivos están en el sitio equivocado, muévalos.</li>
+      <li>Error común: subir los archivos <strong>sueltos, sin sus carpetas</strong> (<code>css/</code>, <code>js/</code>, <code>data/</code>).</li>
+    </ul>
+  </div>
+
+  <div class="alerta-azul mt-6"><p class="text-sm">Las <strong>URL limpias</strong> (<code>/proyectos</code> sin <code>.html</code>) son una mejora, no un requisito. Si falta el <code>.htaccess</code> o el hosting no tiene <code>mod_rewrite</code>, <code>js/enlaces.js</code> añade <code>.html</code> automáticamente al hacer clic y el sitio navega igual.</p></div>
+
+  <div class="alerta-verde mt-6"><p class="text-sm">✅ Al terminar: abra la portada y confirme que las <a class="underline" href="nuevo-corte.html">cifras de control</a> aparecen. Si el dashboard las muestra, los datos cargaron completos.</p></div>
+
+</main>
+
+<footer class="mt-12 border-t border-neutral-200 bg-white print:hidden">
+  <div class="max-w-6xl mx-auto px-4 py-6 text-xs text-neutral-500 space-y-1">
+    <p><strong>Granja San José — Institución Universitaria Oriente de Caldas.</strong> Manuales de la pasantía · Técnico Profesional en Procesos Contables.</p>
+    <p>Documenta el sitio <a href="https://granja.rayogestion.com/" class="underline">granja.rayogestion.com</a> (corte de datos: 31 de julio de 2026). Micrositio de solo lectura.</p>
+  </div>
+</footer>
+</body>
+</html>

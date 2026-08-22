@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inicio (resumen) · Granja San José — Institución Universitaria Oriente de Caldas</title>
+<meta name="description" content="La Granja San José de un vistazo: cuánto entró, cuánto salió y cuánto quedó, con gráficos explicados para cualquier persona.">
+<link rel="icon" href="favicon.svg">
+<script src="js/enlaces.js" defer></script>
+  <link rel="stylesheet" href="css/granja.css">
+<link rel="stylesheet" href="vendor/skeleton-elements/skeleton-elements.css">
+<link rel="stylesheet" href="css/skeleton-layout.css">
+<link rel="stylesheet" href="css/print.css" media="print">
+</head>
+<body>
+<header class="bg-primary-900 text-white print:hidden">
+  <div class="max-w-6xl mx-auto px-4 py-4 flex flex-wrap items-end justify-between gap-3">
+    <div>
+      <p class="text-2xl font-bold leading-tight">🌱 Granja San José</p>
+      <p class="text-primary-200 text-sm">Institución Universitaria Oriente de Caldas · Control de ingresos y gastos · Datos públicos con corte al <strong>31 de julio de 2026</strong></p>
+    </div>
+    <p class="text-xs text-primary-200 max-w-[26rem]">Este sitio es de <strong>solo consulta</strong>: muestra la información registrada por la granja, explicada paso a paso. Toque cualquier botón <span class="ayuda !align-baseline">?</span> para entender qué está viendo.</p>
+  </div>
+  <nav aria-label="Secciones del sitio" class="bg-primary-800">
+    <ul class="max-w-6xl mx-auto px-4 flex flex-wrap gap-1 text-sm font-medium">
+      <li><a aria-current="page" class="block px-3 py-2 text-white no-underline bg-primary-700 rounded-t" href="./">📊 Inicio (resumen)</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="proyectos">🗂️ Proyectos</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="diario">📒 Libro diario</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="controles">🚦 Controles</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="mano-obra">👷 Mano de obra</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="plantillas">🧾 Plantillas</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="hojas-vida">📁 Hojas de vida</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="ayuda">❓ Ayuda</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div id="franja-periodo" class="no-imprimir"></div>
+
+<!-- Encabezado que SOLO aparece en el papel impreso -->
+<div class="solo-impresion" style="display:none" aria-hidden="true">
+  <p class="titulo-impreso">🌱 Granja San José — Resumen para leer en 5 minutos</p>
+  <p class="subtitulo-impreso">Institución Universitaria Oriente de Caldas · Enero a julio de 2026 · Datos con corte al 31 de julio de 2026 · Fuente: libro «Control de ingresos y gastos» de la granja</p>
+</div>
+
+<main class="max-w-6xl mx-auto px-4 py-8">
+  <section aria-labelledby="titulo-saludo">
+    <h1 id="titulo-saludo">📊 Así va la Granja San José</h1>
+    <p class="text-neutral-600 mt-1 max-w-3xl">Este es el resumen de <strong>enero a julio de 2026</strong>, con corte al
+      <strong>31 de julio de 2026</strong>. Todo lo que ve aquí sale del libro de ingresos y gastos que lleva la granja.</p>
+    <p id="frase-global" class="mt-3 max-w-3xl text-lg text-primary-900 font-medium"><span class="skeleton-shell" role="status" aria-label="Cargando lectura general"><span class="skeleton-block skeleton-effect-wave skeleton-line skeleton-line-medium"></span></span></p>
+    <p class="mt-4 no-imprimir">
+      <button type="button" class="btn-sec" onclick="window.print()">🖨️ Imprimir este resumen</button>
+      <span class="text-xs text-neutral-500 ml-2">Sale en una sola hoja, pensada para leerse en papel.</span>
+    </p>
+  </section>
+
+  <!-- Tarjetas KPI (las llena js/dashboard.js) -->
+  <section aria-label="Cifras principales de la granja" id="seccion-kpis" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mt-6"><div class="skeleton-shell skeleton-grid !mt-0 sm:col-span-2 lg:col-span-4" role="status" aria-label="Cargando cifras principales"><span class="skeleton-block skeleton-effect-wave skeleton-kpi"></span><span class="skeleton-block skeleton-effect-wave skeleton-kpi"></span><span class="skeleton-block skeleton-effect-wave skeleton-kpi"></span><span class="skeleton-block skeleton-effect-wave skeleton-kpi"></span></div></section>
+
+  <!-- Gráficos (los llena js/dashboard.js) -->
+  <section aria-label="Gráficos del resumen" id="seccion-charts" class="mt-8 space-y-8"><div class="skeleton-shell" role="status" aria-label="Cargando gráficos"><span class="skeleton-block skeleton-effect-wave skeleton-card"></span><span class="skeleton-block skeleton-effect-wave skeleton-card"></span></div></section>
+
+  <!-- Paneles desplegables por proyecto (los llena js/dashboard.js; dibujo perezoso al abrir) -->
+  <section aria-label="Detalle de cada proyecto" id="seccion-paneles" class="mt-8 space-y-3 no-imprimir"><div class="skeleton-shell" role="status" aria-label="Cargando proyectos"><span class="skeleton-block skeleton-effect-wave skeleton-row"></span><span class="skeleton-block skeleton-effect-wave skeleton-row"></span><span class="skeleton-block skeleton-effect-wave skeleton-row"></span></div></section>
+
+  <!-- Cobertura de información (la llena js/dashboard.js con js/cobertura.js) -->
+  <section aria-label="Cobertura de información por proyecto" id="seccion-cobertura" class="mt-8 scroll-mt-4"><div class="skeleton-shell" role="status" aria-label="Cargando cobertura"><span class="skeleton-block skeleton-effect-wave skeleton-table-head"></span><span class="skeleton-block skeleton-effect-wave skeleton-table-row"></span><span class="skeleton-block skeleton-effect-wave skeleton-table-row"></span><span class="skeleton-block skeleton-effect-wave skeleton-table-row"></span></div></section>
+
+  <!-- Guía de navegación -->
+  <section aria-labelledby="titulo-profundizar" class="mt-10 no-imprimir">
+    <h2 id="titulo-profundizar">🧭 ¿Y de aquí a dónde profundizo?</h2>
+    <p class="text-neutral-600 mt-1 max-w-3xl">Este resumen es el primer nivel. Si quiere entender de dónde sale cada número, siga por aquí:</p>
+    <div class="grid gap-4 sm:grid-cols-3 mt-4">
+      <a href="proyectos" class="kpi no-underline hover:border-primary-600">
+        <span class="titulo">🗂️ Proyectos</span>
+        <span class="valor text-base !whitespace-normal">Los 17 proyectos en una sola hoja</span>
+        <span class="lectura">Quién cuida cada proyecto, de qué tipo es y cómo va su plata. Tocando cada uno se abre su hoja de vida completa.</span>
+      </a>
+      <a href="diario" class="kpi no-underline hover:border-primary-600">
+        <span class="titulo">📒 Libro diario</span>
+        <span class="valor text-base !whitespace-normal">Cada peso, movimiento por movimiento</span>
+        <span class="lectura">Las 108 anotaciones del libro de caja: fecha, qué fue, cuánto entró o salió y su observación original.</span>
+      </a>
+      <a href="controles" class="kpi no-underline hover:border-primary-600">
+        <span class="titulo">🚦 Controles</span>
+        <span class="valor text-base !whitespace-normal">Qué revisamos y qué encontramos</span>
+        <span class="lectura">Las verificaciones de calidad del dato: qué cifras se corrigieron, cuáles quedaron con nota y por qué puede confiar en este resumen.</span>
+      </a>
+    </div>
+  </section>
+</main>
+
+<footer class="mt-12 border-t border-neutral-200 bg-white print:hidden">
+  <div class="max-w-6xl mx-auto px-4 py-6 text-xs text-neutral-500 space-y-1">
+    <p><strong>Granja San José — Institución Universitaria Oriente de Caldas.</strong> Datos públicos de una entidad pública, con corte al 31 de julio de 2026.</p>
+    <p>Fuente: libro «CONTROL INGRESOS Y GASTO CTT 31 JULIO.xlsx». Toda corrección aplicada al dato crudo está documentada y visible en el <a href="diario">Libro diario</a> y en <a href="controles">Controles</a>.</p>
+    <p>Sitio de solo consulta · sin usuarios ni contraseñas · <a href="ayuda">Cómo usar este sitio</a></p>
+  </div>
+</footer>
+
+<script src="data/catalogo.js"></script>
+<script src="data/movimientos.js"></script>
+<script src="data/produccion.js"></script>
+<script src="data/inventarios.js"></script>
+<script src="data/sanitario.js"></script>
+<script src="data/suministros.js"></script>
+<script src="data/manoobra.js"></script>
+<script src="js/estado.js"></script>
+<script src="js/util.js"></script>
+<script src="js/charts.js"></script>
+<script src="js/exporta.js"></script>
+<script src="js/cobertura.js"></script>
+<script src="js/manoobra-core.js"></script>
+<script src="js/arranque.js" data-modulo="js/dashboard.js"></script>
+</body>
+</html>

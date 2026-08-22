@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hoja de mano de obra (horas) · Manuales de la pasantía — Granja San José</title>
+<meta name="description" content="Formato exacto para registrar la dedicación de horas por proyecto en la Granja San José y la regla de las horas.">
+<link rel="icon" href="../favicon.svg">
+<link rel="stylesheet" href="../css/granja.css">
+</head>
+<body>
+<header class="bg-primary-900 text-white print:hidden">
+  <div class="max-w-6xl mx-auto px-4 py-4 flex flex-wrap items-end justify-between gap-3">
+    <div>
+      <p class="text-2xl font-bold leading-tight"><a class="text-white no-underline" href="../">🌱 Granja San José · Manuales de la pasantía</a></p>
+      <p class="text-primary-200 text-sm">Institución Universitaria Oriente de Caldas · Ciclo propedéutico · Técnico Profesional en Procesos Contables · Corte de datos: <strong>31 de julio de 2026</strong></p>
+    </div>
+    <p class="text-xs text-primary-200 max-w-[26rem]">Documentación del sitio <a class="text-white underline" href="https://granja.rayogestion.com/">granja.rayogestion.com</a>.</p>
+  </div>
+  <nav aria-label="Secciones de los manuales" class="bg-primary-800">
+    <ul class="max-w-6xl mx-auto px-4 flex flex-wrap gap-1 text-sm font-medium">
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="../">🏠 Inicio</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="../usar/">👀 Usar</a></li>
+      <li><a aria-current="page" class="block px-3 py-2 text-white no-underline bg-primary-700 rounded-t" href="../registrar/">✍️ Registrar</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="../mantener/">🛠️ Mantener</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="../pasantia/">🎓 Pasantía</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main class="max-w-4xl mx-auto px-4 py-8">
+
+  <h1>⏱️ Hoja de mano de obra — la regla de las horas</h1>
+  <p class="text-neutral-600 mt-2">El costo del trabajo humano es el recurso más grande de cualquier granja, pero hoy <strong>no está repartido entre los proyectos</strong> porque no se registra cuántas horas dedica cada persona a cada uno. Esta hoja es la que empieza a cerrar esa brecha.</p>
+
+  <figure class="mt-4">
+    <img src="../img/mano-obra-escritorio.png" alt="Pantalla de mano de obra con el costo por hora y la simulación de reparto" class="w-full rounded-lg border border-neutral-200">
+    <figcaption class="text-xs text-neutral-500 mt-1">La pantalla <strong>Mano de obra</strong>: el costo por hora ya se calcula; la tabla de dedicación es lo que hay que llenar.</figcaption>
+  </figure>
+
+  <div class="cuadro-control mt-6"><h3>La regla de las horas</h3><p class="descripcion">El principio que hace que el reparto tenga sentido.</p></div>
+  <div class="cuadro-cuerpo">
+    <p>Por cada persona, la dedicación se anota en <strong>porcentajes que suman 100 %</strong> de su tiempo. No se anotan horas sueltas: se anota <em>qué fracción de la jornada</em> se fue a cada proyecto. Así, aunque cambie el salario, el reparto sigue siendo válido.</p>
+    <p class="mt-2">Ejemplo para el operador: Gallinas 40 %, Codornices 30 %, Cerdos 20 %, tareas generales 10 %. <strong>Total: 100 %.</strong></p>
+  </div>
+
+  <h2 class="mt-8">Formato de la anotación</h2>
+  <div class="cuadro-cuerpo mt-2">
+    <table class="w-full text-sm border-collapse">
+      <thead><tr class="text-left border-b border-neutral-300">
+        <th class="py-1 pr-3">Persona / rol</th><th class="py-1 pr-3">Proyecto</th><th class="py-1">% del tiempo</th></tr></thead>
+      <tbody class="align-top">
+        <tr class="border-b border-neutral-100"><td class="py-1 pr-3">Operador de granja</td><td class="py-1 pr-3">Gallinas ponedoras</td><td class="py-1">40</td></tr>
+        <tr class="border-b border-neutral-100"><td class="py-1 pr-3">Operador de granja</td><td class="py-1 pr-3">Codornices</td><td class="py-1">30</td></tr>
+        <tr class="border-b border-neutral-100"><td class="py-1 pr-3">Operador de granja</td><td class="py-1 pr-3">Cerdos</td><td class="py-1">20</td></tr>
+        <tr><td class="py-1 pr-3">Operador de granja</td><td class="py-1 pr-3">Tareas generales</td><td class="py-1">10</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="mt-8">Errores frecuentes</h2>
+  <ul class="mt-3 space-y-3 list-none">
+    <li class="alerta-roja"><strong>Que los porcentajes no sumen 100 %.</strong> Si suman 80 %, falta declarar el 20 % restante (aunque sea «tareas generales»). Si suman 120 %, alguien está contando el mismo tiempo dos veces.</li>
+    <li class="alerta-roja"><strong>Mezclar horas con porcentajes.</strong> La hoja es de porcentajes. «8 horas» en la columna de % no significa nada.</li>
+    <li class="alerta-amarilla"><strong>Inventar dedicación.</strong> Si no se sabe, se deja en blanco y se anota cuando se sepa. El sitio prefiere un dato faltante a un dato falso: por eso la tabla real está vacía y lo que se muestra es una <strong>simulación rotulada</strong>.</li>
+  </ul>
+
+  <div class="alerta-verde mt-8">
+    <p class="font-medium">✅ El día que se registren horas de verdad</p>
+    <p class="text-sm mt-1">La simulación de la pantalla de Mano de obra se reemplaza por los datos reales <strong>sin cambiar nada más</strong>: el modelo de costo ya está construido y esperando el dato. En ese momento, por primera vez, el costo de cada proyecto incluirá el trabajo de las personas.</p>
+  </div>
+
+</main>
+
+<footer class="mt-12 border-t border-neutral-200 bg-white print:hidden">
+  <div class="max-w-6xl mx-auto px-4 py-6 text-xs text-neutral-500 space-y-1">
+    <p><strong>Granja San José — Institución Universitaria Oriente de Caldas.</strong> Manuales de la pasantía · Técnico Profesional en Procesos Contables.</p>
+    <p>Documenta el sitio <a href="https://granja.rayogestion.com/" class="underline">granja.rayogestion.com</a> (corte de datos: 31 de julio de 2026). Micrositio de solo lectura.</p>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,45 @@
+# ============================================================================
+#  Granja San José — configuración del servidor (Apache / cPanel / serverbyt)
+#  Si el hosting no es Apache, este archivo se ignora sin causar problemas.
+# ============================================================================
+
+# --- 1) Qué archivo abrir cuando alguien entra a la carpeta -----------------
+DirectoryIndex index.html index.php default.html index.htm
+
+# --- 2) Tipos de archivo y codificación (acentos y ñ) -----------------------
+AddType text/html .html
+AddType text/css .css
+AddType application/javascript .js
+AddType image/svg+xml .svg
+AddDefaultCharset UTF-8
+
+# --- 3) No mostrar el listado de archivos de las carpetas -------------------
+Options -Indexes
+
+# --- 4) DIRECCIONES LIMPIAS (sin .html) ------------------------------------
+#  Hace que /proyectos muestre proyectos.html, sin que se vea la extensión.
+#  Todo esto va dentro de <IfModule> para que, si el servidor no tuviera
+#  mod_rewrite, la página no se caiga: simplemente no habría URLs limpias.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # 4.1 /index o /index.html  ->  la raíz del sitio  (redirección permanente)
+  RewriteCond %{THE_REQUEST} \s/+index(\.html)?[\s?] [NC]
+  RewriteRule ^ / [R=301,L]
+
+  # 4.2 /pagina.html  ->  /pagina   (quita la extensión de la barra de direcciones)
+  RewriteCond %{THE_REQUEST} \s/+([^?\s]+)\.html[\s?] [NC]
+  RewriteRule ^ /%1 [R=301,L]
+
+  # 4.3 /pagina/  ->  /pagina       (quita la barra final si no es una carpeta real)
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^(.+)/$ /$1 [R=301,L]
+
+  # 4.4 /pagina  ->  entrega pagina.html  (internamente; la dirección sigue limpia)
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME}.html -f
+  RewriteRule ^(.+)$ $1.html [L]
+</IfModule>
+
+# --- 5) Página de error 404 amable ------------------------------------------
+ErrorDocument 404 /404.html

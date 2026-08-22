@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Filtrar por periodo sin engañarse · Manuales de la pasantía — Granja San José</title>
+<meta name="description" content="Cómo usar el filtro por periodo del sitio de la Granja San José sin sacar conclusiones equivocadas.">
+<link rel="icon" href="../favicon.svg">
+<link rel="stylesheet" href="../css/granja.css">
+</head>
+<body>
+<header class="bg-primary-900 text-white print:hidden">
+  <div class="max-w-6xl mx-auto px-4 py-4 flex flex-wrap items-end justify-between gap-3">
+    <div>
+      <p class="text-2xl font-bold leading-tight"><a class="text-white no-underline" href="../">🌱 Granja San José · Manuales de la pasantía</a></p>
+      <p class="text-primary-200 text-sm">Institución Universitaria Oriente de Caldas · Ciclo propedéutico · Técnico Profesional en Procesos Contables · Corte de datos: <strong>31 de julio de 2026</strong></p>
+    </div>
+    <p class="text-xs text-primary-200 max-w-[26rem]">Documentación del sitio <a class="text-white underline" href="https://granja.rayogestion.com/">granja.rayogestion.com</a>.</p>
+  </div>
+  <nav aria-label="Secciones de los manuales" class="bg-primary-800">
+    <ul class="max-w-6xl mx-auto px-4 flex flex-wrap gap-1 text-sm font-medium">
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="../">🏠 Inicio</a></li>
+      <li><a aria-current="page" class="block px-3 py-2 text-white no-underline bg-primary-700 rounded-t" href="../usar/">👀 Usar</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="../registrar/">✍️ Registrar</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="../mantener/">🛠️ Mantener</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="../pasantia/">🎓 Pasantía</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main class="max-w-4xl mx-auto px-4 py-8">
+
+  <h1>📅 Filtrar por periodo sin engañarse</h1>
+  <p class="text-neutral-600 mt-2">Arriba de las pantallas de datos hay una <strong>franja de periodo</strong> que permite mirar solo un tramo de fechas. Es útil, pero mal usada lleva a conclusiones falsas. Aquí está cómo usarla bien.</p>
+
+  <div class="cuadro-control mt-6"><h3>Qué hace el filtro</h3></div>
+  <div class="cuadro-cuerpo">
+    <p>Recalcula las cifras y los gráficos usando <strong>solo los movimientos cuya fecha cae dentro del rango</strong> elegido. Afecta al resumen, al libro diario y a los controles a la vez, para que todo cuente lo mismo.</p>
+  </div>
+
+  <h2 class="mt-8">Tres trampas frecuentes</h2>
+  <ol class="mt-4 space-y-4 list-none">
+    <li class="alerta-roja"><strong>1. Comparar un mes contra siete.</strong> Si filtra «julio» y compara su balance con el total del año, claro que julio parece pequeño. Compare <em>periodos del mismo tamaño</em> (un mes con otro mes).</li>
+    <li class="alerta-roja"><strong>2. Olvidar los movimientos sin fecha.</strong> Algunas filas del libro traen un rango de texto («del 23 de marzo al 17 de abril»). El sitio las ubica en la <strong>fecha de cierre</strong> del periodo y las marca con un asterisco ✱. Si filtra muy fino, esas filas pueden entrar o salir del rango de forma que no esperaba.</li>
+    <li class="alerta-roja"><strong>3. Leer un acumulado como si fuera un instante.</strong> El balance es una <em>suma</em> del periodo, no una foto de un día. «Balance a julio» = todo enero–julio sumado, no lo que había en caja el 31 de julio.</li>
+  </ol>
+
+  <div class="alerta-verde mt-8">
+    <p class="font-medium">✅ Cómo usarlo bien</p>
+    <ul class="text-sm mt-1 list-disc pl-5 space-y-1">
+      <li>Para el panorama completo, <strong>deje el filtro en todo el periodo</strong> (enero–julio de 2026).</li>
+      <li>Para ver estacionalidad, filtre <strong>mes a mes</strong> y compare meses entre sí.</li>
+      <li>Recuerde que todo el sitio se refiere al <strong>corte del 31 de julio de 2026</strong>: no hay datos posteriores porque el libro llega hasta ahí.</li>
+    </ul>
+  </div>
+
+  <p class="mt-8"><a class="btn-sec" href="revelaciones.html">Siguiente: qué es una revelación →</a></p>
+
+</main>
+
+<footer class="mt-12 border-t border-neutral-200 bg-white print:hidden">
+  <div class="max-w-6xl mx-auto px-4 py-6 text-xs text-neutral-500 space-y-1">
+    <p><strong>Granja San José — Institución Universitaria Oriente de Caldas.</strong> Manuales de la pasantía · Técnico Profesional en Procesos Contables.</p>
+    <p>Documenta el sitio <a href="https://granja.rayogestion.com/" class="underline">granja.rayogestion.com</a> (corte de datos: 31 de julio de 2026). Micrositio de solo lectura.</p>
+  </div>
+</footer>
+</body>
+</html>

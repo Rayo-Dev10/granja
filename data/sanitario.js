@@ -1,0 +1,125 @@
+// Generado por tools/exportar_datos.py — corte 31-07-2026. NO editar a mano.
+window.DATA_SANITARIO = {
+ "eventos": [
+  {
+   "proyecto": "OVINOS",
+   "fecha": "2026-04-23",
+   "fechaTexto": null,
+   "actividad": "CASTRACION (ACADEMICA)",
+   "producto": "YODO",
+   "dosis": null,
+   "obs": "SE CASTRARON 2 OVEJOS MACHOS",
+   "origen": "OVEJOS O9:S9"
+  },
+  {
+   "proyecto": "OVINOS",
+   "fecha": "2026-04-24",
+   "fechaTexto": null,
+   "actividad": "CURACION(ACTIVIDAD) HERIDA(LAVADO,SECADO) CASTRACION 1%",
+   "producto": "YODO",
+   "dosis": null,
+   "obs": "2 OVEJOS CASTRADOS - (ACTIVIDAD POR TECNOLOGO)",
+   "origen": "OVEJOS O10:S10"
+  },
+  {
+   "proyecto": "OVINOS",
+   "fecha": "2026-04-25",
+   "fechaTexto": null,
+   "actividad": "CURACION(ACTIVIDAD) HERIDA(LAVADO,SECADO) CASTRACION 1%",
+   "producto": "YODO",
+   "dosis": null,
+   "obs": "3 OVEJOS CASTRADOS - (ACTIVIDAD POR TECNOLOGO)",
+   "origen": "OVEJOS O11:S11"
+  },
+  {
+   "proyecto": "OVINOS",
+   "fecha": "2026-04-26",
+   "fechaTexto": null,
+   "actividad": "CURACION(ACTIVIDAD) HERIDA(LAVADO,SECADO) CASTRACION 1%",
+   "producto": "YODO",
+   "dosis": null,
+   "obs": "4 OVEJOS CASTRADOS - (ACTIVIDAD POR TECNOLOGO)",
+   "origen": "OVEJOS O12:S12"
+  },
+  {
+   "proyecto": "OVINOS",
+   "fecha": "2026-04-27",
+   "fechaTexto": null,
+   "actividad": "CURACION(ACTIVIDAD) HERIDA(LAVADO,SECADO) CASTRACION 1%",
+   "producto": "YODO",
+   "dosis": null,
+   "obs": "5 OVEJOS CASTRADOS - (ACTIVIDAD POR TECNOLOGO)",
+   "origen": "OVEJOS O13:S13"
+  },
+  {
+   "proyecto": "OVINOS",
+   "fecha": "2026-04-28",
+   "fechaTexto": null,
+   "actividad": "CURACION(ACTIVIDAD) HERIDA(LAVADO,SECADO) CASTRACION 1%",
+   "producto": "YODO",
+   "dosis": null,
+   "obs": "6 OVEJOS CASTRADOS - (ACTIVIDAD POR TECNOLOGO)",
+   "origen": "OVEJOS O14:S14"
+  },
+  {
+   "proyecto": "OVINOS",
+   "fecha": "2026-04-29",
+   "fechaTexto": null,
+   "actividad": "CURACION(ACTIVIDAD) HERIDA(LAVADO,SECADO) CASTRACION 1%",
+   "producto": "YODO",
+   "dosis": null,
+   "obs": "7 OVEJOS CASTRADOS - (ACTIVIDAD POR TECNOLOGO)",
+   "origen": "OVEJOS O15:S15"
+  },
+  {
+   "proyecto": "OVINOS",
+   "fecha": "2026-04-30",
+   "fechaTexto": null,
+   "actividad": "CURACION(ACTIVIDAD) HERIDA(LAVADO,SECADO) CASTRACION 1%",
+   "producto": "YODO",
+   "dosis": null,
+   "obs": "8 OVEJOS CASTRADOS - (ACTIVIDAD POR TECNOLOGO)",
+   "origen": "OVEJOS O16:S16"
+  },
+  {
+   "proyecto": "OVINOS",
+   "fecha": "2026-05-01",
+   "fechaTexto": null,
+   "actividad": "CURACION(ACTIVIDAD) HERIDA(LAVADO,SECADO) CASTRACION 1%",
+   "producto": "YODO",
+   "dosis": null,
+   "obs": "9 OVEJOS CASTRADOS - (ACTIVIDAD POR TECNOLOGO)",
+   "origen": "OVEJOS O17:S17"
+  },
+  {
+   "proyecto": "OVINOS",
+   "fecha": "2026-05-02",
+   "fechaTexto": null,
+   "actividad": "CURACION(ACTIVIDAD) HERIDA(LAVADO,SECADO) CASTRACION 1%",
+   "producto": "YODO",
+   "dosis": null,
+   "obs": "10 OVEJOS CASTRADOS - (ACTIVIDAD POR TECNOLOGO)",
+   "origen": "OVEJOS O18:S18"
+  },
+  {
+   "proyecto": "GALLINAS_PONEDORAS",
+   "fecha": "2025-06-16",
+   "fechaTexto": null,
+   "actividad": "ANTIBIOTICO EN AGUA",
+   "producto": "ENROFLOXACINA",
+   "dosis": null,
+   "obs": "TODAS LAS GALLINAS SE APLICO ANTIBIOTICO",
+   "origen": "PROY. GALLINAS K26:O26"
+  },
+  {
+   "proyecto": "GALLINAS_PONEDORAS",
+   "fecha": "2025-06-16",
+   "fechaTexto": null,
+   "actividad": "DESINFECCIÓN DE GALPON",
+   "producto": "YODO",
+   "dosis": null,
+   "obs": "TODAS LAS AREAS DE LOS GALPOLNES FUERON DESINFECTADOS",
+   "origen": "PROY. GALLINAS K27:O27"
+  }
+ ]
+};

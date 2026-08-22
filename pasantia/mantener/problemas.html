@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Problemas: síntoma, causa, solución · Manuales de la pasantía — Granja San José</title>
+<meta name="description" content="Tabla de diagnóstico del sitio de la Granja San José: síntoma, causa probable y solución.">
+<link rel="icon" href="../favicon.svg">
+<link rel="stylesheet" href="../css/granja.css">
+<link rel="stylesheet" href="../css/print.css" media="print">
+</head>
+<body>
+<header class="bg-primary-900 text-white print:hidden">
+  <div class="max-w-6xl mx-auto px-4 py-4 flex flex-wrap items-end justify-between gap-3">
+    <div>
+      <p class="text-2xl font-bold leading-tight"><a class="text-white no-underline" href="../">🌱 Granja San José · Manuales de la pasantía</a></p>
+      <p class="text-primary-200 text-sm">Institución Universitaria Oriente de Caldas · Ciclo propedéutico · Técnico Profesional en Procesos Contables · Corte de datos: <strong>31 de julio de 2026</strong></p>
+    </div>
+    <p class="text-xs text-primary-200 max-w-[26rem]">Documentación del sitio <a class="text-white underline" href="https://granja.rayogestion.com/">granja.rayogestion.com</a>.</p>
+  </div>
+  <nav aria-label="Secciones de los manuales" class="bg-primary-800">
+    <ul class="max-w-6xl mx-auto px-4 flex flex-wrap gap-1 text-sm font-medium">
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="../">🏠 Inicio</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="../usar/">👀 Usar</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="../registrar/">✍️ Registrar</a></li>
+      <li><a aria-current="page" class="block px-3 py-2 text-white no-underline bg-primary-700 rounded-t" href="../mantener/">🛠️ Mantener</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="../pasantia/">🎓 Pasantía</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main class="max-w-4xl mx-auto px-4 py-8">
+
+  <h1>🩺 Problemas — síntoma → causa → solución</h1>
+  <p class="text-neutral-600 mt-2">La mayoría de las fallas tienen una causa conocida y una solución de un paso. Busque el síntoma en la tabla. Abra siempre la consola del navegador (tecla <strong>F12</strong>) para ver el error exacto.</p>
+
+  <div class="cuadro-control mt-6"><h3>Fallas de visualización</h3></div>
+  <div class="cuadro-cuerpo overflow-x-auto">
+    <table class="w-full text-sm border-collapse">
+      <thead><tr class="text-left border-b border-neutral-300"><th class="py-1 pr-3">Síntoma</th><th class="py-1 pr-3">Causa probable</th><th class="py-1">Solución</th></tr></thead>
+      <tbody class="align-top">
+        <tr class="border-b border-neutral-100"><td class="py-1 pr-3">La página se ve <strong>sin colores</strong>, como texto plano</td><td class="py-1 pr-3">Falta <code>css/granja.css</code></td><td class="py-1">Suba la carpeta <code>css/</code> completa. Compruebe con <code>diagnostico.php</code>.</td></tr>
+        <tr class="border-b border-neutral-100"><td class="py-1 pr-3">Con colores pero <strong>sin datos ni gráficos</strong></td><td class="py-1 pr-3">Faltan archivos de <code>data/</code> o <code>js/</code></td><td class="py-1">Suba <code>data/</code> y <code>js/</code> respetando las carpetas.</td></tr>
+        <tr class="border-b border-neutral-100"><td class="py-1 pr-3"><strong>Portada en blanco</strong>; en consola: <code>Cannot read properties of undefined</code></td><td class="py-1 pr-3">Un <code>data/*.js</code> no cargó, o los <code>&lt;script&gt;</code> están en mal orden</td><td class="py-1">Verifique que <code>data/*.js</code> se cargan <strong>antes</strong> que <code>js/</code>. Revise que el archivo exista y no tenga error de sintaxis.</td></tr>
+        <tr class="border-b border-neutral-100"><td class="py-1 pr-3">KPIs con <code>$NaN</code> o cifras absurdas</td><td class="py-1 pr-3">Un monto quedó como <strong>texto</strong> (<code>"1.500.000"</code>) en los datos</td><td class="py-1">Corrija en el <strong>script</strong>, no en el <code>.js</code>. Los montos deben ser números.</td></tr>
+        <tr class="border-b border-neutral-100"><td class="py-1 pr-3">El <strong>Libro diario</strong> muestra filtros pero <strong>ninguna fila</strong></td><td class="py-1 pr-3"><code>correcciones[]</code> o <code>alertas[]</code> quedaron en <code>null</code></td><td class="py-1">Deben ser siempre arrays (aunque vacíos). Regenere con el script.</td></tr>
+        <tr class="border-b border-neutral-100"><td class="py-1 pr-3">Fechas como <code>Invalid Date</code> o meses raros en los gráficos</td><td class="py-1 pr-3">Una fecha no está en <code>AAAA-MM-DD</code></td><td class="py-1">Añada el patrón de fecha en el script (<code>parse_fecha</code>) y regenere.</td></tr>
+        <tr class="border-b border-neutral-100"><td class="py-1 pr-3">Un proyecto sale <strong>vacío</strong> o «Proyecto no encontrado»</td><td class="py-1 pr-3">Se cambió su <strong>código (slug)</strong>, o su nombre da un slug distinto</td><td class="py-1">No cambie los slugs: son las URL. Restaure el código original.</td></tr>
+        <tr><td class="py-1 pr-3">Nombres con <code>CAFÃ‰</code>, tildes rotas</td><td class="py-1 pr-3">Un <code>.js</code> se subió con BOM o codificación distinta de UTF-8</td><td class="py-1">Regenere con el script (escribe UTF-8 sin BOM) y vuelva a subir.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="cuadro-control mt-6"><h3>Fallas de guardado (parte PHP)</h3></div>
+  <div class="cuadro-cuerpo overflow-x-auto">
+    <table class="w-full text-sm border-collapse">
+      <thead><tr class="text-left border-b border-neutral-300"><th class="py-1 pr-3">Síntoma</th><th class="py-1 pr-3">Causa probable</th><th class="py-1">Solución</th></tr></thead>
+      <tbody class="align-top">
+        <tr class="border-b border-neutral-100"><td class="py-1 pr-3">«No se pudo guardar en el servidor» al corregir</td><td class="py-1 pr-3"><code>datos-servidor/</code> sin permiso de escritura</td><td class="py-1">Déle permisos <code>755</code> (o <code>775</code>). Compruebe en <code>diagnostico.php</code>.</td></tr>
+        <tr class="border-b border-neutral-100"><td class="py-1 pr-3">Pide contraseña y <strong>ninguna funciona</strong></td><td class="py-1 pr-3">Se pisó <code>api/config.php</code> con uno viejo, o se agotaron los intentos</td><td class="py-1">Espere 15 minutos, o <a class="underline" href="contrasena.html">fije la clave de nuevo</a>.</td></tr>
+        <tr class="border-b border-neutral-100"><td class="py-1 pr-3">El registro de alimentación no se actualiza</td><td class="py-1 pr-3">La hoja de Google perdió el permiso «cualquiera con el enlace puede ver»</td><td class="py-1">Vuelva a compartirla como visible. El sitio conserva lo anterior mientras tanto.</td></tr>
+        <tr><td class="py-1 pr-3">Todo el guardado falla, pero la consulta funciona</td><td class="py-1 pr-3">El hosting no tiene PHP, o <code>api/</code> no se subió</td><td class="py-1">Suba <code>api/</code>. Si el hosting no da PHP, el sitio funciona en solo lectura.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="alerta-azul mt-6">
+    <p class="font-medium">🧰 Herramientas de diagnóstico, en orden</p>
+    <ol class="text-sm mt-1 list-decimal pl-5 space-y-1">
+      <li><strong><code>diagnostico.php</code></strong> — dice qué archivos faltan y si <code>datos-servidor</code> es escribible.</li>
+      <li><strong>Consola del navegador (F12)</strong> — el error rojo exacto y el archivo que lo produce.</li>
+      <li><strong>Las <a class="underline" href="nuevo-corte.html">cifras de control</a></strong> — si no coinciden, un dato se rompió al regenerar.</li>
+    </ol>
+  </div>
+
+  <div class="alerta-verde mt-6"><p class="text-sm">✅ Regla general: los problemas de <strong>datos</strong> se arreglan en <code>tools/exportar_datos.py</code> y regenerando; los de <strong>despliegue</strong>, volviendo a subir la carpeta correcta; los de <strong>guardado</strong>, con permisos o con la contraseña. Casi nunca hay que tocar el HTML o el JS de las páginas.</p></div>
+
+</main>
+
+<footer class="mt-12 border-t border-neutral-200 bg-white print:hidden">
+  <div class="max-w-6xl mx-auto px-4 py-6 text-xs text-neutral-500 space-y-1">
+    <p><strong>Granja San José — Institución Universitaria Oriente de Caldas.</strong> Manuales de la pasantía · Técnico Profesional en Procesos Contables.</p>
+    <p>Documenta el sitio <a href="https://granja.rayogestion.com/" class="underline">granja.rayogestion.com</a> (corte de datos: 31 de julio de 2026). Micrositio de solo lectura.</p>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,27 @@
+DESPLIEGUE DEL SITIO — Granja San José (v4)
+============================================
+
+1) Descomprima ESTE zip en la raíz del subdominio granja.rayogestion.com
+   (normalmente public_html/granja). Debe quedar, en esa carpeta:
+   index.html, index.php, .htaccess, diagnostico.php, y las carpetas
+   css/ js/ data/ api/ formatos-plantillas/ datos-servidor/ pasantia/
+
+2) Permiso de ESCRITURA a la carpeta de datos del servidor:
+   ponga 755 (o 775 si 755 no basta) a:
+       datos-servidor/
+       datos-servidor/plantillas/   (si no existe, el sitio la crea sola al cargar la 1a plantilla)
+   Sin esto el sitio funciona, pero no guarda correcciones/mano de obra/plantillas.
+
+3) Abra https://granja.rayogestion.com/diagnostico.php
+   Verifica archivo por archivo, permisos y las APIs. Cuando todo esté OK,
+   puede borrar diagnostico.php.
+
+4) La contraseña para GUARDAR (correcciones, mano de obra, cargar plantillas)
+   es la misma de siempre. Consultar el sitio es libre, sin contraseña.
+
+5) Los MANUALES quedan en https://granja.rayogestion.com/pasantia/
+   Si crea el subdominio pasantia.rayogestion.com, apúntelo a la carpeta pasantia/.
+
+NOTA: al RE-desplegar en el futuro, NO borre datos-servidor/ si ya tiene
+correcciones guardadas por el director (este zip trae esa carpeta vacía,
+pensada para la primera instalación).

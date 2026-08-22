@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Libro diario · Granja San José — Institución Universitaria Oriente de Caldas</title>
+<meta name="description" content="Libro caja diario de la Granja San José: los 108 movimientos de 2026 con filtros, totales vivos y correcciones documentadas.">
+<link rel="icon" href="favicon.svg">
+<script src="js/enlaces.js" defer></script>
+  <link rel="stylesheet" href="css/granja.css">
+  <link rel="stylesheet" href="vendor/skeleton-elements/skeleton-elements.css">
+  <link rel="stylesheet" href="css/skeleton-layout.css">
+</head>
+<body>
+<header class="bg-primary-900 text-white print:hidden">
+  <div class="max-w-6xl mx-auto px-4 py-4 flex flex-wrap items-end justify-between gap-3">
+    <div>
+      <p class="text-2xl font-bold leading-tight">🌱 Granja San José</p>
+      <p class="text-primary-200 text-sm">Institución Universitaria Oriente de Caldas · Control de ingresos y gastos · Datos públicos con corte al <strong>31 de julio de 2026</strong></p>
+    </div>
+    <p class="text-xs text-primary-200 max-w-[26rem]">Este sitio es de <strong>solo consulta</strong>: muestra la información registrada por la granja, explicada paso a paso. Toque cualquier botón <span class="ayuda !align-baseline">?</span> para entender qué está viendo.</p>
+  </div>
+  <nav aria-label="Secciones del sitio" class="bg-primary-800">
+    <ul class="max-w-6xl mx-auto px-4 flex flex-wrap gap-1 text-sm font-medium">
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="./">📊 Inicio (resumen)</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="proyectos">🗂️ Proyectos</a></li>
+      <li><a aria-current="page" class="block px-3 py-2 text-white no-underline bg-primary-700 rounded-t" href="diario">📒 Libro diario</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="controles">🚦 Controles</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="mano-obra">👷 Mano de obra</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="plantillas">🧾 Plantillas</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="hojas-vida">📁 Hojas de vida</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="ayuda">❓ Ayuda</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div id="franja-periodo" class="no-imprimir"></div>
+
+<main class="max-w-6xl mx-auto px-4 py-8">
+  <h1>📒 Libro caja diario</h1>
+  <p class="text-neutral-600 mt-1 mb-6 max-w-3xl">Aquí están <strong>todos los movimientos de dinero</strong> que la granja registró en 2026:
+    cada venta (ingreso) y cada compra o gasto (egreso), con su fecha, proyecto y detalle.
+    Use los filtros: los totales de arriba se recalculan al instante — así puede responder en vivo preguntas como
+    <em>«¿cuánto se ha gastado en alimentación de los cerdos?»</em>.</p>
+
+  <section id="seccion-diario" aria-label="Movimientos del libro diario"><div class="skeleton-shell" role="status" aria-label="Cargando movimientos"><div class="skeleton-grid"><span class="skeleton-block skeleton-effect-wave skeleton-kpi"></span><span class="skeleton-block skeleton-effect-wave skeleton-kpi"></span><span class="skeleton-block skeleton-effect-wave skeleton-kpi"></span><span class="skeleton-block skeleton-effect-wave skeleton-kpi"></span></div><span class="skeleton-block skeleton-effect-wave skeleton-toolbar"></span><span class="skeleton-block skeleton-effect-wave skeleton-table-head"></span><span class="skeleton-block skeleton-effect-wave skeleton-table-row"></span><span class="skeleton-block skeleton-effect-wave skeleton-table-row"></span><span class="skeleton-block skeleton-effect-wave skeleton-table-row"></span><span class="skeleton-block skeleton-effect-wave skeleton-table-row"></span></div></section>
+</main>
+
+<!-- Diálogo para guardar una corrección/reclasificación -->
+<dialog id="dlg-correccion" class="rounded-xl p-0 w-[min(34rem,92vw)]">
+  <form method="dialog" class="p-5" id="form-correccion">
+    <h2 class="mb-1">✏️ Guardar una corrección</h2>
+    <p class="text-sm text-neutral-600 mb-3">Si sabe que este movimiento quedó mal registrado (por ejemplo, un gasto anotado en
+      CONEJOS que en realidad fue concentrado para un perro doméstico), déjelo documentado aquí.
+      La corrección <strong>no borra el dato original</strong>: queda como nota verificable y los totales se recalculan con ella.</p>
+    <p id="corr-estado" class="text-sm text-neutral-600 mb-3"></p>
+    <div id="corr-mov-info" class="alerta-azul text-sm"></div>
+    <label class="block text-sm font-medium mt-3">Proyecto correcto
+      <select id="corr-proyecto" class="mt-1 w-full border border-neutral-300 rounded-lg px-2 py-1.5 bg-white"></select>
+    </label>
+    <label class="block text-sm font-medium mt-3">Categoría / producto correcto (opcional)
+      <input id="corr-producto" class="mt-1 w-full border border-neutral-300 rounded-lg px-2 py-1.5" placeholder="Ej.: Gasto ajeno a la granja (perro doméstico)">
+    </label>
+    <label class="block text-sm font-medium mt-3">¿Por qué se corrige? (explicación para la trazabilidad)
+      <textarea id="corr-nota" required rows="2" class="mt-1 w-full border border-neutral-300 rounded-lg px-2 py-1.5" placeholder="Ej.: El técnico explicó que este concentrado era para el perro de la finca, no para los conejos."></textarea>
+    </label>
+    <label class="block text-sm font-medium mt-3">¿Quién hace la corrección?
+      <input id="corr-autor" class="mt-1 w-full border border-neutral-300 rounded-lg px-2 py-1.5" placeholder="Ej.: Elkin Fabián Franco — director de pasantía" maxlength="80">
+      <span class="block text-xs text-neutral-500 mt-0.5">Queda anotado junto a la corrección, para saber quién la explicó.</span>
+    </label>
+    <div id="corr-bloque-clave" class="mt-4 rounded-xl border-2 border-primary-300 bg-primary-50 p-3" hidden>
+      <label class="block text-sm font-semibold text-primary-900" for="corr-clave">🔒 Contraseña para guardar</label>
+      <p class="text-xs text-neutral-600 mt-0.5 mb-2">Solo quien tenga la contraseña puede modificar la información publicada.
+        <strong>Consultar el sitio no requiere contraseña</strong>: esta se pide únicamente al guardar una corrección.</p>
+      <input id="corr-clave" type="password" class="w-full border border-neutral-300 rounded-lg px-2 py-1.5 bg-white" placeholder="Escriba la contraseña" autocomplete="current-password">
+      <label class="flex items-center gap-2 text-xs text-neutral-600 mt-2">
+        <input type="checkbox" id="corr-recordar" class="w-4 h-4"> Recordar la contraseña en este computador
+        <span class="text-neutral-500">(no la marque en un equipo compartido)</span>
+      </label>
+    </div>
+    <p class="text-xs text-neutral-500 mt-3">Al guardar, la corrección queda <strong>en el servidor</strong>: la verá cualquier persona que abra el sitio, desde cualquier computador. Si el servidor no responde, se guarda en este navegador y se puede reintentar.</p>
+    <p id="corr-resultado" hidden></p>
+    <div class="flex justify-end gap-2 mt-4">
+      <button type="button" class="btn-sec" id="corr-cancelar">Cerrar</button>
+      <button type="submit" class="btn" id="corr-guardar">Guardar corrección</button>
+    </div>
+  </form>
+</dialog>
+
+<footer class="mt-12 border-t border-neutral-200 bg-white print:hidden">
+  <div class="max-w-6xl mx-auto px-4 py-6 text-xs text-neutral-500 space-y-1">
+    <p><strong>Granja San José — Institución Universitaria Oriente de Caldas.</strong> Datos públicos de una entidad pública, con corte al 31 de julio de 2026.</p>
+    <p>Fuente: libro «CONTROL INGRESOS Y GASTO CTT 31 JULIO.xlsx». Toda corrección aplicada al dato crudo está documentada y visible en esta página.</p>
+    <p>Sitio de solo consulta · sin usuarios ni contraseñas · <a href="ayuda">Cómo usar este sitio</a></p>
+  </div>
+</footer>
+
+<script src="data/catalogo.js"></script>
+<script src="data/movimientos.js"></script>
+<script src="js/estado.js"></script>
+<script src="js/util.js"></script>
+<script src="js/exporta.js"></script>
+<script src="js/arranque.js" data-modulo="js/diario.js"></script>
+</body>
+</html>

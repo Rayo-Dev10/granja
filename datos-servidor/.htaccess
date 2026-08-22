@@ -1,0 +1,5 @@
+# Los datos se leen a través de api/correcciones.php, no directamente.
+Options -Indexes
+<FilesMatch "\.(jsonl|log)$|^intentos\.json$">
+  Require all denied
+</FilesMatch>

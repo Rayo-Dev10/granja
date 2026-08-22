@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ayuda · Granja San José — Institución Universitaria Oriente de Caldas</title>
+<meta name="description" content="Guía de uso del sitio de la Granja San José: qué muestra cada pantalla, de dónde salen los datos y glosario.">
+<link rel="icon" href="favicon.svg">
+<script src="js/enlaces.js" defer></script>
+  <link rel="stylesheet" href="css/granja.css">
+</head>
+<body>
+<header class="bg-primary-900 text-white print:hidden">
+  <div class="max-w-6xl mx-auto px-4 py-4 flex flex-wrap items-end justify-between gap-3">
+    <div>
+      <p class="text-2xl font-bold leading-tight">🌱 Granja San José</p>
+      <p class="text-primary-200 text-sm">Institución Universitaria Oriente de Caldas · Control de ingresos y gastos · Datos públicos con corte al <strong>31 de julio de 2026</strong></p>
+    </div>
+  </div>
+  <nav aria-label="Secciones del sitio" class="bg-primary-800">
+    <ul class="max-w-6xl mx-auto px-4 flex flex-wrap gap-1 text-sm font-medium">
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="./">📊 Inicio (resumen)</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="proyectos">🗂️ Proyectos</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="diario">📒 Libro diario</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="controles">🚦 Controles</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="mano-obra">👷 Mano de obra</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="plantillas">🧾 Plantillas</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="hojas-vida">📁 Hojas de vida</a></li>
+      <li><a aria-current="page" class="block px-3 py-2 text-white no-underline bg-primary-700 rounded-t" href="ayuda">❓ Ayuda</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main class="max-w-4xl mx-auto px-4 py-8">
+  <h1>❓ Cómo usar este sitio</h1>
+  <p class="text-neutral-600 mt-2 mb-8">Este sitio muestra, explicado paso a paso, el control de ingresos y gastos de la
+    Granja San José de la Institución Universitaria Oriente de Caldas. Es <strong>público</strong> (los datos de una entidad pública son de todos),
+    <strong>de solo consulta</strong> y no requiere usuario ni contraseña. Cualquier persona, sin conocimientos de sistemas
+    ni de contabilidad, debería poder entenderlo; si algo no se entiende, conviene mejorar la explicación.</p>
+
+  <section class="mb-8">
+    <h2>Las pantallas del sitio</h2>
+    <dl class="mt-3 space-y-4">
+      <div><dt class="font-semibold">📊 Inicio (resumen)</dt>
+      <dd class="text-neutral-600">La granja de un solo vistazo: cuánto entró, cuánto se gastó y qué proyectos aportan o consumen. Cada gráfico tiene un título en forma de pregunta y una lectura en palabras. Desde cualquier barra puede «bajar» al detalle del proyecto. Tiene un botón para imprimir el resumen en una página.</dd></div>
+      <div><dt class="font-semibold">🗂️ Proyectos</dt>
+      <dd class="text-neutral-600">La lista de los 17 proyectos con su área, tipo, responsable, estado y balance. Al tocar un proyecto se abre su página con producción, inventario de animales, sanidad, alimentación y todos sus movimientos.</dd></div>
+      <div><dt class="font-semibold">📒 Libro diario</dt>
+      <dd class="text-neutral-600">Todos los movimientos de dinero de 2026, con filtros. Los totales de arriba se recalculan al filtrar: sirve para responder en vivo «¿cuánto se gastó en X?». Las marcas de colores avisan cuándo un dato crudo fue normalizado o merece revisión, y el botón ✏️ permite guardar correcciones explicadas.</dd></div>
+      <div><dt class="font-semibold">🚦 Controles</dt>
+      <dd class="text-neutral-600">El semáforo de la granja: verificaciones automáticas de coherencia (¿cuadra el inventario?, ¿lo producido coincide con lo vendido?, ¿todo gasto tiene rastro en el libro diario?). Cada control dice qué revisa, qué encontró y qué se recomienda hacer.</dd></div>
+      <div><dt class="font-semibold">👷 Mano de obra</dt>
+      <dd class="text-neutral-600">Cuánto cuesta de verdad una hora de trabajo en la granja: el salario más todas las prestaciones y aportes de ley. Trae dos roles con cifras de ejemplo que se pueden cambiar, y una simulación para ver cómo se repartiría ese costo entre los proyectos mientras la granja empieza a registrar las horas reales.</dd></div>
+      <div><dt class="font-semibold">🧾 Plantillas</dt>
+      <dd class="text-neutral-600">Formatos en blanco para descargar y llevar los registros de la granja (horas, alimentación, recolección, inventario, donación de servicios). Se busca por nombre a medida que se escribe. Descargar es libre; cargar una plantilla nueva pide la contraseña y queda disponible para todos.</dd></div>
+      <div><dt class="font-semibold">📁 Hojas de vida</dt>
+      <dd class="text-neutral-600">El expediente documental de cada proyecto: se crean carpetas y se cargan PDF, Word, TXT, MD, Excel e imágenes. «Ver hoja de vida completa» apila todos los documentos en vertical para revisarlos de corrido (los Excel no se apilan; se descargan).</dd></div>
+    </dl>
+  </section>
+
+  <section class="mb-8">
+    <h2>De dónde salen los datos</h2>
+    <p class="text-neutral-600 mt-2">Todo proviene del libro «CONTROL INGRESOS Y GASTO CTT 31 JULIO.xlsx» que lleva la granja,
+      con corte al <strong>31 de julio de 2026</strong>. Los datos se pasaron por un proceso de <strong>normalización documentada</strong>:
+      fechas que estaban escritas como texto se interpretaron, categorías con grafías distintas se unificaron
+      («huevos» → «Huevos») y errores evidentes se corrigieron dejando nota (por ejemplo, un ingreso digitado como
+      $80 cuando la observación decía $80.000). Ninguna corrección borra el dato original: todas están marcadas con
+      🛠 en el <a href="diario">Libro diario</a> y se pueden consultar una por una.</p>
+  </section>
+
+  <section class="mb-8">
+    <h2>Glosario en palabras sencillas</h2>
+    <dl class="mt-3 space-y-2 text-neutral-700">
+      <div><dt class="font-semibold inline">Ingreso:</dt> <dd class="inline">dinero que entra (una venta de huevos, café, animales…).</dd></div>
+      <div><dt class="font-semibold inline">Egreso:</dt> <dd class="inline">dinero que sale (compra de alimento, medicamentos, jornales…).</dd></div>
+      <div><dt class="font-semibold inline">Balance:</dt> <dd class="inline">ingresos menos egresos. Positivo (verde) = aporta; negativo (rojo) = consume.</dd></div>
+      <div><dt class="font-semibold inline">Concentrado:</dt> <dd class="inline">alimento balanceado para animales; se compra en bultos de 40 kg.</dd></div>
+      <div><dt class="font-semibold inline">Cubeta:</dt> <dd class="inline">bandeja de huevos: 30 huevos de gallina o 24 de codorniz. Por eso el sitio siempre aclara la unidad.</dd></div>
+      <div><dt class="font-semibold inline">Baja:</dt> <dd class="inline">animal que sale del inventario (muere, se vende o se consume).</dd></div>
+      <div><dt class="font-semibold inline">Saldo:</dt> <dd class="inline">lo que queda después de sumar entradas y restar salidas.</dd></div>
+      <div><dt class="font-semibold inline">Trazabilidad:</dt> <dd class="inline">poder seguir el rastro de un dato hasta su registro original en el libro.</dd></div>
+      <div><dt class="font-semibold inline">Corte:</dt> <dd class="inline">la fecha hasta la cual llega la información (aquí, 31 de julio de 2026).</dd></div>
+    </dl>
+  </section>
+
+  <section class="mb-8">
+    <h2>Preguntas frecuentes</h2>
+    <details class="mb-2 rounded-lg border border-neutral-200 bg-white p-3">
+      <summary class="font-medium cursor-pointer">¿Puedo cambiar los datos desde este sitio?</summary>
+      <p class="text-neutral-600 mt-2">Los datos del libro no se cambian desde aquí: el sitio muestra el corte oficial. Lo que sí se puede
+      hacer es dejar <strong>correcciones explicadas</strong> (botón ✏️ del Libro diario), que no borran el dato original sino que lo
+      acompañan con una nota y hacen que el sitio recalcule los totales.</p>
+      <p class="text-neutral-600 mt-2">Esas correcciones se guardan <strong>en el servidor</strong>: quedan visibles para cualquier persona,
+      desde cualquier computador. Al guardar aparece un recuadro que pide una <strong>contraseña</strong>: así se evita que alguien
+      de paso altere los libros o las correcciones. <strong>Consultar el sitio no pide contraseña en ningún momento</strong>. Los <strong>documentos de hoja de vida</strong>, en cambio,
+      sí quedan solo en el navegador de cada quien.</p>
+    </details>
+    <details class="mb-2 rounded-lg border border-neutral-200 bg-white p-3">
+      <summary class="font-medium cursor-pointer">¿Por qué un proyecto aparece «Sin movimientos»?</summary>
+      <p class="text-neutral-600 mt-2">Porque en el libro de la granja no se registró ningún ingreso ni gasto para él en 2026
+      (les pasa a BIOINSUMOS, APICOLA, OTRO MADERAS y OTROS GRANJA). El sitio lo muestra tal cual, sin inventar ceros.</p>
+    </details>
+    <details class="mb-2 rounded-lg border border-neutral-200 bg-white p-3">
+      <summary class="font-medium cursor-pointer">¿Por qué algunos controles salen en amarillo o rojo?</summary>
+      <p class="text-neutral-600 mt-2">Porque la verificación automática encontró algo que no cuadra: un saldo que no coincide con la
+      aritmética, más ventas que producción, o un gasto sin rastro. Suele deberse a un
+      registro incompleto. El control dice exactamente qué revisar.</p>
+    </details>
+    <details class="mb-2 rounded-lg border border-neutral-200 bg-white p-3">
+      <summary class="font-medium cursor-pointer">¿Quién puede ver este sitio?</summary>
+      <p class="text-neutral-600 mt-2">Cualquier persona con el enlace. Es información pública de una entidad pública, presentada
+      para que se entienda.</p>
+    </details>
+  </section>
+
+  <section class="mb-8 mt-10 border-t border-neutral-200 pt-8">
+    <h2>🛠️ Para quien mantiene el sitio</h2>
+    <p class="text-neutral-600 mt-2 max-w-3xl">Esta parte es más técnica. Sirve para actualizar el sitio cuando llega un corte
+      nuevo del libro, publicarlo y resolver problemas. Está pensada para que <strong>cualquier persona con conocimientos básicos
+      pueda mantenerlo</strong>, y también como recordatorio para uno mismo.</p>
+
+    <details class="mb-2 rounded-lg border border-neutral-200 bg-white p-3 mt-3">
+      <summary class="font-medium cursor-pointer">1. Actualizar cuando llega un Excel nuevo de la granja</summary>
+      <div class="text-neutral-600 mt-2 space-y-2 text-sm">
+        <p>Los datos del sitio se generan del libro de Excel con un programa. El proceso es:</p>
+        <ol class="list-decimal ml-5 space-y-1">
+          <li>Coloque el nuevo <code>.xlsx</code> en la carpeta del proyecto y ajuste la ruta en <code>tools/exportar_datos.py</code>.</li>
+          <li>Ejecute <code>python3 tools/exportar_datos.py</code>. Esto regenera todos los archivos de <code>data/</code>.</li>
+          <li><strong>Compruebe las cifras de control</strong> (abajo). Si el resumen las muestra, los datos cargaron completos.</li>
+          <li>Vuelva a subir la carpeta <code>data/</code> con <code>subir-solo-datos.bat</code>.</li>
+        </ol>
+        <p>El documento <code>GUIA-NUEVA-VERSION-DEL-LIBRO.md</code> trae el detalle completo (qué NO se puede cambiar en el Excel para no romper el sitio).</p>
+      </div>
+    </details>
+
+    <details class="mb-2 rounded-lg border border-neutral-200 bg-white p-3">
+      <summary class="font-medium cursor-pointer">2. Publicar el sitio en el hosting</summary>
+      <div class="text-neutral-600 mt-2 space-y-2 text-sm">
+        <p>En la carpeta del proyecto hay tres programas de doble clic (Windows los trae de fábrica):</p>
+        <ul class="list-disc ml-5 space-y-1">
+          <li><code>subir-por-ssh.bat</code> — el recomendado: sube todo por SSH y deja los permisos correctos.</li>
+          <li><code>subir-todo-al-hosting.bat</code> — lo mismo por FTP (necesita <code>_ftp-credenciales.txt</code>).</li>
+          <li><code>subir-solo-datos.bat</code> — sube únicamente <code>data/</code>, para un corte nuevo.</li>
+        </ul>
+        <p>Ninguno borra <code>datos-servidor/</code>, así que las correcciones, los valores de mano de obra y las plantillas cargadas <strong>no se pierden</strong> al volver a subir.</p>
+      </div>
+    </details>
+
+    <details class="mb-2 rounded-lg border border-neutral-200 bg-white p-3">
+      <summary class="font-medium cursor-pointer">3. Cambiar la contraseña de edición</summary>
+      <div class="text-neutral-600 mt-2 space-y-2 text-sm">
+        <p>La contraseña protege el <strong>guardado</strong> (correcciones, mano de obra, cargar plantillas). Consultar es siempre libre.
+        No está escrita en ningún archivo: en <code>api/config.php</code> solo vive su huella (bcrypt).</p>
+        <p>Para cambiarla: <code>php tools/generar-clave.php "la-nueva"</code> y pegue la línea que imprime en <code>api/config.php</code>, en <code>'claveHash'</code>.</p>
+      </div>
+    </details>
+
+    <details class="mb-2 rounded-lg border border-neutral-200 bg-white p-3">
+      <summary class="font-medium cursor-pointer">4. Si algo no se ve bien</summary>
+      <div class="text-neutral-600 mt-2 space-y-2 text-sm">
+        <p>Abra <code>https://granja.rayogestion.com/diagnostico.php</code>: comprueba, uno por uno, que todos los archivos llegaron,
+        que la carpeta de datos tiene permiso de escritura y que las direcciones limpias funcionan.</p>
+        <ul class="list-disc ml-5 space-y-1">
+          <li>Se ve <strong>sin colores</strong> → falta <code>css/granja.css</code>.</li>
+          <li>Con colores pero <strong>sin datos ni gráficos</strong> → faltan archivos de <code>data/</code> o <code>js/</code>.</li>
+          <li>No guarda correcciones/plantillas → la carpeta <code>datos-servidor/</code> no tiene permiso de escritura (póngale 755).</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="mb-2 rounded-lg border border-neutral-200 bg-white p-3">
+      <summary class="font-medium cursor-pointer">5. Abrir el sitio sin internet (desde un USB)</summary>
+      <div class="text-neutral-600 mt-2 space-y-2 text-sm">
+        <p>El sitio abre por doble clic en <code>index.html</code>, sin servidor. Sirve como respaldo para una sustentación:
+        los datos y las plantillas de ejemplo se ven igual. Lo único que no funciona sin servidor es <strong>guardar</strong>
+        (correcciones, mano de obra) y <strong>cargar</strong> plantillas nuevas, porque eso necesita el hosting.</p>
+      </div>
+    </details>
+
+    <div class="alerta-azul mt-4 text-sm">ℹ️ <strong>Cifras de control</strong> (para verificar que un corte cargó completo):
+      Ingresos <strong>$24.537.420</strong> · Egresos <strong>$17.064.800</strong> · Balance <strong>+$7.472.620</strong> ·
+      Huevos de gallina <strong>12.529</strong> · de codorniz <strong>5.846</strong> · Alimentación = <strong>86 %</strong> del gasto.
+      Si el resumen muestra estas cifras, los datos están completos.</div>
+  </section>
+</main>
+
+<footer class="mt-12 border-t border-neutral-200 bg-white">
+  <div class="max-w-6xl mx-auto px-4 py-6 text-xs text-neutral-500 space-y-1">
+    <p><strong>Granja San José — Institución Universitaria Oriente de Caldas.</strong> Datos públicos de una entidad pública, con corte al 31 de julio de 2026.</p>
+    <p>Fuente: libro «CONTROL INGRESOS Y GASTO CTT 31 JULIO.xlsx».</p>
+  </div>
+</footer>
+</body>
+</html>

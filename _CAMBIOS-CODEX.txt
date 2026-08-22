@@ -1,0 +1,32 @@
+AJUSTES DE LA ENTREGA — 21 DE AGOSTO DE 2026
+================================================
+
+1. PLANTILLAS NAVEGABLES
+   La página /plantillas ya no compite con una carpeta física del mismo nombre.
+   Los formatos incluidos viven en formatos-plantillas/ y siguen disponibles
+   desde la tabla de la página Plantillas.
+
+2. DESCARGAS
+   Se comprobaron las cinco plantillas incluidas y la API de plantillas sobre PHP.
+   Descargar es público; cargar o borrar conserva la contraseña de edición.
+
+3. CARGA CON DESCRIPCIÓN OBLIGATORIA
+   El flujo se abre en una ventana. La descripción exige al menos 10 caracteres.
+   Cerrar o cancelar descarta el archivo seleccionado. La API también valida la
+   descripción; si no puede guardar el índice y su descripción, elimina el archivo.
+
+4. CONTROLES — «¿QUÉ HACER?»
+   Los controles amarillos y rojos muestran el enlace «¿Qué hacer?». Al abrirlo
+   se despliega la recomendación concreta para llevar el dato a una situación
+   favorable. Los controles verdes e informativos conservan su recomendación breve.
+
+DESPLIEGUE
+   Descomprima todo el contenido en la raíz del hosting PHP. Después abra
+   diagnostico.php y siga _LEEME-DESPLIEGUE.txt.
+
+5. CARGA SIN SALTOS — SKELETONS
+   Las ocho páginas dinámicas reservan desde el HTML el espacio aproximado del
+   contenido final. Se integró localmente Skeleton Elements 4.0.1 (MIT, sin
+   dependencias de ejecución ni CDN) y una adaptación responsive. Los bloques
+   respetan la preferencia del sistema para reducir movimiento y desaparecen
+   cuando cada módulo dibuja el contenido real en el mismo contenedor.

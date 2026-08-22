@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Llega un corte nuevo del libro · Manuales de la pasantía — Granja San José</title>
+<meta name="description" content="Paso a paso para integrar una versión nueva del libro de Excel en el sitio de la Granja San José sin romper nada.">
+<link rel="icon" href="../favicon.svg">
+<link rel="stylesheet" href="../css/granja.css">
+<link rel="stylesheet" href="../css/print.css" media="print">
+</head>
+<body>
+<header class="bg-primary-900 text-white print:hidden">
+  <div class="max-w-6xl mx-auto px-4 py-4 flex flex-wrap items-end justify-between gap-3">
+    <div>
+      <p class="text-2xl font-bold leading-tight"><a class="text-white no-underline" href="../">🌱 Granja San José · Manuales de la pasantía</a></p>
+      <p class="text-primary-200 text-sm">Institución Universitaria Oriente de Caldas · Ciclo propedéutico · Técnico Profesional en Procesos Contables · Corte de datos: <strong>31 de julio de 2026</strong></p>
+    </div>
+    <p class="text-xs text-primary-200 max-w-[26rem]">Documentación del sitio <a class="text-white underline" href="https://granja.rayogestion.com/">granja.rayogestion.com</a>.</p>
+  </div>
+  <nav aria-label="Secciones de los manuales" class="bg-primary-800">
+    <ul class="max-w-6xl mx-auto px-4 flex flex-wrap gap-1 text-sm font-medium">
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="../">🏠 Inicio</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="../usar/">👀 Usar</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="../registrar/">✍️ Registrar</a></li>
+      <li><a aria-current="page" class="block px-3 py-2 text-white no-underline bg-primary-700 rounded-t" href="../mantener/">🛠️ Mantener</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="../pasantia/">🎓 Pasantía</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main class="max-w-4xl mx-auto px-4 py-8">
+
+  <h1>📥 Llega un Excel nuevo — paso a paso</h1>
+  <p class="text-neutral-600 mt-2">Cuando la granja entrega un corte nuevo del libro, hay que <strong>regenerar los seis <code>data/*.js</code></strong> y volver a subirlos. Este es el resumen operativo de <code>GUIA-NUEVA-VERSION-DEL-LIBRO.md</code>; para los casos raros, consulte ese documento.</p>
+
+  <div class="alerta-roja mt-6">
+    <p class="font-medium">🚫 Antes de escribir una sola línea de código</p>
+    <ul class="text-sm mt-1 list-disc pl-5 space-y-1">
+      <li><strong>Nunca edite <code>data/*.js</code> a mano.</strong> Se regeneran con el script; una edición manual se pierde en la siguiente ejecución.</li>
+      <li>Abra el libro nuevo y compárelo hoja por hoja con el mapa del sitio <strong>antes</strong> de tocar el script.</li>
+      <li>Los rangos de filas del script están escritos a mano: si el libro creció, esos registros <strong>se pierden en silencio</strong>, sin error ni aviso.</li>
+    </ul>
+  </div>
+
+  <h2 class="mt-8">1 · Reconocer el libro nuevo</h2>
+  <ol class="mt-3 space-y-2 list-decimal pl-5">
+    <li>Copie el libro a <code>/home/claude/libro.xlsx</code> (o ajuste la constante <code>LIBRO</code> en <code>exportar_datos.py</code>). <code>OUT</code> debe seguir apuntando a <code>data/</code>.</li>
+    <li>Liste hojas y dimensiones (<code>wb.sheetnames</code>, <code>ws.max_row</code>) y compárelas con las del corte anterior. Anote hojas nuevas, renombradas o desaparecidas.</li>
+    <li>Verifique los <strong>espacios finales</strong> de los nombres de hoja (<code>'pollos de engorde '</code>, <code>'CONEJOS '</code>). Si el libro nuevo los limpió, el script falla con <code>KeyError</code>.</li>
+    <li>Para cada cuadro, compruebe que los encabezados siguen en la misma columna. El script <strong>no busca encabezados: lee columnas fijas</strong>. Una columna insertada corre todo el cuadro sin dar error.</li>
+    <li>Detecte la última fila con dato de cada cuadro y compárela con el rango fijo del script.</li>
+  </ol>
+
+  <h2 class="mt-8">2 · Ampliar los rangos fijos (lo más crítico)</h2>
+  <p class="mt-2">Si el libro creció, amplíe los rangos codificados en <code>exportar_datos.py</code>. Los principales:</p>
+  <div class="cuadro-cuerpo mt-2">
+    <table class="w-full text-sm border-collapse">
+      <thead><tr class="text-left border-b border-neutral-300"><th class="py-1 pr-3">Cuadro</th><th class="py-1 pr-3">Rango hoy</th><th class="py-1">Riesgo si creció</th></tr></thead>
+      <tbody class="align-top">
+        <tr class="border-b border-neutral-100"><td class="py-1 pr-3">CAJA DIARIO (movimientos)</td><td class="py-1 pr-3">filas 5–112</td><td class="py-1">El peor caso: cada movimiento nuevo desde la fila 113 desaparece de todo.</td></tr>
+        <tr class="border-b border-neutral-100"><td class="py-1 pr-3">Catálogo de proyectos</td><td class="py-1 pr-3">filas 5–21</td><td class="py-1">Un proyecto 18 en adelante no existe para el sitio.</td></tr>
+        <tr class="border-b border-neutral-100"><td class="py-1 pr-3">Recolección gallinas / codornices</td><td class="py-1 pr-3">26–237 / 53–264</td><td class="py-1">Días posteriores al corte no se cuentan.</td></tr>
+        <tr class="border-b border-neutral-100"><td class="py-1 pr-3">Ventas mensuales en texto</td><td class="py-1 pr-3">7 celdas fijas</td><td class="py-1">Un mes nuevo (agosto) no aparece: hay que añadir su celda.</td></tr>
+        <tr><td class="py-1 pr-3">Sanitario gallinas</td><td class="py-1 pr-3">solo 2 filas</td><td class="py-1">Cualquier registro sanitario nuevo se pierde.</td></tr>
+      </tbody>
+    </table>
+    <p class="text-xs text-neutral-500 mt-2"><strong>Regla:</strong> al ampliar, hágalo con holgura (+50 filas). Las funciones de lectura ya saltan filas vacías, así que sobrar no hace daño; faltar sí.</p>
+  </div>
+
+  <h2 class="mt-8">3 · Ejecutar, verificar y publicar</h2>
+  <ol class="mt-3 space-y-2 list-decimal pl-5">
+    <li>Ejecute <code>python3 tools/exportar_datos.py</code>. Debe terminar <strong>sin excepciones</strong> y con el resumen de cifras.</li>
+    <li>Compare ese resumen con las <strong>cifras de control</strong> (abajo). Cada diferencia debe explicarse citando la fila exacta del Excel. <strong>Si una cifra cambia y no sabe por qué, no publique.</strong></li>
+    <li>Valide que los seis <code>.js</code> parsean como JSON y son UTF-8 sin BOM.</li>
+    <li>Actualice la <strong>fecha de corte</strong> en el script (línea del <code>'corte'</code> y comentario de cabecera).</li>
+    <li>Suba <strong>solo la carpeta <code>data/</code></strong> (ver <a class="underline" href="desplegar.html">Desplegar</a>). No hace falta tocar HTML, CSS ni <code>js/</code> salvo que se añada una entidad nueva.</li>
+  </ol>
+
+  <div class="cuadro-control mt-8"><h3>✅ Cifras de control del corte 31-07-2026</h3><p class="descripcion">Si tras regenerar estas cambian sin explicación, algo se rompió.</p></div>
+  <div class="cuadro-cuerpo">
+    <ul class="text-sm list-disc pl-5 space-y-1">
+      <li>Movimientos = <strong>108</strong> · Ingresos = <strong>$24.537.420</strong> · Egresos = <strong>$17.064.800</strong> · Balance = <strong>+$7.472.620</strong></li>
+      <li>Los ingresos incluyen la corrección documentada de la fila 104 ($80 → $80.000 = +$79.920 sobre el crudo).</li>
+      <li>Producción gallina = <strong>12.529</strong> huevos · codorniz = <strong>5.846</strong> huevos.</li>
+      <li>Catálogo = <strong>17 proyectos</strong> con código único · inventario = 113 eventos · sanitario = 12 · alimento = 18 compras.</li>
+      <li>Ningún <code>correcciones</code> ni <code>alertas</code> es <code>null</code>; ninguna fecha fuera de <code>AAAA-MM-DD</code>.</li>
+    </ul>
+  </div>
+
+  <div class="alerta-roja mt-8">
+    <p class="font-medium">🚫 Lo que rompe el sitio (y no se puede hacer)</p>
+    <ul class="text-sm mt-1 list-disc pl-5 space-y-1">
+      <li>Renombrar las variables <code>window.DATA_*</code> o cualquier campo del esquema.</li>
+      <li>Cambiar los <strong>códigos de proyecto (slug)</strong>: son las URL y rompen los enlaces ya compartidos.</li>
+      <li>Entregar fechas que no sean <code>AAAA-MM-DD</code> o <code>null</code>, o montos como texto (<code>"1.500.000"</code>).</li>
+      <li>Dejar <code>correcciones[]</code> o <code>alertas[]</code> en <code>null</code> (rompe el Libro diario entero).</li>
+      <li>Subir un <code>.js</code> con BOM o cambiar el orden de carga de los <code>&lt;script&gt;</code>.</li>
+    </ul>
+  </div>
+
+  <div class="alerta-verde mt-6"><p class="text-sm"><strong>Lo que NO se toca al regenerar:</strong> <code>datos-servidor/</code> (correcciones e historial guardados desde el sitio) y <code>api/config.php</code> (la contraseña). Suba solo <code>data/</code>; nunca pise esas carpetas.</p></div>
+
+</main>
+
+<footer class="mt-12 border-t border-neutral-200 bg-white print:hidden">
+  <div class="max-w-6xl mx-auto px-4 py-6 text-xs text-neutral-500 space-y-1">
+    <p><strong>Granja San José — Institución Universitaria Oriente de Caldas.</strong> Manuales de la pasantía · Técnico Profesional en Procesos Contables.</p>
+    <p>Documenta el sitio <a href="https://granja.rayogestion.com/" class="underline">granja.rayogestion.com</a> (corte de datos: 31 de julio de 2026). Micrositio de solo lectura.</p>
+  </div>
+</footer>
+</body>
+</html>

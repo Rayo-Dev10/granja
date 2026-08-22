@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Metodología de normalización · Manuales de la pasantía — Granja San José</title>
+<meta name="description" content="Cómo se normalizó el libro de Excel de la Granja San José y con qué criterios, manteniendo la trazabilidad completa Excel → sitio.">
+<link rel="icon" href="../favicon.svg">
+<link rel="stylesheet" href="../css/granja.css">
+</head>
+<body>
+<header class="bg-primary-900 text-white print:hidden">
+  <div class="max-w-6xl mx-auto px-4 py-4 flex flex-wrap items-end justify-between gap-3">
+    <div>
+      <p class="text-2xl font-bold leading-tight"><a class="text-white no-underline" href="../">🌱 Granja San José · Manuales de la pasantía</a></p>
+      <p class="text-primary-200 text-sm">Institución Universitaria Oriente de Caldas · Ciclo propedéutico · Técnico Profesional en Procesos Contables · Corte de datos: <strong>31 de julio de 2026</strong></p>
+    </div>
+    <p class="text-xs text-primary-200 max-w-[26rem]">Documentación del sitio <a class="text-white underline" href="https://granja.rayogestion.com/">granja.rayogestion.com</a>.</p>
+  </div>
+  <nav aria-label="Secciones de los manuales" class="bg-primary-800">
+    <ul class="max-w-6xl mx-auto px-4 flex flex-wrap gap-1 text-sm font-medium">
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="../">🏠 Inicio</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="../usar/">👀 Usar</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="../registrar/">✍️ Registrar</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="../mantener/">🛠️ Mantener</a></li>
+      <li><a aria-current="page" class="block px-3 py-2 text-white no-underline bg-primary-700 rounded-t" href="../pasantia/">🎓 Pasantía</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main class="max-w-4xl mx-auto px-4 py-8">
+
+  <h1>🔬 Metodología: cómo se normalizó el libro</h1>
+  <p class="text-neutral-600 mt-2">El corazón técnico de la pasantía fue convertir un libro de Excel llevado a mano —con fechas en texto, montos con puntos, nombres inconsistentes— en datos limpios, sin perder nunca el rastro hacia el original. Estos son los criterios.</p>
+
+  <div class="cuadro-control mt-6"><h3>Principio 1 · Una sola fuente, un solo generador</h3></div>
+  <div class="cuadro-cuerpo">
+    <p>Todo sale de un único script (<code>tools/exportar_datos.py</code>) que lee el Excel y escribe seis archivos de datos. <strong>Nunca se editan los datos a mano.</strong> Si algo hay que corregir, se corrige en el script, para que la corrección sea repetible y quede documentada.</p>
+  </div>
+
+  <div class="cuadro-control mt-6"><h3>Principio 2 · Trazabilidad total (Excel → sitio)</h3></div>
+  <div class="cuadro-cuerpo">
+    <p>Cada registro conserva su <strong>fila real del Excel</strong>. Toda diferencia entre el dato crudo y el dato mostrado se anota en un campo <code>correcciones[]</code> <strong>con su nota</strong>. Regla estricta: <em>corrección sin nota = corrección inválida</em>. El sitio muestra esas notas al usuario, así que cualquiera puede rastrear un número hasta su celda de origen.</p>
+    <div class="alerta-verde mt-3"><p class="text-sm">Ejemplo real: la fila 104 decía <code>80</code> donde debía decir <code>80.000</code>. El script corrige el valor y deja la nota; por eso los ingresos del sitio ($24.537.420) superan en $79.920 al crudo del libro ($24.457.500). La diferencia no es un misterio: está explicada.</p></div>
+  </div>
+
+  <div class="cuadro-control mt-6"><h3>Principio 3 · Normalizar sin inventar</h3></div>
+  <div class="cuadro-cuerpo">
+    <p>Qué se normaliza y qué no:</p>
+    <ul class="text-sm list-disc pl-5 space-y-1 mt-1">
+      <li><strong>Fechas</strong> → siempre <code>AAAA-MM-DD</code>. Un rango en texto («del 23 de marzo al 17 de abril») se guarda por su fecha de cierre, conservando el texto original y marcándolo con ✱.</li>
+      <li><strong>Montos</strong> → siempre número (<code>38800</code>), nunca texto.</li>
+      <li><strong>Proyectos</strong> → un código único (slug) que es la clave primaria de todo el sitio y de las URL.</li>
+      <li><strong>Lo que no se sabe se deja vacío.</strong> La imputación de horas está en blanco a propósito: se prefiere un dato faltante a un dato inventado. Lo simulado va siempre <strong>rotulado como simulación</strong>.</li>
+    </ul>
+  </div>
+
+  <div class="cuadro-control mt-6"><h3>Principio 4 · La ausencia de dato también es un dato</h3></div>
+  <div class="cuadro-cuerpo">
+    <p>En vez de ocultar los vacíos, se miden: la <strong>matriz de cobertura</strong> muestra qué proyecto tiene y cuál no tiene información en cada fuente. Así, lo que no se registró se vuelve visible y medible, y se convierte en el argumento del <a class="underline" href="hallazgos.html">primer hallazgo</a>.</p>
+  </div>
+
+  <div class="cuadro-control mt-6"><h3>Principio 5 · Verificar contra cifras de control</h3></div>
+  <div class="cuadro-cuerpo">
+    <p>Cada regeneración se compara con un conjunto de <strong>cifras de control</strong> conocidas (108 movimientos, balance +$7.472.620, 12.529 huevos de gallina…). Si una cifra cambia, hay que poder explicarla con la fila exacta del Excel; si no se puede, no se publica. El detalle operativo está en <a class="underline" href="../mantener/nuevo-corte.html">Mantener → corte nuevo</a>.</p>
+  </div>
+
+  <p class="mt-8"><a class="btn-sec" href="hallazgos.html">Siguiente: los hallazgos →</a></p>
+
+</main>
+
+<footer class="mt-12 border-t border-neutral-200 bg-white print:hidden">
+  <div class="max-w-6xl mx-auto px-4 py-6 text-xs text-neutral-500 space-y-1">
+    <p><strong>Granja San José — Institución Universitaria Oriente de Caldas.</strong> Manuales de la pasantía · Técnico Profesional en Procesos Contables.</p>
+    <p>Documenta el sitio <a href="https://granja.rayogestion.com/" class="underline">granja.rayogestion.com</a> (corte de datos: 31 de julio de 2026). Micrositio de solo lectura.</p>
+  </div>
+</footer>
+</body>
+</html>

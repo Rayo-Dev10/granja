@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bitácora de decisiones técnicas · Manuales de la pasantía — Granja San José</title>
+<meta name="description" content="Bitácora de decisiones técnicas de la pasantía en la Granja San José: por qué un sitio estático, sin backend obligatorio, con datos trazables.">
+<link rel="icon" href="../favicon.svg">
+<link rel="stylesheet" href="../css/granja.css">
+</head>
+<body>
+<header class="bg-primary-900 text-white print:hidden">
+  <div class="max-w-6xl mx-auto px-4 py-4 flex flex-wrap items-end justify-between gap-3">
+    <div>
+      <p class="text-2xl font-bold leading-tight"><a class="text-white no-underline" href="../">🌱 Granja San José · Manuales de la pasantía</a></p>
+      <p class="text-primary-200 text-sm">Institución Universitaria Oriente de Caldas · Ciclo propedéutico · Técnico Profesional en Procesos Contables · Corte de datos: <strong>31 de julio de 2026</strong></p>
+    </div>
+    <p class="text-xs text-primary-200 max-w-[26rem]">Documentación del sitio <a class="text-white underline" href="https://granja.rayogestion.com/">granja.rayogestion.com</a>.</p>
+  </div>
+  <nav aria-label="Secciones de los manuales" class="bg-primary-800">
+    <ul class="max-w-6xl mx-auto px-4 flex flex-wrap gap-1 text-sm font-medium">
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="../">🏠 Inicio</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="../usar/">👀 Usar</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="../registrar/">✍️ Registrar</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="../mantener/">🛠️ Mantener</a></li>
+      <li><a aria-current="page" class="block px-3 py-2 text-white no-underline bg-primary-700 rounded-t" href="../pasantia/">🎓 Pasantía</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main class="max-w-4xl mx-auto px-4 py-8">
+
+  <h1>🧭 Bitácora de decisiones técnicas</h1>
+  <p class="text-neutral-600 mt-2">Por qué el sitio es como es. Cada decisión se tomó pensando en que alguien pudiera <strong>heredarlo y mantenerlo sin el autor</strong>, con el menor costo posible para una institución pública.</p>
+
+  <div class="cuadro-control mt-6"><h3>Decisión 1 · Sitio estático, sin base de datos</h3><p class="descripcion">HTML + CSS + JavaScript vanilla.</p></div>
+  <div class="cuadro-cuerpo">
+    <p><strong>Por qué:</strong> se sube a cualquier hosting barato y funciona; no hay servidor que administrar, ni base de datos que respaldar, ni framework que se quede sin soporte. Se puede abrir incluso desde una memoria USB, sin internet.</p>
+    <p class="mt-2"><strong>Costo asumido:</strong> los datos no se leen del Excel en vivo; hay que regenerarlos con cada corte. Se aceptó a cambio de simplicidad y durabilidad.</p>
+  </div>
+
+  <div class="cuadro-control mt-6"><h3>Decisión 2 · El PHP es opcional, no obligatorio</h3></div>
+  <div class="cuadro-cuerpo">
+    <p><strong>Por qué:</strong> la consulta —que es el 95 % del uso— es HTML puro y funciona sin PHP. El PHP solo aparece para <em>guardar</em> cosas compartidas (correcciones, revelaciones, plantillas). Si el hosting no tiene PHP, el sitio sigue mostrándose completo en solo lectura.</p>
+  </div>
+
+  <div class="cuadro-control mt-6"><h3>Decisión 3 · Un solo generador de datos, nunca edición a mano</h3></div>
+  <div class="cuadro-cuerpo">
+    <p><strong>Por qué:</strong> tener un único punto (<code>exportar_datos.py</code>) hace las actualizaciones repetibles y auditables. Editar los <code>.js</code> a mano rompería la trazabilidad Excel → sitio, que es el argumento central del proyecto. Ver <a class="underline" href="metodologia.html">metodología</a>.</p>
+  </div>
+
+  <div class="cuadro-control mt-6"><h3>Decisión 4 · Los slugs de proyecto son intocables</h3></div>
+  <div class="cuadro-cuerpo">
+    <p><strong>Por qué:</strong> el código de cada proyecto es su URL (<code>proyecto?p=GALLINAS_PONEDORAS</code>) y la clave que cruza todos los datos. Cambiarlo rompería enlaces ya compartidos por WhatsApp o correo. Por eso el nombre puede cambiar, pero el slug no.</p>
+  </div>
+
+  <div class="cuadro-control mt-6"><h3>Decisión 5 · Nunca comunicar un estado solo con color</h3></div>
+  <div class="cuadro-cuerpo">
+    <p><strong>Por qué:</strong> accesibilidad (WCAG 2.2 AA) y fotocopias en blanco y negro. Todo estado va con <strong>color + icono + texto</strong>, y los gráficos SVG llevan cada valor escrito junto a su barra. La versión imprimible se entiende igual sin colores.</p>
+  </div>
+
+  <div class="cuadro-control mt-6"><h3>Decisión 6 · Mostrar los vacíos, no ocultarlos</h3></div>
+  <div class="cuadro-cuerpo">
+    <p><strong>Por qué:</strong> la matriz de cobertura y la tabla de horas en blanco hacen visible lo que falta. Ocultar los vacíos habría dado una falsa sensación de completitud; mostrarlos es lo que convierte la ausencia de registro en el <a class="underline" href="hallazgos.html">hallazgo principal</a>.</p>
+  </div>
+
+  <div class="cuadro-control mt-6"><h3>Decisión 7 · Documentar para el traspaso</h3></div>
+  <div class="cuadro-cuerpo">
+    <p><strong>Por qué:</strong> un sitio que solo su autor entiende es un riesgo, no un activo. De ahí <code>GUIA-NUEVA-VERSION-DEL-LIBRO.md</code>, el <code>README.md</code>, <code>diagnostico.php</code> y estos manuales. El éxito de la pasantía se mide en que <strong>otra persona pueda mantenerlo</strong>.</p>
+  </div>
+
+  <div class="alerta-verde mt-8"><p class="text-sm">Todas estas decisiones comparten una intención: <strong>bajo costo, larga vida y transferible</strong>. Son las apropiadas para una herramienta de una institución pública que debe sobrevivir al cambio de las personas.</p></div>
+
+</main>
+
+<footer class="mt-12 border-t border-neutral-200 bg-white print:hidden">
+  <div class="max-w-6xl mx-auto px-4 py-6 text-xs text-neutral-500 space-y-1">
+    <p><strong>Granja San José — Institución Universitaria Oriente de Caldas.</strong> Manuales de la pasantía · Técnico Profesional en Procesos Contables.</p>
+    <p>Documenta el sitio <a href="https://granja.rayogestion.com/" class="underline">granja.rayogestion.com</a> (corte de datos: 31 de julio de 2026). Micrositio de solo lectura.</p>
+  </div>
+</footer>
+</body>
+</html>

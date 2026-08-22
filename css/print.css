@@ -1,0 +1,125 @@
+/* print.css — versión imprimible "cálida" del resumen (index.html).
+   Pedido literal del director: la pantalla se siente "muy de sistemas";
+   el papel debe leerse como un informe cálido, en una sola hoja carta.
+   Se carga con media="print": no afecta en nada la pantalla. */
+
+@page {
+  size: letter;
+  margin: 1.2cm;
+}
+
+/* ---------- qué NO sale en el papel ---------- */
+header, footer, nav,
+button, form, input, select, textarea,
+.btn, .btn-sec, .ayuda, [popover],
+details,            /* las tablas "ver como tabla" de cada gráfico */
+.no-imprimir {      /* charts 3 y 5, bloque de navegación, botón de imprimir */
+  display: none !important;
+}
+
+/* ---------- encabezado que SOLO existe en papel ---------- */
+.solo-impresion {
+  display: block !important;
+  border-bottom: 2.5pt solid #1a3c2e;
+  padding-bottom: 6pt;
+  margin-bottom: 10pt;
+}
+.solo-impresion .titulo-impreso {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 20pt;
+  font-weight: 700;
+  color: #1a3c2e;
+  margin: 0;
+}
+.solo-impresion .subtitulo-impreso {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 9.5pt;
+  color: #444;
+  margin: 2pt 0 0;
+}
+
+/* ---------- base compacta para caber en una hoja ---------- */
+html, body {
+  background: #fff !important;
+  color: #111 !important;
+  font-size: 9pt;
+  line-height: 1.35;
+}
+main {
+  max-width: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+h1 {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 13pt;
+  color: #1a3c2e;
+  margin: 0 0 2pt;
+}
+h2, h3, .cuadro-control > h3, figcaption {
+  font-family: Georgia, 'Times New Roman', serif;
+}
+p { margin: 0 0 3pt; }
+#frase-global { font-size: 10.5pt; margin-top: 2pt; }
+
+/* ---------- tarjetas KPI: fila de 4, compactas ---------- */
+#seccion-kpis {
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) !important;
+  gap: 6pt !important;
+  margin: 8pt 0 !important;
+}
+.kpi {
+  border: 0.75pt solid #999 !important;
+  border-radius: 4pt !important;
+  padding: 5pt 6pt !important;
+  box-shadow: none !important;
+  break-inside: avoid;
+}
+.kpi .titulo { font-size: 7.5pt !important; }
+.kpi .valor { font-size: 12.5pt !important; color: #1a3c2e !important; }
+.kpi .lectura { font-size: 6.8pt !important; color: #555 !important; }
+
+/* ---------- cuadros de control y gráficos ---------- */
+#seccion-charts { margin-top: 4pt !important; }
+#seccion-charts > article {
+  break-inside: avoid;
+  margin: 0 0 8pt !important;
+}
+.cuadro-control {
+  background: #f3f1ec !important;   /* franja gris cálido, sin degradados */
+  border: 0.75pt solid #bbb !important;
+  border-bottom: 0 !important;
+  border-radius: 4pt 4pt 0 0 !important;
+  padding: 4pt 6pt !important;
+}
+.cuadro-control > h3 { font-size: 10.5pt !important; margin: 0 !important; color: #1a3c2e !important; }
+.cuadro-control .descripcion { font-size: 7.5pt !important; color: #444 !important; margin: 1pt 0 0 !important; }
+.cuadro-control .meta { font-size: 6.8pt !important; color: #666 !important; margin: 1pt 0 0 !important; }
+.cuadro-cuerpo {
+  border: 0.75pt solid #bbb !important;
+  border-top: 0 !important;
+  border-radius: 0 0 4pt 4pt !important;
+  padding: 4pt 6pt !important;
+  background: #fff !important;
+  box-shadow: none !important;
+}
+figure { margin: 0 !important; }
+figure svg { max-height: 132pt; width: 100% !important; height: auto !important; }
+figcaption { font-size: 8pt !important; color: #333 !important; margin-top: 2pt !important; }
+
+/* Chips de estado: sin fondos de color fuertes, solo borde (fotocopia-amistoso) */
+.chip, .chip-ok, .chip-alerta, .chip-error, .chip-info, .chip-neutro {
+  background: #fff !important;
+  color: #333 !important;
+  border: 0.5pt solid #888 !important;
+  font-size: 6.8pt !important;
+  padding: 0 3pt !important;
+}
+
+/* Nota: no se aplica filter:grayscale — los SVG llevan cada valor escrito
+   como texto junto a su barra o porción, así que el color nunca es la
+   única señal y la hoja se entiende igual en blanco y negro. */
+
+/* ---------- enlaces sin subrayado azul de "sistema" ---------- */
+a { color: inherit !important; text-decoration: none !important; }

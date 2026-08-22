@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Leer las cifras sin engañarse · Manuales de la pasantía — Granja San José</title>
+<meta name="description" content="Cómo se lee cada indicador del sitio de la Granja San José y, sobre todo, qué NO significa.">
+<link rel="icon" href="../favicon.svg">
+<link rel="stylesheet" href="../css/granja.css">
+</head>
+<body>
+<header class="bg-primary-900 text-white print:hidden">
+  <div class="max-w-6xl mx-auto px-4 py-4 flex flex-wrap items-end justify-between gap-3">
+    <div>
+      <p class="text-2xl font-bold leading-tight"><a class="text-white no-underline" href="../">🌱 Granja San José · Manuales de la pasantía</a></p>
+      <p class="text-primary-200 text-sm">Institución Universitaria Oriente de Caldas · Ciclo propedéutico · Técnico Profesional en Procesos Contables · Corte de datos: <strong>31 de julio de 2026</strong></p>
+    </div>
+    <p class="text-xs text-primary-200 max-w-[26rem]">Documentación del sitio <a class="text-white underline" href="https://granja.rayogestion.com/">granja.rayogestion.com</a>.</p>
+  </div>
+  <nav aria-label="Secciones de los manuales" class="bg-primary-800">
+    <ul class="max-w-6xl mx-auto px-4 flex flex-wrap gap-1 text-sm font-medium">
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="../">🏠 Inicio</a></li>
+      <li><a aria-current="page" class="block px-3 py-2 text-white no-underline bg-primary-700 rounded-t" href="../usar/">👀 Usar</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="../registrar/">✍️ Registrar</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="../mantener/">🛠️ Mantener</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="../pasantia/">🎓 Pasantía</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main class="max-w-4xl mx-auto px-4 py-8">
+
+  <h1>🔢 Cómo leer cada cifra (y qué NO significa)</h1>
+  <p class="text-neutral-600 mt-2">Los números del sitio son honestos, pero solo si se leen con su contexto. Esta página explica cada indicador y, sobre todo, la trampa que hay que evitar en cada uno.</p>
+
+  <div class="cuadro-control mt-6"><h3>💰 Balance (+$7.472.620)</h3><p class="descripcion">Ingresos menos egresos del periodo.</p></div>
+  <div class="cuadro-cuerpo">
+    <p><strong>Qué es:</strong> la diferencia entre lo que entró ($24.537.420) y lo que salió ($17.064.800) entre enero y julio de 2026.</p>
+    <p class="mt-2"><strong>Qué NO significa:</strong> no es la «ganancia» de la granja. Deja fuera el <strong>costo de la mano de obra</strong> (que aún no se imputa a los proyectos), el autoconsumo y las donaciones de servicio. Es un saldo de caja, no una utilidad contable.</p>
+  </div>
+
+  <div class="cuadro-control mt-6"><h3>🥚 Producción de huevos (gallina 12.529 · codorniz 5.846)</h3><p class="descripcion">Suma de la recolección diaria registrada.</p></div>
+  <div class="cuadro-cuerpo">
+    <p><strong>Qué es:</strong> el total de huevos recogidos y anotados en las hojas de recolección, día por día.</p>
+    <p class="mt-2"><strong>Qué NO significa:</strong> no es lo <em>vendido</em>. Producción y venta se comparan en <a class="underline" href="../usar/revelaciones.html">Controles</a>; la diferencia entre ambas (merma, autoconsumo, regalos) se explica con una <strong>revelación</strong>, no se esconde.</p>
+  </div>
+
+  <div class="cuadro-control mt-6"><h3>📋 Cobertura de información</h3><p class="descripcion">Cuántos proyectos tienen dato en cada fuente.</p></div>
+  <div class="cuadro-cuerpo">
+    <p><strong>Qué es:</strong> una medida de cuánta información existe, no de cuánto dinero se movió. Una casilla en gris quiere decir que esa fuente <em>no le corresponde</em> a ese proyecto; una vacía, que <em>falta</em> el dato.</p>
+    <p class="mt-2"><strong>Qué NO significa:</strong> que un proyecto con poca cobertura vaya «mal». Significa que se ha medido poco. <strong>La ausencia de dato también es un dato</strong>, y aquí se vuelve visible.</p>
+  </div>
+
+  <div class="cuadro-control mt-6"><h3>👷 Costo de la hora de trabajo</h3><p class="descripcion">Salario más prestaciones y aportes de ley.</p></div>
+  <div class="cuadro-cuerpo">
+    <p><strong>Qué es:</strong> el costo real de una hora, calculado con la legislación vigente a agosto de 2026. Con dos roles conocidos (administrador y operador) ya se obtiene una cifra fiable.</p>
+    <p class="mt-2"><strong>Qué NO significa:</strong> la tabla de horas por proyecto <strong>está en blanco a propósito</strong> porque la granja aún no registra dedicación. Lo que se ve con «datos simulados» es una <strong>simulación rotulada</strong>, no la realidad.</p>
+  </div>
+
+  <div class="alerta-amarilla mt-8">
+    <p class="font-medium">⚠️ La regla de oro</p>
+    <p class="text-sm mt-1">Antes de citar una cifra en una reunión, mire su botón <span class="ayuda !align-baseline">?</span> y su fecha de corte. Toda cifra del sitio corresponde al <strong>corte del 31 de julio de 2026</strong> y al periodo que tenga puesto el <a class="underline" href="periodos.html">filtro</a>.</p>
+  </div>
+
+  <p class="mt-8"><a class="btn-sec" href="periodos.html">Siguiente: filtrar por periodo →</a></p>
+
+</main>
+
+<footer class="mt-12 border-t border-neutral-200 bg-white print:hidden">
+  <div class="max-w-6xl mx-auto px-4 py-6 text-xs text-neutral-500 space-y-1">
+    <p><strong>Granja San José — Institución Universitaria Oriente de Caldas.</strong> Manuales de la pasantía · Técnico Profesional en Procesos Contables.</p>
+    <p>Documenta el sitio <a href="https://granja.rayogestion.com/" class="underline">granja.rayogestion.com</a> (corte de datos: 31 de julio de 2026). Micrositio de solo lectura.</p>
+  </div>
+</footer>
+</body>
+</html>

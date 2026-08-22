@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hoja de alimentación · Manuales de la pasantía — Granja San José</title>
+<meta name="description" content="Formato exacto de la hoja de alimentación de la Granja San José y los errores frecuentes que hacen descartar filas.">
+<link rel="icon" href="../favicon.svg">
+<link rel="stylesheet" href="../css/granja.css">
+</head>
+<body>
+<header class="bg-primary-900 text-white print:hidden">
+  <div class="max-w-6xl mx-auto px-4 py-4 flex flex-wrap items-end justify-between gap-3">
+    <div>
+      <p class="text-2xl font-bold leading-tight"><a class="text-white no-underline" href="../">🌱 Granja San José · Manuales de la pasantía</a></p>
+      <p class="text-primary-200 text-sm">Institución Universitaria Oriente de Caldas · Ciclo propedéutico · Técnico Profesional en Procesos Contables · Corte de datos: <strong>31 de julio de 2026</strong></p>
+    </div>
+    <p class="text-xs text-primary-200 max-w-[26rem]">Documentación del sitio <a class="text-white underline" href="https://granja.rayogestion.com/">granja.rayogestion.com</a>.</p>
+  </div>
+  <nav aria-label="Secciones de los manuales" class="bg-primary-800">
+    <ul class="max-w-6xl mx-auto px-4 flex flex-wrap gap-1 text-sm font-medium">
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="../">🏠 Inicio</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="../usar/">👀 Usar</a></li>
+      <li><a aria-current="page" class="block px-3 py-2 text-white no-underline bg-primary-700 rounded-t" href="../registrar/">✍️ Registrar</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="../mantener/">🛠️ Mantener</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="../pasantia/">🎓 Pasantía</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main class="max-w-4xl mx-auto px-4 py-8">
+
+  <h1>🌾 Hoja de alimentación — formato exacto</h1>
+  <p class="text-neutral-600 mt-2">La granja anota en una <strong>hoja de cálculo de Google</strong> el alimento que <em>entrega</em> a los animales. El sitio la cruza con el alimento <em>comprado</em> (del libro) para calcular el costo por huevo, los gramos por ave y día y si el concentrado alcanzó.</p>
+
+  <div class="cuadro-control mt-6"><h3>Los cuatro encabezados obligatorios (fila 1)</h3></div>
+  <div class="cuadro-cuerpo">
+    <table class="w-full text-sm border-collapse">
+      <thead><tr class="text-left border-b border-neutral-300">
+        <th class="py-1 pr-3">Columna</th><th class="py-1 pr-3">Qué va</th><th class="py-1">Ejemplo</th></tr></thead>
+      <tbody class="align-top">
+        <tr class="border-b border-neutral-100"><td class="py-1 pr-3"><code>Fecha</code></td><td class="py-1 pr-3">El día de la entrega</td><td class="py-1">2026-07-15</td></tr>
+        <tr class="border-b border-neutral-100"><td class="py-1 pr-3"><code>Proyecto</code></td><td class="py-1 pr-3">Nombre del proyecto</td><td class="py-1">Gallinas</td></tr>
+        <tr class="border-b border-neutral-100"><td class="py-1 pr-3"><code>Kilos</code></td><td class="py-1 pr-3">Kilos entregados (número)</td><td class="py-1">40</td></tr>
+        <tr><td class="py-1 pr-3"><code>Subproyecto_Unidad</code></td><td class="py-1 pr-3">Lote o unidad, si aplica</td><td class="py-1">Lote 01</td></tr>
+      </tbody>
+    </table>
+    <p class="text-xs text-neutral-500 mt-2">Estos nombres deben quedar <strong>tal cual</strong> en la fila 1. Cambiarlos hace que el sitio no encuentre las columnas.</p>
+  </div>
+
+  <h2 class="mt-8">Errores frecuentes (que descartan la fila en silencio)</h2>
+  <ul class="mt-3 space-y-3 list-none">
+    <li class="alerta-roja"><strong>Renombrar un encabezado.</strong> Escribir «Kg» en vez de «Kilos», o «Fecha entrega» en vez de «Fecha», deja esa columna sin leer.</li>
+    <li class="alerta-roja"><strong>Un nombre de proyecto que el sitio no conoce.</strong> La hoja dice «Gallinas» y el sitio lo traduce a <code>GALLINAS_PONEDORAS</code>. Si escribe un proyecto nuevo que no está en la tabla de traducción, <strong>la fila se descarta sin aviso</strong>. Proyectos nuevos hay que darlos de alta en dos sitios (ver <a class="underline" href="../mantener/nuevo-corte.html">Mantener</a>).</li>
+    <li class="alerta-roja"><strong>Kilos como texto.</strong> Escribir «40 kg» o «cuarenta» en la columna Kilos rompe la suma. Solo el número: <code>40</code>.</li>
+    <li class="alerta-amarilla"><strong>Fecha en otro formato.</strong> Use <code>AAAA-MM-DD</code>. Formatos como «15/07/26» pueden interpretarse mal.</li>
+    <li class="alerta-amarilla"><strong>Quitar el permiso de la hoja.</strong> La hoja debe seguir compartida como «cualquier persona con el enlace puede ver»; si no, Google devuelve una pantalla de inicio de sesión y el sitio deja de actualizarse (aunque avisa).</li>
+  </ul>
+
+  <div class="alerta-verde mt-8">
+    <p class="font-medium">✅ Antes de cerrar la hoja, revise</p>
+    <ul class="text-sm mt-1 list-disc pl-5 space-y-1">
+      <li>La fila 1 tiene exactamente: <code>Fecha</code>, <code>Proyecto</code>, <code>Kilos</code>, <code>Subproyecto_Unidad</code>.</li>
+      <li>Ninguna celda de Kilos tiene letras.</li>
+      <li>Todos los proyectos escritos existen en la granja.</li>
+    </ul>
+  </div>
+
+  <div class="alerta-azul mt-6"><p class="text-sm">En la pantalla de <strong>Controles</strong>, el botón «🔄 Consultar la hoja» (pide contraseña) hace que el sitio lea la hoja en vivo y guarde el resultado para todos. Si la hoja no trae ninguna fila válida, <strong>no se toca</strong> lo anterior: el sitio nunca se queda peor de lo que estaba.</p></div>
+
+</main>
+
+<footer class="mt-12 border-t border-neutral-200 bg-white print:hidden">
+  <div class="max-w-6xl mx-auto px-4 py-6 text-xs text-neutral-500 space-y-1">
+    <p><strong>Granja San José — Institución Universitaria Oriente de Caldas.</strong> Manuales de la pasantía · Técnico Profesional en Procesos Contables.</p>
+    <p>Documenta el sitio <a href="https://granja.rayogestion.com/" class="underline">granja.rayogestion.com</a> (corte de datos: 31 de julio de 2026). Micrositio de solo lectura.</p>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Controles de coherencia · Granja San José — Institución Universitaria Oriente de Caldas</title>
+<meta name="description" content="Controles de coherencia de la Granja San José: el sitio revisa solo las cuentas (inventarios, producción, ventas, alimento, sanitario) y avisa qué no cuadra.">
+<link rel="icon" href="favicon.svg">
+<script src="js/enlaces.js" defer></script>
+  <link rel="stylesheet" href="css/granja.css">
+  <link rel="stylesheet" href="vendor/skeleton-elements/skeleton-elements.css">
+  <link rel="stylesheet" href="css/skeleton-layout.css">
+</head>
+<body>
+<header class="bg-primary-900 text-white print:hidden">
+  <div class="max-w-6xl mx-auto px-4 py-4 flex flex-wrap items-end justify-between gap-3">
+    <div>
+      <p class="text-2xl font-bold leading-tight">🌱 Granja San José</p>
+      <p class="text-primary-200 text-sm">Institución Universitaria Oriente de Caldas · Control de ingresos y gastos · Datos públicos con corte al <strong>31 de julio de 2026</strong></p>
+    </div>
+    <p class="text-xs text-primary-200 max-w-[26rem]">Este sitio es de <strong>solo consulta</strong>: muestra la información registrada por la granja, explicada paso a paso. Toque cualquier botón <span class="ayuda !align-baseline">?</span> para entender qué está viendo.</p>
+  </div>
+  <nav aria-label="Secciones del sitio" class="bg-primary-800">
+    <ul class="max-w-6xl mx-auto px-4 flex flex-wrap gap-1 text-sm font-medium">
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="./">📊 Inicio (resumen)</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="proyectos">🗂️ Proyectos</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="diario">📒 Libro diario</a></li>
+      <li><a aria-current="page" class="block px-3 py-2 text-white no-underline bg-primary-700 rounded-t" href="controles">🚦 Controles</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="mano-obra">👷 Mano de obra</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="plantillas">🧾 Plantillas</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="hojas-vida">📁 Hojas de vida</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="ayuda">❓ Ayuda</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div id="franja-periodo" class="no-imprimir"></div>
+
+<main class="max-w-6xl mx-auto px-4 py-8">
+  <h1>🚦 Controles de coherencia <span id="ayuda-niveles"></span></h1>
+  <p class="text-neutral-600 mt-1 mb-6 max-w-3xl">Esta página es el «revisor automático» de la granja: el sitio compara solo, con los mismos
+    datos del libro, si las cuentas cuadran entre sí — los animales del inventario, los huevos producidos y vendidos, el alimento comprado,
+    el control sanitario y el libro diario — y le avisa, en lenguaje sencillo, <strong>qué cuadra y qué no</strong>. Nadie tiene que hacer
+    cálculos a mano: cada control dice qué revisó, qué encontró y qué se recomienda hacer.</p>
+
+  <section id="seccion-kpis" aria-label="Resumen de los controles" role="status" aria-live="polite"><div class="skeleton-shell skeleton-grid !mt-0" aria-label="Cargando resumen de controles"><span class="skeleton-block skeleton-effect-wave skeleton-kpi"></span><span class="skeleton-block skeleton-effect-wave skeleton-kpi"></span><span class="skeleton-block skeleton-effect-wave skeleton-kpi"></span><span class="skeleton-block skeleton-effect-wave skeleton-kpi"></span></div></section>
+  <section id="seccion-alimentacion" aria-label="Registro de alimentacion"><div class="skeleton-shell" role="status" aria-label="Cargando control de alimentación"><span class="skeleton-block skeleton-effect-wave skeleton-card"></span></div></section>
+  <section id="seccion-controles" aria-label="Controles evaluados"><div class="skeleton-shell" role="status" aria-label="Cargando controles"><span class="skeleton-block skeleton-effect-wave skeleton-row"></span><span class="skeleton-block skeleton-effect-wave skeleton-row"></span><span class="skeleton-block skeleton-effect-wave skeleton-row"></span><span class="skeleton-block skeleton-effect-wave skeleton-row"></span></div></section>
+  <section id="seccion-revelaciones" aria-label="Motivos de merma y notas de revelacion" class="mt-4"></section>
+  <section id="seccion-correcciones" aria-labelledby="titulo-correcciones"></section>
+</main>
+
+<footer class="mt-12 border-t border-neutral-200 bg-white print:hidden">
+  <div class="max-w-6xl mx-auto px-4 py-6 text-xs text-neutral-500 space-y-1">
+    <p><strong>Granja San José — Institución Universitaria Oriente de Caldas.</strong> Datos públicos de una entidad pública, con corte al 31 de julio de 2026.</p>
+    <p>Fuente: libro «CONTROL INGRESOS Y GASTO CTT 31 JULIO.xlsx». Toda corrección aplicada al dato crudo está documentada y visible en el <a href="diario">Libro diario</a> y en <a href="controles">Controles</a>.</p>
+    <p>Sitio de solo consulta · sin usuarios ni contraseñas · <a href="ayuda">Cómo usar este sitio</a></p>
+  </div>
+</footer>
+
+<script src="data/catalogo.js"></script>
+<script src="data/movimientos.js"></script>
+<script src="data/produccion.js"></script>
+<script src="data/inventarios.js"></script>
+<script src="data/sanitario.js"></script>
+<script src="data/alimento.js"></script>
+<script src="data/suministros.js"></script>
+<script src="data/manoobra.js"></script>
+<script src="js/estado.js"></script>
+<script src="js/util.js"></script>
+<script src="js/exporta.js"></script>
+<script src="js/coherencia.js"></script>
+<script src="js/manoobra-core.js"></script>
+<script src="js/revelaciones.js"></script>
+<script src="js/arranque.js" data-modulo="js/controles.js"></script>
+</body>
+</html>

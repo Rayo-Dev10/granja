@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Proyectos · Granja San José — Institución Universitaria Oriente de Caldas</title>
+<meta name="description" content="Lista de los 17 proyectos de la Granja San José: área, tipo, responsable, estado y balance económico.">
+<link rel="icon" href="favicon.svg">
+<script src="js/enlaces.js" defer></script>
+  <link rel="stylesheet" href="css/granja.css">
+  <link rel="stylesheet" href="vendor/skeleton-elements/skeleton-elements.css">
+  <link rel="stylesheet" href="css/skeleton-layout.css">
+</head>
+<body>
+<header class="bg-primary-900 text-white print:hidden">
+  <div class="max-w-6xl mx-auto px-4 py-4 flex flex-wrap items-end justify-between gap-3">
+    <div>
+      <p class="text-2xl font-bold leading-tight">🌱 Granja San José</p>
+      <p class="text-primary-200 text-sm">Institución Universitaria Oriente de Caldas · Control de ingresos y gastos · Datos públicos con corte al <strong>31 de julio de 2026</strong></p>
+    </div>
+    <p class="text-xs text-primary-200 max-w-[26rem]">Este sitio es de <strong>solo consulta</strong>: muestra la información registrada por la granja, explicada paso a paso. Toque cualquier botón <span class="ayuda !align-baseline">?</span> para entender qué está viendo.</p>
+  </div>
+  <nav aria-label="Secciones del sitio" class="bg-primary-800">
+    <ul class="max-w-6xl mx-auto px-4 flex flex-wrap gap-1 text-sm font-medium">
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="./">📊 Inicio (resumen)</a></li>
+      <li><a aria-current="page" class="block px-3 py-2 text-white no-underline bg-primary-700 rounded-t" href="proyectos">🗂️ Proyectos</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="diario">📒 Libro diario</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="controles">🚦 Controles</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="mano-obra">👷 Mano de obra</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="plantillas">🧾 Plantillas</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="hojas-vida">📁 Hojas de vida</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="ayuda">❓ Ayuda</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div id="franja-periodo" class="no-imprimir"></div>
+
+<main class="max-w-6xl mx-auto px-4 py-8">
+  <h1>🗂️ Los proyectos de la granja <span id="ayuda-pagina"></span></h1>
+  <p class="text-neutral-600 mt-1 mb-6 max-w-3xl">La granja trabaja con <strong>17 proyectos</strong> (los animales, los cultivos y los bosques).
+    Esta página responde la pregunta del director: <em>«¿cómo puedo ver en una sola hoja los proyectos, el tipo, el estado y el responsable?»</em>.
+    Toque el nombre de un proyecto para ver todo su detalle.</p>
+
+  <section aria-labelledby="titulo-lista" id="seccion-lista"><div class="skeleton-shell" role="status" aria-label="Cargando lista de proyectos"><span class="skeleton-block skeleton-effect-wave skeleton-toolbar"></span><div class="skeleton-grid"><span class="skeleton-block skeleton-effect-wave skeleton-kpi"></span><span class="skeleton-block skeleton-effect-wave skeleton-kpi"></span><span class="skeleton-block skeleton-effect-wave skeleton-kpi"></span><span class="skeleton-block skeleton-effect-wave skeleton-kpi"></span></div><span class="skeleton-block skeleton-effect-wave skeleton-table-head"></span><span class="skeleton-block skeleton-effect-wave skeleton-table-row"></span><span class="skeleton-block skeleton-effect-wave skeleton-table-row"></span><span class="skeleton-block skeleton-effect-wave skeleton-table-row"></span></div></section>
+</main>
+
+<footer class="mt-12 border-t border-neutral-200 bg-white print:hidden">
+  <div class="max-w-6xl mx-auto px-4 py-6 text-xs text-neutral-500 space-y-1">
+    <p><strong>Granja San José — Institución Universitaria Oriente de Caldas.</strong> Datos públicos de una entidad pública, con corte al 31 de julio de 2026.</p>
+    <p>Fuente: libro «CONTROL INGRESOS Y GASTO CTT 31 JULIO.xlsx». Toda corrección aplicada al dato crudo está documentada y visible en el <a href="diario">Libro diario</a> y en <a href="controles">Controles</a>.</p>
+    <p>Sitio de solo consulta · sin usuarios ni contraseñas · <a href="ayuda">Cómo usar este sitio</a></p>
+  </div>
+</footer>
+
+<script src="data/catalogo.js"></script>
+<script src="data/movimientos.js"></script>
+<script src="js/estado.js"></script>
+<script src="js/util.js"></script>
+<script src="js/arranque.js" data-modulo="js/proyectos.js"></script>
+</body>
+</html>

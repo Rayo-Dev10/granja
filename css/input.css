@@ -1,0 +1,134 @@
+@import "tailwindcss";
+
+/* Paleta institucional — tokens semánticos (ver documento de paleta).
+   Ningún módulo debe usar hex sueltos: siempre estas variables/clases. */
+@theme {
+  --color-primary-950: #08264a;
+  --color-primary-900: #0a3568;
+  --color-primary-800: #0b4486;
+  --color-primary-700: #0b55aa;
+  --color-primary-600: #0b67d0;
+  --color-primary-500: #0f7bf3;
+  --color-primary-300: #7db5ff;
+  --color-primary-200: #b7d7ff;
+  --color-primary-100: #dbeafe;
+  --color-primary-50: #eff6ff;
+  --color-success-900: #0b4a32;
+  --color-success-700: #137a4f;
+  --color-success-600: #16965c;
+  --color-success-100: #ddf5e8;
+  --color-success-50: #f0fbf5;
+  --color-warning-900: #5b3a00;
+  --color-warning-700: #a96f00;
+  --color-warning-500: #f4b400;
+  --color-warning-100: #fff0bf;
+  --color-warning-50: #fff9e6;
+  --color-danger-900: #681b2a;
+  --color-danger-700: #b52f47;
+  --color-danger-600: #d6455d;
+  --color-danger-100: #fbe1e6;
+  --color-danger-50: #fff2f4;
+  --color-info-900: #07505c;
+  --color-info-700: #087a8c;
+  --color-info-500: #11afc4;
+  --color-info-100: #d5f4f7;
+  --color-info-50: #effbfc;
+  --font-sans: Inter, ui-sans-serif, system-ui, sans-serif;
+  --radius-card: 0.75rem;
+  --radius-control: 0.5rem;
+}
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body { @apply bg-neutral-50 text-neutral-950 font-sans text-[16px] antialiased; }
+  h1 { @apply text-2xl font-bold text-primary-900; }
+  h2 { @apply text-xl font-semibold text-primary-900; }
+  h3 { @apply text-lg font-semibold text-neutral-800; }
+  a { @apply text-primary-700 underline-offset-2; }
+  a:hover { @apply text-primary-800; }
+  :focus-visible { @apply outline-2 outline-offset-2 outline-primary-500; }
+  table { @apply w-full border-collapse text-sm; }
+  caption { @apply text-left text-sm text-neutral-600 mb-2; }
+  thead th { @apply bg-neutral-800 text-white text-left px-3 py-2 font-semibold sticky top-0; }
+  tbody td, tbody th { @apply border-b border-neutral-200 px-3 py-1.5 align-top; }
+  tbody tr:hover { @apply bg-primary-50; }
+  dialog::backdrop { background: rgb(15 23 42 / .5); }
+}
+
+@layer components {
+  /* ---- monto en dinero: números tabulares alineados ---- */
+  .money { font-variant-numeric: tabular-nums; @apply text-right whitespace-nowrap; }
+
+  /* ---- botón de ayuda "?" superíndice (funciona sin JS: popover nativo) ---- */
+  .ayuda {
+    @apply inline-flex items-center justify-center align-super text-[11px] font-bold
+           w-5 h-5 rounded-full bg-primary-100 text-primary-800 border border-primary-300
+           cursor-help select-none ml-1;
+  }
+  .ayuda:hover { @apply bg-primary-600 text-white; }
+  [popover].panel-ayuda {
+    @apply max-w-md rounded-xl border border-primary-300 bg-white p-4 text-sm text-neutral-700
+           shadow-lg m-auto;
+  }
+  [popover].panel-ayuda h4 { @apply font-semibold text-primary-900 mb-1; }
+
+  /* ---- cuadro de control (franja escaneable en 1 segundo sobre cada tabla/chart) ---- */
+  .cuadro-control {
+    @apply rounded-t-xl border border-b-0 border-neutral-300 bg-white px-4 py-3;
+  }
+  .cuadro-control > h3 { @apply flex flex-wrap items-center gap-2 text-base; }
+  /* dentro del cuadro de control los chips pueden ser frases largas: dejarlas envolver */
+  .cuadro-control :is(.chip, .chip-ok, .chip-alerta, .chip-error, .chip-info, .chip-neutro) {
+    @apply whitespace-normal max-w-full text-left;
+  }
+  .cuadro-control .descripcion { @apply text-sm text-neutral-600 mt-0.5; }
+  .cuadro-control .meta { @apply flex flex-wrap gap-x-4 gap-y-1 text-xs text-neutral-500 mt-1; }
+  .cuadro-cuerpo {
+    @apply rounded-b-xl border border-neutral-300 bg-white p-4 overflow-x-auto mb-8;
+  }
+
+  /* ---- chips de estado: SIEMPRE color + icono + texto ---- */
+  .chip, .chip-ok, .chip-alerta, .chip-error, .chip-info, .chip-neutro {
+    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold whitespace-nowrap;
+  }
+  .chip-ok    { @apply bg-success-100 text-success-900; }
+  .chip-alerta{ @apply bg-warning-100 text-warning-900; }
+  .chip-error { @apply bg-danger-100 text-danger-900; }
+  .chip-info  { @apply bg-info-100 text-info-900; }
+  .chip-neutro{ @apply bg-neutral-200 text-neutral-700; }
+
+  /* ---- tarjeta KPI ---- */
+  .kpi { @apply rounded-xl border border-neutral-300 bg-white p-4 flex flex-col gap-1; }
+  .kpi .valor { @apply text-2xl font-bold text-primary-900 text-left whitespace-nowrap; font-variant-numeric: tabular-nums; }
+  .kpi .titulo { @apply text-sm font-medium text-neutral-600; }
+  .kpi .lectura { @apply text-xs text-neutral-500; }
+
+  /* ---- alertas de coherencia ---- */
+  .alerta-caja, .alerta-roja, .alerta-amarilla, .alerta-verde, .alerta-azul {
+    @apply rounded-lg border-l-4 p-3 text-sm mb-2;
+  }
+  .alerta-roja { @apply border-danger-600 bg-danger-50 text-danger-900; }
+  .alerta-amarilla { @apply border-warning-500 bg-warning-50 text-warning-900; }
+  .alerta-verde { @apply border-success-600 bg-success-50 text-success-900; }
+  .alerta-azul { @apply border-info-500 bg-info-50 text-info-900; }
+
+  .btn { @apply inline-flex items-center gap-2 rounded-lg bg-primary-600 px-4 py-2 text-white font-medium no-underline cursor-pointer border-0; }
+  .btn:hover { @apply bg-primary-700 text-white; }
+  .btn-sec { @apply inline-flex items-center gap-2 rounded-lg border border-neutral-300 bg-white px-4 py-2 text-neutral-800 font-medium no-underline cursor-pointer; }
+  .btn-sec:hover { @apply bg-neutral-100; }
+
+  /* ---- franja de periodo (filtro por periodo, siempre visible bajo el encabezado) ---- */
+  .franja-wrap { @apply bg-primary-50 border-b border-primary-100; }
+  .franja-label { @apply text-neutral-700; }
+  .franja-preset {
+    @apply inline-flex items-center rounded-full border border-neutral-300 bg-white
+           px-3 py-1 text-xs font-medium text-neutral-700 cursor-pointer;
+  }
+  .franja-preset:hover { @apply bg-neutral-100; }
+  .franja-preset.is-active { @apply bg-primary-600 text-white border-primary-600; }
+  .franja-vertodo {
+    @apply inline-flex items-center rounded-full border border-neutral-300 bg-white
+           px-3 py-1 text-xs font-medium text-neutral-600 cursor-pointer;
+  }
+  .franja-vertodo:hover { @apply bg-neutral-100 text-neutral-800; }
+}
