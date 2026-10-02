@@ -490,40 +490,29 @@ window.COHERENCIA = (function () {
   }
 
   /* --- 3.c ¿la ración es la adecuada? (INDICIOS, no acusación) --- */
-  function controlesRacion(invPorProyecto) {
-    const out = [];
-    const S = datosSuministros(); if (!S) return out;
+  function controlesRacion() {
+    const S = datosSuministros(); if (!S) return [];
     const v = ventanaCruce();
-    for (const cod of Object.keys(REFERENCIA)) {
-      const ref = REFERENCIA[cod];
+    return Object.keys(REFERENCIA).map(cod => {
       const sm = suministroDe(cod, v.desde, v.hasta);
-      const animales = animalesVivos(invPorProyecto, cod);
-      if (!sm.kg || !sm.dias || !animales) continue;
-      const kgDia = sm.kg / sm.dias;
-      const gramos = kgDia * 1000 / animales;
-      const prod = huevosEntre(cod, v.desde, v.hasta);
-      const postura = prod.dias && animales ? Math.round(100 * prod.unidades / (animales * prod.dias)) : null;
-      const racionAlta = gramos > ref.gramosMax;
-      const posturaBaja = postura != null && postura < ref.posturaMin;
-
-      out.push({
-        id: 'racion-' + cod, proyecto: cod, tema: 'alimentacion',
-        nivel: 'alerta',
-        titulo: '¿La ración diaria es la adecuada?',
-        queRevisa: 'cuántos gramos de alimento recibe cada animal al día según el registro, comparados con el rango que recomiendan los manuales, y cuántos huevos pone cada animal, también frente al rango de referencia. Es una comparación de orientación, no una calificación del trabajo.',
-        hallazgo: `En ${nombreP(cod)} se entregaron ${kgTxt(sm.kg)} kg en ${G.num(sm.dias)} días (${kgTxt(kgDia)} kg al día) para ${G.num(animales)} ${ref.animales} según el inventario: eso da ${G.num(Math.round(gramos))} gramos por animal al día, cuando la referencia técnica está entre ${ref.gramosMin} y ${ref.gramosMax} gramos. ` +
-          (postura != null ? `En el mismo periodo la postura observada es del ${G.num(postura)} %, frente a un rango de referencia del ${ref.posturaMin} al ${ref.posturaMax} %. ` : '') +
-          `En síntesis: ${racionAlta && posturaBaja ? 'se está entregando más alimento del que dice el manual y se están recogiendo menos huevos de lo esperado' : racionAlta ? 'se está entregando más alimento del que dice el manual' : posturaBaja ? 'se están recogiendo menos huevos de lo esperado para el alimento entregado' : 'las cifras están dentro de lo razonable'}. ` +
-          `Este resultado es un indicio que conviene verificar en el galpón: puede haber desperdicio de alimento en los comederos, animales de otro lote comiendo del mismo alimento, más animales de los que figuran en el inventario, huevos que se recogen y no se anotan, o simplemente aves viejas. Ninguna de esas explicaciones se puede confirmar sin una verificación en campo.`,
-        recomendacion: 'Antes de cambiar nada, verificar tres cosas en campo: (1) contar los animales que de verdad comen de ese alimento y compararlos con el inventario; (2) mirar si se riega alimento en los comederos; (3) confirmar que todos los huevos recogidos se anotan. Con eso se sabrá si el problema es la ración, el registro o el estado del lote.',
-        detalleHtml: tabla(['Indicador', 'Observado en la granja', 'Referencia técnica', 'Cómo se calculó'], [
-          ['Alimento por día', `<span class="money">${kgTxt(kgDia)} kg</span>`, '—', `${kgTxt(sm.kg)} kg entregados ÷ ${G.num(sm.dias)} días con registro`],
-          ['Gramos por animal al día', `<span class="money"><strong>${G.num(Math.round(gramos))} g</strong></span>`, `${ref.gramosMin} – ${ref.gramosMax} g`, `kilos por día ÷ ${G.num(animales)} animales del inventario × 1.000`],
-          ['Postura', postura != null ? `<span class="money"><strong>${G.num(postura)} %</strong></span>` : '—', `${ref.posturaMin} – ${ref.posturaMax} %`, `${G.num(prod.unidades)} huevos ÷ (${G.num(animales)} animales × ${G.num(prod.dias)} días)`],
-        ]) + `<p class="text-sm mt-2">El número de animales sale del saldo del inventario al corte. Si ese saldo no está al día, estos dos indicadores cambian: por eso el primer paso es contar.</p>`,
-      });
-    }
-    return out;
+      const rows = ((window.DATA_PRODUCCION || {}).produccion || {})[cod] || [];
+      const result = window.SEGUIMIENTO ? SEGUIMIENTO.production(cod, rows.filter(r => r.fecha >= v.desde && r.fecha <= v.hasta)) : null;
+      const months = result ? result.months : [];
+      const complete = months.length && months.every(m => m.rate !== null);
+      const layerDays = months.reduce((s,m) => s + m.layerDays, 0);
+      const eggs = months.reduce((s,m) => s + m.eggs, 0);
+      const rate = complete && layerDays ? eggs / layerDays * 100 : null;
+      return {
+        id:'racion-' + cod, proyecto:cod, tema:'alimentacion', nivel:'info',
+        titulo:'¿Se puede evaluar la ración y la postura?',
+        queRevisa:'que el consumo y la producción tengan una población fechada y del mismo alcance, sin usar el inventario final para todo el periodo.',
+        hallazgo:'En ' + nombreP(cod) + ' se reportaron ' + kgTxt(sm.kg) + ' kg de alimento en ' + G.num(sm.dias) + ' días dentro del cruce con producción. ' +
+          (rate === null ? 'Postura: No calculable; no se acredita la población diaria de hembras activas para todo el periodo. ' : 'Postura en fechas con recolección: ' + rate.toLocaleString('es-CO',{maximumFractionDigits:2}) + ' %. ') +
+          'Ración por animal: No calculable; falta confirmar el grupo que consume, la población y su vigencia. El inventario al corte no es un denominador histórico.',
+        recomendacion:'Registrar hembras activas por fecha y lote, entradas, bajas y cambios de etapa. Confirmar a qué grupo corresponde cada entrega; revisar con el responsable técnico antes de modificar raciones.',
+        detalleHtml:'<p><a href="seguimiento?p=' + encodeURIComponent(cod) + '#produccion">Ver población, cobertura y cálculo de postura →</a></p>'
+      };
+    });
   }
 
   /* --- 3.d ¿está completo el registro de alimentación? --- */

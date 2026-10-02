@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="es" data-clean-urls="true">
+<html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Mano de obra · Granja San José — Institución Universitaria Oriente de Caldas</title>
-<meta name="description" content="Costo real de la mano de obra de la Granja San José: salario más prestaciones y aportes de ley (agosto 2026), con simulación de imputación de horas por proyecto.">
+<meta name="description" content="Costos mensuales reales del personal asignado a la Granja San José, informados por Talento Humano, y atribución estimada a proyectos.">
 <link rel="icon" href="favicon.svg">
-<script src="assets/enlaces.efe65bdd55.js" defer></script>
+<script src="js/enlaces.js?v=20260831-5" defer></script>
   <link rel="stylesheet" href="css/granja.css">
   <link rel="stylesheet" href="vendor/skeleton-elements/skeleton-elements.css">
-  <link rel="stylesheet" href="css/skeleton-layout.css?v=20260822.2">
+  <link rel="stylesheet" href="css/skeleton-layout.css">
 </head>
 <body>
 <header class="bg-primary-900 text-white print:hidden">
@@ -22,7 +22,8 @@
   </div>
   <nav aria-label="Secciones del sitio" class="bg-primary-800">
     <ul class="max-w-6xl mx-auto px-4 flex flex-wrap gap-1 text-sm font-medium">
-      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="./">📊 Inicio (resumen)</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="./">📊 Resumen ejecutivo</a></li>
+      <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="dashboard">📈 Dashboard</a></li>
       <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="proyectos">🗂️ Proyectos</a></li>
       <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="diario">📒 Libro diario</a></li>
       <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="controles">🚦 Controles</a></li>
@@ -30,6 +31,7 @@
       <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="plantillas">🧾 Plantillas</a></li>
       <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="hojas-vida">📁 Hojas de vida</a></li>
       <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="ayuda">❓ Ayuda</a></li>
+    <li><a class="block px-3 py-2 text-white no-underline hover:bg-primary-700 rounded-t" href="seguimiento">📋 Informe del director</a></li>
     </ul>
   </nav>
 </header>
@@ -40,17 +42,18 @@
 
 <footer class="mt-12 border-t border-neutral-200 bg-white print:hidden">
   <div class="max-w-6xl mx-auto px-4 py-6 text-xs text-neutral-500 space-y-1">
-    <p><strong>Granja San José — Institución Universitaria Oriente de Caldas.</strong> Cálculo de mano de obra con la legislación laboral vigente a agosto de 2026.</p>
-    <p>Valores de referencia y parametrizables. El registro de horas por proyecto es responsabilidad de la granja; mientras no exista, la imputación se muestra como simulación.</p>
+    <p><strong>Granja San José — Institución Universitaria Oriente de Caldas.</strong> Costos de personal informados por Talento Humano.</p>
+    <p>El costo mensual ya incluye prestaciones. La atribución por proyecto es una estimación hasta que exista registro de dedicación.</p>
     <p>Sitio de solo consulta · <a href="ayuda">Cómo usar este sitio</a></p>
   </div>
 </footer>
 
 <script src="data/catalogo.js"></script>
 <script src="data/movimientos.js"></script>
-<script src="data/manoobra.js"></script>
+<script src="data/manoobra.js?v=20260831-5"></script>
 <script src="js/util.js"></script>
 <script src="js/exporta.js"></script>
-<script src="js/arranque.js?v=20260822.1" data-modulo="js/manoobra.js?v=20260822.1"></script>
+<script src="js/manoobra-core.js?v=20260831-5"></script>
+<script src="js/arranque.js?v=20260831-5" data-modulo="js/manoobra.js"></script>
 </body>
 </html>

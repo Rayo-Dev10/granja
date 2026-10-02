@@ -43,10 +43,6 @@
   // Caso 1: abierto por doble clic desde el computador.
   if (window.location.protocol === 'file:') { activar(); return; }
 
-  // En producción Apache confirma esta capacidad desde el HTML. Así se evita
-  // una solicitud de red que no aporta nada a la primera carga.
-  if (document.documentElement.getAttribute('data-clean-urls') === 'true') return;
-
   // Caso 2: comprobar UNA sola vez si el servidor entiende las direcciones limpias.
   try {
     var guardado = sessionStorage.getItem(CLAVE);

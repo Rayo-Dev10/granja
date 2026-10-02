@@ -39,7 +39,7 @@ window.CHARTS = (function () {
       const color = x.color || C.azul;
       const bar = `<rect x="${labelW}" y="${y}" width="${w}" height="${rowH - 12}" rx="4" fill="${color}"></rect>`;
       s += `<text x="${labelW - 8}" y="${y + 15}" text-anchor="end" font-size="12.5" fill="${C.texto}">${esc(x.etiqueta)}</text>`;
-      s += x.href ? `<a href="${esc(x.href)}" aria-label="Ver detalle de ${esc(x.etiqueta)}">${bar}</a>` : bar;
+      s += x.href ? `<a href="${esc(x.href)}">${bar}</a>` : bar;
       s += `<text x="${labelW + w + 6}" y="${y + 15}" font-size="12" fill="${C.mut}" style="font-variant-numeric:tabular-nums">${o.formato === 'cop' ? '$' + fmt.format(x.valor) : fmt.format(x.valor)}</text>`;
     });
     s += '</svg>';
@@ -60,7 +60,7 @@ window.CHARTS = (function () {
       const pos = x.valor >= 0;
       const bar = `<rect x="${pos ? cx : cx - w}" y="${y}" width="${w}" height="${rowH - 10}" rx="4" fill="${pos ? C.verde : C.rojo}"></rect>`;
       s += `<text x="${labelW - 8}" y="${y + 14}" text-anchor="end" font-size="12.5" fill="${C.texto}">${esc(x.etiqueta)}</text>`;
-      s += x.href ? `<a href="${esc(x.href)}" aria-label="Ver detalle de ${esc(x.etiqueta)}">${bar}</a>` : bar;
+      s += x.href ? `<a href="${esc(x.href)}">${bar}</a>` : bar;
       const txt = (pos ? '+' : '−') + '$' + fmt.format(Math.abs(x.valor));
       const dentro = !pos && (cx - w - 5 - txt.length * 6.5) < labelW; // no cabe a la izquierda: escribir dentro de la barra
       s += dentro

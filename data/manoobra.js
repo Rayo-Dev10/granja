@@ -1,87 +1,64 @@
-/* data/manoobra.js — parámetros de MANO DE OBRA de la Granja San José.
-   NO contiene datos reales de imputación de horas: la granja no los lleva todavía.
-   Aquí viven los VALORES POR DEFECTO (legislación laboral vigente a agosto de 2026)
-   y los DOS roles que hoy se conocen. Todo es parametrizable desde la página
-   «Mano de obra»; lo que se edite y se guarde se conserva en el servidor
-   (datos-servidor/manoobra.json) y lo ve cualquiera desde cualquier computador.
+/* Mano de obra de la Granja San Jose.
+   FUENTE REAL: Talento Humano, planilla "Costos mensuales personal asignado CTT Granja".
+   La columna C ya incluye prestaciones, recargos, primas y seguridad social: esta
+   aplicacion NO vuelve a aplicar ningun factor prestacional.
 
-   Fuente legal de los valores por defecto:
-   · SMMLV 2026: $1.750.905 · Auxilio de transporte 2026: $249.095
-     (Decretos 1469 y 1470 de 2025, ratificados por el Decreto 0159 de 2026).
-   · Prestaciones sociales: Código Sustantivo del Trabajo.
-   · Aportes y parafiscales: Ley 100 de 1993, Ley 21 de 1982, Ley 89 de 1988, Ley 119 de 1994.
-   · Tarifas de riesgos laborales (ARL): Decreto 1607 de 2002.
-   · Exoneración de aportes (art. 114-1 E.T.): NO aplica a entidades públicas, por eso
-     por defecto la granja paga salud, SENA e ICBF completos (empleadorEntidadPublica = true). */
+   La dedicacion a la granja (etapa 1) es un dato suministrado. El reparto entre
+   proyectos (etapa 2) no fue medido y se presenta exclusivamente como estimacion. */
 window.DATA_MANOOBRA = {
-  vigencia: 'Legislación laboral colombiana vigente a agosto de 2026',
-  smmlv: 1750905,
-  auxilioTransporte: 249095,
-  topeAuxilioSmmlv: 2,          // el auxilio de transporte se paga hasta 2 SMMLV de salario
-  horasSemanaTiempoCompleto: 42, // jornada máxima legal desde julio de 2026 (Ley 2101 de 2021)
-  empleadorEntidadPublica: true, // la granja es de una universidad pública → sin exoneración de aportes
-
-  /* ---- Conceptos del costo del empleador. Cada uno es un % sobre una base. ----
-     grupo: 'prestacion' (provisión social) | 'seguridad' (seguridad social) | 'parafiscal'
-     base:  'salario' (solo el salario) | 'salario+auxilio' (salario + auxilio de transporte)
-     exonerable: si la exoneración del art. 114-1 lo cubre cuando el empleador NO es entidad pública
-     porRol: la tarifa la fija el rol (caso de la ARL, que depende de la clase de riesgo) */
-  conceptos: [
-    { id:'cesantias',   nombre:'Cesantías',                 grupo:'prestacion', tarifa:0.0833, base:'salario+auxilio', exonerable:false, nota:'Un mes de salario por año trabajado (art. 249 CST).' },
-    { id:'intereses',   nombre:'Intereses a las cesantías', grupo:'prestacion', tarifa:0.0100, base:'salario+auxilio', exonerable:false, nota:'12 % anual sobre las cesantías (Ley 52 de 1975).' },
-    { id:'prima',       nombre:'Prima de servicios',        grupo:'prestacion', tarifa:0.0833, base:'salario+auxilio', exonerable:false, nota:'Un mes de salario por año, en dos pagos (art. 306 CST).' },
-    { id:'vacaciones',  nombre:'Vacaciones',                grupo:'prestacion', tarifa:0.0417, base:'salario',         exonerable:false, nota:'15 días hábiles por año trabajado (art. 186 CST). No se calcula sobre el auxilio de transporte.' },
-    { id:'salud',       nombre:'Salud (aporte del empleador)', grupo:'seguridad', tarifa:0.0850, base:'salario',       exonerable:true,  nota:'8,5 % a cargo del empleador (Ley 100 de 1993). La granja, por ser entidad pública, no accede a la exoneración del art. 114-1.' },
-    { id:'pension',     nombre:'Pensión (aporte del empleador)', grupo:'seguridad', tarifa:0.1200, base:'salario',     exonerable:false, nota:'12 % a cargo del empleador (Ley 100 de 1993).' },
-    { id:'arl',         nombre:'Riesgos laborales (ARL)',   grupo:'seguridad', tarifa:null, porRol:true, base:'salario', exonerable:false, nota:'La tarifa depende de la clase de riesgo del cargo (Decreto 1607 de 2002).' },
-    { id:'caja',        nombre:'Caja de compensación familiar', grupo:'parafiscal', tarifa:0.0400, base:'salario',     exonerable:false, nota:'4 % (Ley 21 de 1982).' },
-    { id:'icbf',        nombre:'ICBF',                      grupo:'parafiscal', tarifa:0.0300, base:'salario',         exonerable:true,  nota:'3 % (Ley 89 de 1988).' },
-    { id:'sena',        nombre:'SENA',                      grupo:'parafiscal', tarifa:0.0200, base:'salario',         exonerable:true,  nota:'2 % (Ley 119 de 1994).' },
+  vigencia: 'Información de Talento Humano recibida en agosto de 2026',
+  fuentePersonal: 'Talento Humano — planilla «Costos mensuales personal asignado CTT Granja»',
+  vigenciaPersonalDesde: '2026-01',
+  costoYaIncluyePrestaciones: true,
+  factorPrestacionalAplicable: false,
+  horasSemanaTiempoCompleto: 42,
+  escenarioPorDefecto: 'B_OPERACION',
+  controlSumaMensual: 26652638,
+  controlSumaPeriodo: 186568466,
+  controlFTE: 7.7,
+  supuestoVigencia: 'Se asume que la planta y las dedicaciones informadas al corte de julio de 2026 rigieron desde enero de 2026. No se dispone de planta mes a mes.',
+  advertenciaAtribucion: 'Talento Humano informó dedicación a la granja, no dedicación por proyecto. El reparto interno es una estimación por inductores de actividad y debe reemplazarse cuando exista registro de tiempo.',
+  personal: [
+    { id:'COORD_TEC_GRANJA', cargo:'TÉCNICO COORDINACIÓN GRANJA', tipoVinculacion:'Planta administrativa', costoMensualTotal:4955812, dedicacionGranja:1, dedicacionTexto:'1', costoMensualGranja:4955812, pool:'P_DIRECCION', aplicarFactorPrestacional:false, baseDedicacion:'declarada', nivelEvidencia:'alto' },
+    { id:'AUX_SERV_GEN_1', cargo:'AUX. SERV. GENERALES 1', tipoVinculacion:'Planta administrativa', costoMensualTotal:3418527, dedicacionGranja:1, dedicacionTexto:'1', costoMensualGranja:3418527, pool:'P_SEDE', aplicarFactorPrestacional:false, baseDedicacion:'declarada', nivelEvidencia:'alto', nota:'Confirmar documentalmente que la dedicación exclusiva a la granja se mantuvo durante todo el periodo.' },
+    { id:'AUX_SERV_GEN_2', cargo:'AUX. SERV. GENERALES 2', tipoVinculacion:'Planta administrativa', costoMensualTotal:3418527, dedicacionGranja:1, dedicacionTexto:'1', costoMensualGranja:3418527, pool:'P_SEDE', aplicarFactorPrestacional:false, baseDedicacion:'declarada', nivelEvidencia:'alto', nota:'Confirmar documentalmente que la dedicación exclusiva a la granja se mantuvo durante todo el periodo.' },
+    { id:'VET_PLANEACION', cargo:'PROFESIONAL VETERINARIO PLANEAC. CENTROS', tipoVinculacion:'Prestación servicios', costoMensualTotal:3421506, dedicacionGranja:0.5, dedicacionTexto:'0,5', costoMensualGranja:1710753, pool:'P_SANIDAD', aplicarFactorPrestacional:false, baseDedicacion:'supuesto_por_confirmar', nivelEvidencia:'medio', nota:'Confirmar si 0,5 representa tiempo, centros atendidos o proporción contractual.' },
+    { id:'TEC_GRANJA', cargo:'TÉCNICO GRANJA', tipoVinculacion:'Prestación servicios', costoMensualTotal:2222915, dedicacionGranja:1, dedicacionTexto:'1', costoMensualGranja:2222915, pool:'P_OPERACION', aplicarFactorPrestacional:false, baseDedicacion:'declarada', nivelEvidencia:'alto', nota:'Solicitar a Talento Humano la base de cálculo; el valor requiere validación de consistencia.' },
+    { id:'OPER_CAMPO_1', cargo:'OPERARIO CAMPO 1', tipoVinculacion:'Tercerización serv.', costoMensualTotal:3397790, dedicacionGranja:1, dedicacionTexto:'1', costoMensualGranja:3397790, pool:'P_OPERACION', aplicarFactorPrestacional:false, baseDedicacion:'declarada', nivelEvidencia:'alto' },
+    { id:'OPER_CAMPO_2', cargo:'OPERARIO CAMPO 2', tipoVinculacion:'Tercerización serv.', costoMensualTotal:3397790, dedicacionGranja:1, dedicacionTexto:'1', costoMensualGranja:3397790, pool:'P_OPERACION', aplicarFactorPrestacional:false, baseDedicacion:'declarada', nivelEvidencia:'alto' },
+    { id:'OPER_CAMPO_3', cargo:'OPERARIO CAMPO 3', tipoVinculacion:'Tercerización serv.', costoMensualTotal:3419870, dedicacionGranja:1, dedicacionTexto:'1', costoMensualGranja:3419870, pool:'P_OPERACION', aplicarFactorPrestacional:false, baseDedicacion:'declarada', nivelEvidencia:'alto' },
+    { id:'SUP_OPERARIOS', cargo:'SUPERVISOR OPERARIOS GRANJA', tipoVinculacion:'Tercerización serv.', costoMensualTotal:3553270, dedicacionGranja:0.2, dedicacionTexto:'3/15', costoMensualGranja:710654, pool:'P_DIRECCION', aplicarFactorPrestacional:false, baseDedicacion:'supuesto_por_confirmar', nivelEvidencia:'bajo', nota:'3/15 es un prorrateo por personas supervisadas, no una medición de tiempo.' }
   ],
-
-  /* ---- Clases de riesgo de la ARL (Decreto 1607 de 2002) ---- */
-  clasesARL: [
-    { clase:'I',   tarifa:0.00522, ejemplo:'labores administrativas, de oficina' },
-    { clase:'II',  tarifa:0.01044, ejemplo:'trabajo con algo de esfuerzo físico' },
-    { clase:'III', tarifa:0.02436, ejemplo:'trabajo manual, cultivos' },
-    { clase:'IV',  tarifa:0.04350, ejemplo:'manejo de animales, maquinaria' },
-    { clase:'V',   tarifa:0.06960, ejemplo:'ganadería, labores de campo de mayor riesgo' },
+  pools: [
+    { id:'P_OPERACION', nombre:'Operación de campo', costoMensual:12438365, distribuyeAProyecto:true, inductor:'ICO compuesto' },
+    { id:'P_SANIDAD', nombre:'Sanidad y planeación veterinaria', costoMensual:1710753, distribuyeAProyecto:true, inductor:'Índice sanitario', alcance:'solo proyectos pecuarios' },
+    { id:'P_DIRECCION', nombre:'Dirección y supervisión', costoMensual:5666466, distribuyeAProyecto:false, politica:'estructura de la granja' },
+    { id:'P_SEDE', nombre:'Servicios generales de sede', costoMensual:6837054, distribuyeAProyecto:false, politica:'estructura de la granja' }
   ],
-
-  /* ---- Los DOS roles que hoy se conocen (con valores de ejemplo editables) ---- */
-  roles: [
-    { id:'ADMIN_GRANJA', nombre:'Administrador de granja', persona:'Diana',
-      salarioBruto:3000000, usaSmmlv:false, claseARL:'I', horasSemana:42,
-      nota:'Trabaja 42 horas semanales, casi todas administrativas. Salario de ejemplo: $3.000.000 (cámbielo por el real informado en la quincena).' },
-    { id:'OPERADOR_GRANJA', nombre:'Operador de granja', persona:null,
-      salarioBruto:null, usaSmmlv:true, claseARL:'V', horasSemana:42,
-      nota:'Salario de ejemplo: un salario mínimo legal (SMMLV 2026 = $1.750.905). Clase de riesgo V por ser labor de campo.' },
+  /* Participaciones reproducidas y auditadas desde los datos actuales del repositorio.
+     Son parametros transparentes y editables; no representan horas observadas. */
+  repartoEstimado: [
+    { proyecto:'GALLINAS_PONEDORAS', ico:0.30015, operacionMes:3733379, sanidadMes:91418 },
+    { proyecto:'GANADO_BOVINO', ico:0.17056, operacionMes:2121541, sanidadMes:694720 },
+    { proyecto:'CERDOS', ico:0.11853, operacionMes:1474361, sanidadMes:45808 },
+    { proyecto:'CODORNICES', ico:0.11420, operacionMes:1420464, sanidadMes:100497 },
+    { proyecto:'OVINOS', ico:0.09278, operacionMes:1154019, sanidadMes:719285 },
+    { proyecto:'CONEJOS', ico:0.06366, operacionMes:791768, sanidadMes:46245 },
+    { proyecto:'CAFE_CENICAFE_I', ico:0.04836, operacionMes:601546, sanidadMes:0 },
+    { proyecto:'PISCICOLA', ico:0.02944, operacionMes:366138, sanidadMes:8913 },
+    { proyecto:'POLLOS', ico:0.02078, operacionMes:258523, sanidadMes:3867 },
+    { proyecto:'HUERTA', ico:0.01367, operacionMes:170072, sanidadMes:0 },
+    { proyecto:'PINO_ROMERON', ico:0.01008, operacionMes:125437, sanidadMes:0 },
+    { proyecto:'AMBIENTE_CREATIVO', ico:0.00889, operacionMes:110558, sanidadMes:0 },
+    { proyecto:'PINO_PATULA', ico:0.00889, operacionMes:110559, sanidadMes:0, notaRedondeo:'Incluye $1 de ajuste para que el pool mensual cierre exactamente.' }
   ],
-
-  /* ---- Roles previstos, SIN datos todavía. Se dejan listos para diligenciar. ---- */
-  rolesPrevistos: [
-    { id:'PROFESOR',   nombre:'Profesor con horas asignadas a la granja', tipoCosto:'nomina',    nota:'Costo institucional por horas de docencia dedicadas a proyectos de la granja.' },
-    { id:'PASANTE',    nombre:'Pasante / estudiante en práctica',          tipoCosto:'formacion', nota:'Puede no tener costo salarial (formación), pero sí dedicación que conviene medir.' },
-    { id:'APRENDIZ',   nombre:'Aprendiz SENA',                             tipoCosto:'apoyo',     nota:'Apoyo de sostenimiento según convenio; verificar si lo asume la granja o la institución.' },
-    { id:'JORNALERO',  nombre:'Jornalero por día',                         tipoCosto:'caja',      nota:'Se paga por día desde la caja de la granja: revisar que no se cuente dos veces con el libro.' },
-    { id:'DONANTE',    nombre:'Profesional que dona sus servicios',        tipoCosto:'donacion',  nota:'Veterinarios, zootecnistas u otros que a veces atienden la granja sin cobrar. Costo de mercado imputado. VER RIESGO DE COBERTURA DE ARL.' },
+  escenarios: [
+    { id:'A_SOLO_CAJA', nombre:'A · Solo caja', poolsDistribuidos:[] },
+    { id:'B_OPERACION', nombre:'B · Operación y sanidad (recomendado)', poolsDistribuidos:['P_OPERACION','P_SANIDAD'] },
+    { id:'C_OPERACION_SEDE', nombre:'C · Operación, sanidad y sede', poolsDistribuidos:['P_OPERACION','P_SANIDAD','P_SEDE'] },
+    { id:'D_ABSORCION_PLENA', nombre:'D · Absorción plena', poolsDistribuidos:['P_OPERACION','P_SANIDAD','P_SEDE','P_DIRECCION'] }
   ],
-
-  /* ---- Imputación de horas por proyecto: VACÍA a propósito (no se inventa nada). ----
-     Formato de cada fila: { periodo:'2026-07', rolId:'OPERADOR_GRANJA', proyecto:'GALLINAS_PONEDORAS', porcentaje:30 }
-     Diana eligió trabajar con PORCENTAJES de dedicación (más fácil de mantener). */
   imputaciones: [],
-  modoImputacion: 'porcentaje',   // 'porcentaje' | 'horas'
-
-  /* ---- Motivos de merma para las revelaciones (semilla editable) ---- */
-  motivosMerma: [
-    { id:'vendido',     nombre:'Vendido',                    tipo:'salida' },
-    { id:'danado',      nombre:'Dañado / roto',              tipo:'merma'  },
-    { id:'autoconsumo', nombre:'Autoconsumo institucional',  tipo:'salida' },
-    { id:'donacion',    nombre:'Donación / muestra',         tipo:'salida' },
-    { id:'existencias', nombre:'Variación de existencias',   tipo:'ajuste' },
-  ],
-
-  /* ---- Notas para las revelaciones (vacías; se llenan a mano) ---- */
-  notasRevelacion: [],
+  modoImputacion: 'porcentaje',
+  imputacionesTienenPrelacionSobreInductores: true
 };

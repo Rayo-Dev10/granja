@@ -128,7 +128,7 @@ window.EXPORTA = (function () {
 })();
 
 /* Node (para pruebas): exportar si estamos fuera del navegador */
-if (typeof window === 'undefined' && typeof module !== 'undefined' && module.exports) module.exports = (function () {
+if (typeof module !== 'undefined' && module.exports) module.exports = (function () {
   global.TextEncoder = global.TextEncoder || require('util').TextEncoder;
   return window.EXPORTA;
 })();

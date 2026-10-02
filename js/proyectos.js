@@ -1,86 +1,17 @@
-/* proyectos.js — lista de proyectos con filtros y balance. */
-(function () {
-  'use strict';
-  const G = window.GRANJA;
-  const proys = G.proyectos();
-
-  const AREA_ICONO = { AGROPECUARIA: '🐄', FORESTAL: '🌲', 'ADMINISTRACIÓN': '🏛️' };
-  const ICONO = { BIOINSUMOS:'🧪', HUERTA:'🥬', CAFE_CENICAFE_I:'☕', GANADO_BOVINO:'🐄', CODORNICES:'🥚',
-    GALLINAS_PONEDORAS:'🐔', CONEJOS:'🐰', POLLOS:'🐤', APICOLA:'🐝', CERDOS:'🐷', OVINOS:'🐑',
-    PISCICOLA:'🐟', PINO_ROMERON:'🌲', AMBIENTE_CREATIVO:'🌳', PINO_PATULA:'🌲', OTRO_MADERAS:'🪵', OTROS_GRANJA:'🏡' };
-  window.ICONO_PROYECTO = ICONO;
-
-  function chipEstado(p) {
-    return p.estado === 'Activo'
-      ? '<span class="chip-ok">✔ Activo (con movimientos)</span>'
-      : '<span class="chip-neutro">⏸ Sin movimientos en 2026</span>';
-  }
-
-  function render() {
-    // balance del periodo activo (FLUJO): se recalcula en cada render
-    const bal = Object.fromEntries(G.porProyecto(G.movimientosDelPeriodo()).map(x => [x.proyecto, x]));
-    const fArea = document.getElementById('f-area')?.value || '';
-    const fResp = document.getElementById('f-resp')?.value || '';
-    const fEstado = document.getElementById('f-estado')?.value || '';
-    const lista = proys.filter(p =>
-      (!fArea || p.area === fArea) && (!fResp || p.responsable === fResp) && (!fEstado || p.estado === fEstado));
-
-    const filas = lista.map(p => {
-      const b = bal[p.codigo];
-      const balHtml = b
-        ? `<td class="money ${b.balance >= 0 ? 'text-success-700' : 'text-danger-700'}">${(b.balance >= 0 ? '+' : '−') + G.cop(Math.abs(b.balance)).replace('$', '$ ')}</td>`
-        : '<td class="text-neutral-400 text-right">sin registro</td>';
-      return `<tr>
-        <td class="text-neutral-400">${p.no}</td>
-        <th scope="row" class="font-medium"><a href="proyecto?p=${p.codigo}">${ICONO[p.codigo] || '📌'} ${G.esc(p.nombre)}</a></th>
-        <td>${AREA_ICONO[p.area] || ''} ${G.esc(p.area)}</td>
-        <td class="text-neutral-600">${G.esc(p.tipo)}</td>
-        <td class="text-neutral-600">${G.esc(p.responsable)}</td>
-        <td>${chipEstado(p)}</td>
-        ${balHtml}
-      </tr>`;
-    }).join('');
-
-    const activos = proys.filter(p => p.estado === 'Activo').length;
-    document.getElementById('seccion-lista').innerHTML =
-      G.cuadroControl({
-        icono: '🗂️', titulo: `Lista de proyectos (${lista.length} de ${proys.length})`,
-        queVes: 'todos los proyectos de la granja con su área, tipo, responsable, estado y el balance económico (lo que ha recibido menos lo que ha gastado en 2026).',
-        deDondeSale: 'hoja PROYECTOS del libro de control + suma de sus movimientos del Libro caja diario',
-        estado: { tipo: 'info', icono: 'ℹ', texto: `${activos} activos · ${proys.length - activos} sin movimientos` },
-        ayudaHtml: `<p>Cada fila es un proyecto de la granja.</p>
-          <ul class="list-disc ml-4 mt-1 space-y-1">
-            <li><strong>Estado:</strong> «Activo» significa que registró ingresos o gastos en 2026; «Sin movimientos» significa que no aparece ni una vez en el libro diario.</li>
-            <li><strong>Balance:</strong> verde = el proyecto aporta más de lo que gasta; rojo = gasta más de lo que aporta.</li>
-            <li>Use los filtros para ver solo un área, un responsable o un estado.</li>
-            <li>Toque el <strong>nombre del proyecto</strong> para abrir su página con todo el detalle.</li></ul>`,
-      }) +
-      `<div class="cuadro-cuerpo">
-        <form class="flex flex-wrap gap-3 mb-4 text-sm" aria-label="Filtros de la lista">
-          <label class="flex items-center gap-2">Área
-            <select id="f-area" class="border border-neutral-300 rounded-lg px-2 py-1.5 bg-white">
-              <option value="">Todas</option>${[...new Set(proys.map(p => p.area))].map(a => `<option ${a === fArea ? 'selected' : ''}>${G.esc(a)}</option>`).join('')}
-            </select></label>
-          <label class="flex items-center gap-2">Responsable
-            <select id="f-resp" class="border border-neutral-300 rounded-lg px-2 py-1.5 bg-white">
-              <option value="">Todos</option>${[...new Set(proys.map(p => p.responsable))].map(a => `<option ${a === fResp ? 'selected' : ''}>${G.esc(a)}</option>`).join('')}
-            </select></label>
-          <label class="flex items-center gap-2">Estado
-            <select id="f-estado" class="border border-neutral-300 rounded-lg px-2 py-1.5 bg-white">
-              <option value="">Todos</option><option ${fEstado === 'Activo' ? 'selected' : ''}>Activo</option><option ${fEstado === 'Sin movimientos' ? 'selected' : ''}>Sin movimientos</option>
-            </select></label>
-        </form>
-        <table>
-          <caption class="sr-only">Lista de proyectos de la granja</caption>
-          <thead><tr><th scope="col">N.º</th><th scope="col">Proyecto</th><th scope="col">Área</th><th scope="col">Tipo</th><th scope="col">Responsable</th><th scope="col">Estado</th><th scope="col" class="text-right">Balance 2026</th></tr></thead>
-          <tbody>${filas}</tbody>
-        </table>
-        <p class="text-xs text-neutral-500 mt-3">💡 Un proyecto «Sin movimientos» no es un error del sitio: significa que en el libro de la granja no se registró ningún ingreso ni gasto para él en 2026 (BIOINSUMOS, APICOLA, OTRO MADERAS y OTROS GRANJA están en ese caso).</p>
-      </div>`;
-
-    for (const id of ['f-area', 'f-resp', 'f-estado'])
-      document.getElementById(id).addEventListener('change', render);
-  }
-  render();
-  if (window.ESTADO && ESTADO.alCambiar) ESTADO.alCambiar(render);
+/* Lista ejecutiva de proyectos: separa saldo de caja de resultado económico. */
+(function(){'use strict';
+  var G=window.GRANJA, MO=window.MANOOBRA, proys=G.proyectos();
+  var ICONO={BIOINSUMOS:'🧪',HUERTA:'🥬',CAFE_CENICAFE_I:'☕',GANADO_BOVINO:'🐄',CODORNICES:'🥚',GALLINAS_PONEDORAS:'🐔',CONEJOS:'🐰',POLLOS:'🐤',APICOLA:'🐝',CERDOS:'🐷',OVINOS:'🐑',PISCICOLA:'🐟',PINO_ROMERON:'🌲',AMBIENTE_CREATIVO:'🌳',PINO_PATULA:'🌲',OTRO_MADERAS:'🪵',OTROS_GRANJA:'🏡'};
+  function cop(v){return G.cop(Math.round(v));} function signo(v){return v>0?'+'+cop(v):cop(v);} function cls(v){return v>0?'text-success-700':v<0?'text-danger-700':'text-neutral-500';}
+  function render(){
+    var por=G.porProyecto(G.movimientosDelPeriodo()), mapa={};por.forEach(function(x){mapa[x.proyecto]=x;});
+    var fArea=(document.getElementById('f-area')||{}).value||'',fResp=(document.getElementById('f-resp')||{}).value||'',fEstado=(document.getElementById('f-estado')||{}).value||'';
+    var datos=proys.map(function(p){var c=mapa[p.codigo]||{ingresos:0,egresos:0,balance:0};var m=MO.repartoProyecto(p.codigo,'B_OPERACION',7);var sin=!c.ingresos&&!c.egresos&&!m.costoTotal;return {p:p,c:c,m:m,resultado:(c.balance||0)-(m.costoTotal||0),sin:sin};});
+    var lista=datos.filter(function(x){return(!fArea||x.p.area===fArea)&&(!fResp||x.p.responsable===fResp)&&(!fEstado||(fEstado==='Con pérdida'?x.resultado<0:fEstado==='Positivo'?x.resultado>0:x.sin));});
+    lista.sort(function(a,b){return a.resultado-b.resultado;});
+    var neg=datos.filter(function(x){return x.resultado<0;}).length,pos=datos.filter(function(x){return x.resultado>0;}).length,sin=datos.filter(function(x){return x.sin;}).length;
+    var filas=lista.map(function(x){if(x.sin)return '<tr><td>'+(ICONO[x.p.codigo]||'📌')+' <a href="proyecto?p='+x.p.codigo+'">'+G.esc(x.p.nombre)+'</a></td><td>'+G.esc(x.p.responsable)+'</td><td colspan="4" class="text-neutral-500">Sin actividad registrada; no evaluable</td></tr>';return '<tr><td>'+(ICONO[x.p.codigo]||'📌')+' <a href="proyecto?p='+x.p.codigo+'">'+G.esc(x.p.nombre)+'</a></td><td>'+G.esc(x.p.responsable)+'</td><td class="money">'+cop(x.c.ingresos)+'</td><td class="money '+cls(x.c.balance)+'">'+signo(x.c.balance)+'</td><td class="money text-purple-700">≈ '+cop(x.m.costoTotal)+'</td><td class="money '+cls(x.resultado)+'"><strong>'+signo(x.resultado)+'</strong></td></tr>';}).join('');
+    document.getElementById('seccion-lista').innerHTML='<div class="alerta-roja"><strong>Lectura ejecutiva:</strong> '+neg+' proyectos presentan resultado económico negativo, '+pos+' positivo y '+sin+' no tienen actividad suficiente para evaluarse. El saldo de caja no incluye el personal.</div><div class="cuadro-cuerpo mt-4"><form class="flex flex-wrap gap-3 mb-4 text-sm" aria-label="Filtros"><label>Área <select id="f-area"><option value="">Todas</option>'+Array.from(new Set(proys.map(function(p){return p.area;}))).map(function(a){return '<option '+(a===fArea?'selected':'')+'>'+G.esc(a)+'</option>';}).join('')+'</select></label><label>Responsable <select id="f-resp"><option value="">Todos</option>'+Array.from(new Set(proys.map(function(p){return p.responsable;}))).map(function(a){return '<option '+(a===fResp?'selected':'')+'>'+G.esc(a)+'</option>';}).join('')+'</select></label><label>Resultado <select id="f-estado"><option value="">Todos</option><option '+(fEstado==='Con pérdida'?'selected':'')+'>Con pérdida</option><option '+(fEstado==='Positivo'?'selected':'')+'>Positivo</option><option '+(fEstado==='Sin actividad'?'selected':'')+'>Sin actividad</option></select></label></form><div class="overflow-x-auto"><table><thead><tr><th>Proyecto</th><th>Responsable</th><th class="text-right">Ingresos</th><th class="text-right">Saldo caja</th><th class="text-right">MO atribuida</th><th class="text-right">Resultado económico</th></tr></thead><tbody>'+filas+'</tbody></table></div><p class="text-xs text-neutral-500 mt-3">≈ La atribución de mano de obra por proyecto es una estimación. La pérdida global de la granja no depende de este reparto.</p></div>';
+    ['f-area','f-resp','f-estado'].forEach(function(id){document.getElementById(id).addEventListener('change',render);});
+  } render(); if(window.ESTADO&&ESTADO.alCambiar)ESTADO.alCambiar(render);
 })();

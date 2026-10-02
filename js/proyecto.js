@@ -34,6 +34,8 @@
   // FLUJO: movimientos de dinero del proyecto, acotados al periodo activo.
   const movs = G.enPeriodo(G.movimientosEfectivos().filter(m => m.proyecto === cod));
   const t = G.totales(movs);
+  const moEjecutiva = window.MANOOBRA ? MANOOBRA.repartoProyecto(cod, 'B_OPERACION', 7) : { costoTotal:0 };
+  const resultadoEjecutivo = t.balance - (moEjecutiva.costoTotal || 0);
   // FLUJO: producción (huevos recogidos), acotada al periodo activo.
   const prodTodo = window.DATA_PRODUCCION.produccion[cod] || [];
   const prod = G.enPeriodo(prodTodo, 'fecha');
@@ -55,13 +57,18 @@
     Responsable: <strong>${G.esc(p.responsable)}</strong> ·
     <a href="hojas-vida?p=${cod}">📁 Ver su hoja de vida</a> · <a href="controles#${cod}">🚦 Ver sus controles</a></p>
 
-  <div class="grid gap-4 sm:grid-cols-3 mb-8">
+  <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-8">
     <div class="kpi"><span class="titulo">💰 Ingresos 2026 ${G.ayuda('Ingresos del proyecto', '<p>Todo el dinero que entró por ventas de este proyecto según el Libro caja diario.</p>')}</span><span class="valor text-success-700">${G.cop(t.ingresos)}</span><span class="lectura">${movs.filter(m => m.ingresos).length} ventas registradas · <a href="#movimientos">ver movimientos ↓</a></span></div>
     <div class="kpi"><span class="titulo">💸 Egresos 2026</span><span class="valor text-danger-700">${G.cop(t.egresos)}</span><span class="lectura">${movs.filter(m => m.egresos).length} gastos registrados · <a href="#movimientos">ver movimientos ↓</a></span></div>
-    <div class="kpi"><span class="titulo">⚖️ Balance</span><span class="valor ${t.balance >= 0 ? 'text-success-700' : 'text-danger-700'}">${(t.balance >= 0 ? '+' : '−')}${G.cop(Math.abs(t.balance)).replace('$', '$ ')}</span><span class="lectura">${t.balance >= 0 ? 'el proyecto aporta recursos a la granja' : 'el proyecto consume más de lo que aporta'}</span></div>
+    <div class="kpi"><span class="titulo">⚖️ Saldo de caja</span><span class="valor ${t.balance >= 0 ? 'text-success-700' : 'text-danger-700'}">${(t.balance >= 0 ? '+' : '−')}${G.cop(Math.abs(t.balance)).replace('$', '$ ')}</span><span class="lectura">Ingresos menos egresos; no incluye personal</span></div>
+    <div class="kpi ${resultadoEjecutivo < 0 ? 'border-danger-500' : ''}"><span class="titulo">📉 Resultado económico estimado</span><span class="valor ${resultadoEjecutivo >= 0 ? 'text-success-700' : 'text-danger-700'}">${resultadoEjecutivo > 0 ? '+' : ''}${G.cop(Math.round(resultadoEjecutivo))}</span><span class="lectura">Saldo de caja menos ≈ ${G.cop(Math.round(moEjecutiva.costoTotal || 0))} de mano de obra atribuida</span></div>
   </div>`;
 
   /* ---- Controles del proyecto (motor de coherencia) ---- */
+  if (window.SEGUIMIENTO_UI) {
+    const at = window.ESTADO ? ESTADO.periodo().hasta : '2026-07-31';
+    html += SEGUIMIENTO_UI.inventory(cod, at);
+  }
   if (window.COHERENCIA && typeof COHERENCIA.resumenProyecto === 'function') {
     html += `<section aria-label="Controles del proyecto" class="mb-8">${COHERENCIA.resumenProyecto(cod)}</section>`;
   }
@@ -106,6 +113,10 @@
       lectura: 'Lectura: cada punto es la suma de la recolección diaria de ese mes.',
       series: [{ nombre: 'Huevos recogidos', color: CH.COLORES.azul, puntos: pm.map(x => ({ x: x.mes, y: x.unidades })) }],
     }) + `</div>`;
+  }
+
+  if (window.SEGUIMIENTO_UI && ['GALLINAS_PONEDORAS', 'CODORNICES'].includes(cod)) {
+    html += SEGUIMIENTO_UI.posture(cod, prod);
   }
 
   /* ---- Revelaciones (conciliación de huevos) — respeta el periodo activo ---- */
@@ -343,19 +354,17 @@
           <tbody>${filasImp}</tbody></table>
       </div>`;
     } else {
-      /* --- NO hay dedicación registrada: aviso HONESTO, sin inventar horas --- */
+      /* No hay horas registradas: se muestra una estimación claramente rotulada. */
       html += G.cuadroControl({
-        icono: '👷', titulo: 'Mano de obra',
-        queVes: 'el costo del trabajo humano dedicado a este proyecto. Todavía no se puede calcular porque la granja aún no registra cuántas horas se le dedican.',
-        deDondeSale: 'pendiente: hoja de dedicación de horas de la granja',
-        corte: 'sin registro de horas aún',
-        estado: { tipo: 'alerta', icono: '⚠', texto: 'sin dedicación de horas registrada' },
-        ayudaHtml: '<p>El costo por hora sí es real (se calcula con la ley vigente a agosto de 2026). Lo que falta es saber cuántas horas se dedican a este proyecto. Mientras no exista ese registro, no se inventa ninguna cifra.</p>',
+        icono: '👷', titulo: 'Mano de obra estimada',
+        queVes: 'una atribución razonable del costo real de personal a este proyecto. No corresponde a horas observadas.',
+        deDondeSale: 'costo real de Talento Humano × ICO compuesto e índice sanitario',
+        corte: 'enero–julio de 2026',
+        estado: { tipo: 'alerta', icono: '≈', texto: 'estimación; sin horas registradas' },
+        ayudaHtml: '<p>Talento Humano informó el costo y la dedicación a la granja, pero no la dedicación por proyecto. La estimación usa alimento (35 %), cabezas equivalentes (30 %), eventos (25 %) y un piso igualitario (10 %), más el índice sanitario. Consulte el <a href="dashboard">Dashboard económico</a>.</p>',
       }) + `<div class="cuadro-cuerpo">
-        <p class="alerta-amarilla">⚠️ <strong>Aún no se registra la dedicación de horas de este proyecto.</strong>
-          El costo por hora de referencia es <strong>${G.cop(costoHoraOp)}</strong> (operador de granja). En cuanto la granja registre las horas,
-          aquí aparecerá el costo de mano de obra${esHuevosP ? ' y el costo por huevo completo (alimento + mano de obra)' : ''}.
-          <a href="mano-obra">Ver 👷 Mano de obra →</a></p>
+        <div class="grid gap-4 sm:grid-cols-2"><div class="kpi"><span class="titulo">≈ Mano de obra al mes</span><span class="valor">${G.cop(Math.round(mo.costoMensualPromedio || 0))}</span><span class="lectura">Estimación, escenario B</span></div><div class="kpi"><span class="titulo">≈ Mano de obra ene–jul</span><span class="valor">${G.cop(Math.round(mo.costoTotal || 0))}</span><span class="lectura">No incluye estructura no distribuida</span></div></div>
+        <p class="alerta-amarilla mt-4">⚠️ <strong>No existe registro de horas para este proyecto.</strong> Estas cifras sirven para dimensionar y serán reemplazadas cuando exista una planilla de dedicación. <a href="mano-obra">Ver metodología →</a></p>
       </div>`;
     }
   }

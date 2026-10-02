@@ -4,15 +4,34 @@
    Si el servidor no responde, la página se dibuja igual con los datos del corte. */
 (function () {
   'use strict';
+  var VERSION = '20260831-5';
   var etiqueta = document.currentScript;
   var modulo = etiqueta ? etiqueta.getAttribute('data-modulo') : null;
   if (!modulo) return;
 
   function cargarModulo() {
     var s = document.createElement('script');
-    s.src = modulo;
+    s.src = modulo + (modulo.indexOf('?') === -1 ? '?v=' + VERSION : '&v=' + VERSION);
+    s.onerror = function () { mostrarFallo('No fue posible cargar ' + modulo + '.'); };
     document.body.appendChild(s);
   }
+
+  function mostrarFallo(detalle) {
+    var esqueletos = document.querySelectorAll('.skeleton-shell');
+    for (var i = 0; i < esqueletos.length; i++) {
+      esqueletos[i].innerHTML = '<div class="alerta-roja"><strong>No se pudo completar la carga.</strong> ' +
+        detalle + ' Recargue la página; si continúa, vuelva a subir todos los archivos del paquete.</div>';
+      esqueletos[i].className = '';
+    }
+  }
+
+  /* Un error del módulo ya no deja animaciones infinitas sin explicación. */
+  window.addEventListener('error', function (e) {
+    if (e && e.filename && /\/(js|data)\//.test(e.filename)) mostrarFallo('Se detectó un archivo incompatible o incompleto.');
+  });
+  setTimeout(function () {
+    if (document.querySelector('.skeleton-shell')) mostrarFallo('El módulo tardó más de lo esperado.');
+  }, 9000);
 
   if (window.GRANJA && typeof GRANJA.sincronizar === 'function') {
     var listo = false;

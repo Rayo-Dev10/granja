@@ -1,78 +1,73 @@
-/* manoobra-core.js — núcleo reutilizable del costeo de MANO DE OBRA.
-   Expone window.MANOOBRA con la MISMA lógica de prestaciones que la página
-   «Mano de obra», para que las demás páginas (ficha de proyecto, resumen,
-   controles) puedan calcular el costo de una hora de trabajo y el costo de
-   mano de obra imputado a un proyecto SIN duplicar el cálculo ni inventar horas.
-
-   Lee siempre window.DATA_MANOOBRA (valores de ley vigentes a agosto de 2026).
-   Si no hay imputaciones registradas, costoManoObraProyecto() responde
-   honestamente con hayDatos:false y no inventa ninguna dedicación. */
+/* Núcleo de costeo de mano de obra. Evita el doble conteo de prestaciones y
+   separa el dato de Talento Humano de la estimación de reparto por proyecto. */
 window.MANOOBRA = (function () {
   'use strict';
-
   function D() { return window.DATA_MANOOBRA || {}; }
-
-  /* Costo del empleador para un rol dado. `rol` puede ser un rol del catálogo
-     o un objeto parcial {usaSmmlv, salarioBruto, claseARL, horasSemana}. */
-  function calcular(rol) {
-    const d = D();
-    rol = rol || {};
-    const smmlv = d.smmlv || 0;
-    const salario = rol.usaSmmlv ? smmlv : Math.max(0, +rol.salarioBruto || 0);
-    const topeAux = (d.topeAuxilioSmmlv || 0) * smmlv;
-    const aplicaAux = salario > 0 && salario <= topeAux;
-    const auxilio = aplicaAux ? (d.auxilioTransporte || 0) : 0;
-    const clasesARL = d.clasesARL || [];
-    const clase = clasesARL.find(c => c.clase === rol.claseARL) || clasesARL[0] || { clase: null, tarifa: 0 };
-    const lineas = [];
-    let totalConceptos = 0;
-    (d.conceptos || []).forEach(c => {
-      const tarifa = c.porRol ? clase.tarifa : c.tarifa;
-      const exonerado = c.exonerable && !d.empleadorEntidadPublica && salario < 10 * smmlv;
-      const baseMonto = c.base === 'salario+auxilio' ? salario + auxilio : salario;
-      const monto = exonerado ? 0 : Math.round(baseMonto * (tarifa || 0));
-      lineas.push({ id: c.id, nombre: c.nombre, grupo: c.grupo, tarifa: tarifa, base: c.base, baseMonto: baseMonto, monto: monto, exonerado: exonerado, clase: c.porRol ? clase.clase : null });
-      totalConceptos += monto;
-    });
-    const costoTotalMes = salario + auxilio + totalConceptos;
-    const horasSemana = +rol.horasSemana || d.horasSemanaTiempoCompleto || 42;
-    const horasMes = horasSemana * 52 / 12;
-    const costoHora = horasMes ? costoTotalMes / horasMes : 0;
-    const factor = salario ? costoTotalMes / salario : 0;
-    return { salario: salario, auxilio: auxilio, aplicaAux: aplicaAux, lineas: lineas, totalConceptos: totalConceptos, costoTotalMes: costoTotalMes, horasSemana: horasSemana, horasMes: horasMes, costoHora: costoHora, factor: factor, clase: clase };
+  function personal() { return (D().personal || []).slice(); }
+  function calcular(p) {
+    p = p || {};
+    var costo = Math.max(0, +p.costoMensualTotal || 0);
+    var horasSemana = +p.horasSemana || D().horasSemanaTiempoCompleto || 42;
+    var horasMes = horasSemana * 52 / 12;
+    return { salario:null, auxilio:0, aplicaAux:false, lineas:[], totalConceptos:0,
+      costoTotalMes:costo, horasSemana:horasSemana, horasMes:horasMes,
+      costoHora:horasMes ? costo / horasMes : 0, factor:1, clase:null,
+      fuenteCosto:'TALENTO_HUMANO', costoIncluyePrestaciones:true };
   }
-
-  function rolPorId(id) { return (D().roles || []).find(r => r.id === id) || null; }
-
-  /* Costo de mano de obra imputado a un proyecto (opcionalmente de un solo periodo).
-     Suma, sobre las imputaciones de ese proyecto, costoTotalMes(rol) × porcentaje/100.
-     Con imputaciones vacías devuelve {costo:0, horas:0, personas:0, hayDatos:false}. */
-  function costoManoObraProyecto(cod, periodo) {
-    const imps = (D().imputaciones || []).filter(i => i.proyecto === cod && (!periodo || i.periodo === periodo));
-    if (!imps.length) return { costo: 0, horas: 0, personas: 0, hayDatos: false, imputaciones: [] };
-    let costo = 0, horas = 0;
-    const personas = new Set();
-    imps.forEach(i => {
-      const rol = rolPorId(i.rolId);
-      const pct = (+i.porcentaje || 0) / 100;
-      if (rol) {
-        const r = calcular(rol);
-        costo += r.costoTotalMes * pct;
-        horas += r.horasMes * pct;
-      }
-      personas.add(i.rolId || i.persona || 'desconocido');
-    });
-    return { costo: costo, horas: horas, personas: personas.size, hayDatos: true, imputaciones: imps };
+  function rolPorId(id) { return personal().filter(function (p) { return p.id === id; })[0] || null; }
+  function totalGranjaMes() { return personal().reduce(function (s,p) { return s + (+p.costoMensualGranja || 0); }, 0); }
+  function mesesInclusivos(desde, hasta) {
+    if (!desde || !hasta) return 7;
+    var a = new Date(desde + 'T00:00:00'), b = new Date(hasta + 'T00:00:00');
+    return Math.max(0, (b.getFullYear()-a.getFullYear())*12 + b.getMonth()-a.getMonth()+1);
   }
-
-  /* Costo/hora de referencia del operador de campo (el rol de labor de granja),
-     útil como cifra honesta cuando aún no hay horas registradas. */
-  function costoHoraOperador() {
-    const rol = rolPorId('OPERADOR_GRANJA') || { usaSmmlv: true, claseARL: 'V', horasSemana: 42 };
-    return calcular(rol).costoHora;
+  function totalGranjaPeriodo(desde, hasta) { return totalGranjaMes() * mesesInclusivos(desde, hasta); }
+  function porPool() {
+    var o = {};
+    personal().forEach(function (p) { o[p.pool] = (o[p.pool] || 0) + (+p.costoMensualGranja || 0); });
+    return o;
   }
-
-  return { calcular: calcular, rolPorId: rolPorId, costoManoObraProyecto: costoManoObraProyecto, costoHoraOperador: costoHoraOperador };
+  function escenario(id) {
+    var es = D().escenarios || [], buscado = id || D().escenarioPorDefecto || 'B_OPERACION';
+    return es.filter(function (e) { return e.id === buscado; })[0] || es[1] || es[0];
+  }
+  function estimadoBase(cod) {
+    return (D().repartoEstimado || []).filter(function (r) { return r.proyecto === cod; })[0] || {proyecto:cod,ico:0,operacionMes:0,sanidadMes:0};
+  }
+  function repartoProyecto(cod, escenarioId, meses) {
+    var e = escenario(escenarioId), r = estimadoBase(cod), pools = e.poolsDistribuidos || [];
+    var directo = (pools.indexOf('P_OPERACION') >= 0 ? r.operacionMes : 0) + (pools.indexOf('P_SANIDAD') >= 0 ? r.sanidadMes : 0);
+    var baseDirecta = 14149118, adicionales = 0;
+    if (pools.indexOf('P_SEDE') >= 0) adicionales += 6837054;
+    if (pools.indexOf('P_DIRECCION') >= 0) adicionales += 5666466;
+    var paso = adicionales && baseDirecta ? adicionales * (r.operacionMes + r.sanidadMes) / baseDirecta : 0;
+    var mensual = directo + paso, n = meses == null ? 7 : meses;
+    return { proyecto:cod, operacionMensual:r.operacionMes, sanidadMensual:r.sanidadMes,
+      costoMensual:mensual, costoTotal:mensual*n, costo:mensual*n, nPeriodos:n,
+      costoMensualPromedio:mensual, horasTotal:null, horas:null, horasMensualPromedio:null,
+      personas:0, hayDatos:false, origen:'inductor', esEstimacion:true,
+      inductor:'ICO compuesto + índice sanitario', escenario:e.id, ico:r.ico };
+  }
+  function estructuraPeriodo(escenarioId, meses) {
+    var e=escenario(escenarioId), pools=e.poolsDistribuidos || [], pp=porPool(), mensual=0;
+    Object.keys(pp).forEach(function(k){ if(pools.indexOf(k)<0) mensual += pp[k]; });
+    return {mensual:mensual,total:mensual*(meses==null?7:meses)};
+  }
+  function costoManoObraProyecto(cod, periodo, escenarioId) {
+    var n = periodo && periodo.desde && periodo.hasta ? mesesInclusivos(periodo.desde, periodo.hasta) : 7;
+    return repartoProyecto(cod, escenarioId, n);
+  }
+  function costoHoraGranja() { return totalGranjaMes() / ((D().controlFTE || 0) * (D().horasSemanaTiempoCompleto || 42) * 52 / 12); }
+  function costoHoraOperador() { return costoHoraGranja(); }
+  function validarReparto(filas) {
+    var suma = (filas || []).reduce(function(s,x){return s+(+x.porcentaje||0);},0);
+    if (Math.abs(suma-100)>0.000001) throw new Error('El reparto interno debe sumar exactamente 100 %. Suma actual: '+suma+' %.');
+    return true;
+  }
+  return {personal:personal, calcular:calcular, rolPorId:rolPorId, totalGranjaMes:totalGranjaMes,
+    totalGranjaPeriodo:totalGranjaPeriodo, porPool:porPool, escenario:escenario,
+    repartoProyecto:repartoProyecto, estructuraPeriodo:estructuraPeriodo,
+    costoManoObraProyecto:costoManoObraProyecto, costoHoraGranja:costoHoraGranja,
+    costoHoraOperador:costoHoraOperador, validarReparto:validarReparto, mesesInclusivos:mesesInclusivos};
 })();
-
 if (typeof module !== 'undefined' && module.exports) module.exports = window.MANOOBRA;

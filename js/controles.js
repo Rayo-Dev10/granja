@@ -68,7 +68,7 @@
     } else if (!conMO.length) {
       nivel = 'alerta';
       hallazgo = `ningún proyecto tiene dedicación de horas registrada: el costo de mano de obra no se está imputando. Hay ${G.num(conActividad.length)} proyecto(s) con actividad y ninguno tiene horas registradas. El costo por hora de referencia (operador de granja) es ${G.cop(costoHoraOp)}, pero sin horas no se puede repartir entre proyectos.`;
-      recomendacion = 'empezar a llevar la hoja de dedicación de horas (Diana eligió porcentajes) e importarla. Mientras tanto, use la simulación en 👷 Mano de obra.';
+      recomendacion = 'empezar a llevar una hoja mensual de dedicación por proyecto. Mientras tanto, use únicamente las cifras marcadas como estimación en el Dashboard económico.';
     } else if (sinMO.length) {
       nivel = 'alerta';
       hallazgo = `${G.num(sinMO.length)} de ${G.num(conActividad.length)} proyecto(s) con actividad no tienen dedicación de horas registrada: ${sinMO.map(p => G.esc(p.nombre)).join(', ')}.`;
